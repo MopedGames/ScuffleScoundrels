@@ -1,0 +1,489 @@
+fileFormatVersion: 2
+guid: 2768678ccd96e4d47966760e37f9f3b0
+timeCreated: 1480940684
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: cardRigged
+    100002: //RootNode
+    100004: cardStack
+    100006: ctrl_bottom
+    100008: ctrl_bottomleft
+    100010: ctrl_bottomright
+    100012: ctrl_central
+    100014: ctrl_left
+    100016: ctrl_right
+    100018: ctrl_top
+    100020: ctrl_topleft
+    100022: ctrl_topright
+    100024: jnt_bottom
+    100026: jnt_bottomleft
+    100028: jnt_bottomright
+    100030: jnt_central
+    100032: jnt_left
+    100034: jnt_right
+    100036: jnt_top
+    100038: jnt_topleft
+    100040: jnt_topright
+    100042: cardShown
+    400000: cardRigged
+    400002: //RootNode
+    400004: cardStack
+    400006: ctrl_bottom
+    400008: ctrl_bottomleft
+    400010: ctrl_bottomright
+    400012: ctrl_central
+    400014: ctrl_left
+    400016: ctrl_right
+    400018: ctrl_top
+    400020: ctrl_topleft
+    400022: ctrl_topright
+    400024: jnt_bottom
+    400026: jnt_bottomleft
+    400028: jnt_bottomright
+    400030: jnt_central
+    400032: jnt_left
+    400034: jnt_right
+    400036: jnt_top
+    400038: jnt_topleft
+    400040: jnt_topright
+    400042: cardShown
+    2300000: cardStack
+    2300002: cardShown
+    3300000: cardStack
+    3300002: cardShown
+    4300000: cardRigged
+    4300002: cardStack
+    4300004: cardShown
+    7400000: ActivatePlayer
+    7400002: Active
+    7400004: ChangeCharacter
+    7400006: Inactive
+    7400008: DeactivatePlayer
+    9500000: //RootNode
+    13700000: cardRigged
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: ActivatePlayer
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 13
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: cardRigged
+        weight: 1
+      - path: cardShown
+        weight: 1
+      - path: cardStack
+        weight: 1
+      - path: ctrl_central
+        weight: 1
+      - path: ctrl_central/ctrl_bottom
+        weight: 1
+      - path: ctrl_central/ctrl_bottomleft
+        weight: 1
+      - path: ctrl_central/ctrl_bottomright
+        weight: 1
+      - path: ctrl_central/ctrl_left
+        weight: 1
+      - path: ctrl_central/ctrl_right
+        weight: 1
+      - path: ctrl_central/ctrl_top
+        weight: 1
+      - path: ctrl_central/ctrl_topleft
+        weight: 1
+      - path: ctrl_central/ctrl_topright
+        weight: 1
+      - path: jnt_central
+        weight: 1
+      - path: jnt_central/jnt_bottom
+        weight: 1
+      - path: jnt_central/jnt_bottomleft
+        weight: 1
+      - path: jnt_central/jnt_bottomright
+        weight: 1
+      - path: jnt_central/jnt_left
+        weight: 1
+      - path: jnt_central/jnt_right
+        weight: 1
+      - path: jnt_central/jnt_top
+        weight: 1
+      - path: jnt_central/jnt_topleft
+        weight: 1
+      - path: jnt_central/jnt_topright
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Active
+      takeName: Take 001
+      firstFrame: 35
+      lastFrame: 37
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: cardRigged
+        weight: 1
+      - path: cardShown
+        weight: 1
+      - path: cardStack
+        weight: 1
+      - path: ctrl_central
+        weight: 1
+      - path: ctrl_central/ctrl_bottom
+        weight: 1
+      - path: ctrl_central/ctrl_bottomleft
+        weight: 1
+      - path: ctrl_central/ctrl_bottomright
+        weight: 1
+      - path: ctrl_central/ctrl_left
+        weight: 1
+      - path: ctrl_central/ctrl_right
+        weight: 1
+      - path: ctrl_central/ctrl_top
+        weight: 1
+      - path: ctrl_central/ctrl_topleft
+        weight: 1
+      - path: ctrl_central/ctrl_topright
+        weight: 1
+      - path: jnt_central
+        weight: 1
+      - path: jnt_central/jnt_bottom
+        weight: 1
+      - path: jnt_central/jnt_bottomleft
+        weight: 1
+      - path: jnt_central/jnt_bottomright
+        weight: 1
+      - path: jnt_central/jnt_left
+        weight: 1
+      - path: jnt_central/jnt_right
+        weight: 1
+      - path: jnt_central/jnt_top
+        weight: 1
+      - path: jnt_central/jnt_topleft
+        weight: 1
+      - path: jnt_central/jnt_topright
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: ChangeCharacter
+      takeName: Take 001
+      firstFrame: 21
+      lastFrame: 43
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: cardRigged
+        weight: 1
+      - path: cardShown
+        weight: 1
+      - path: cardStack
+        weight: 1
+      - path: ctrl_central
+        weight: 1
+      - path: ctrl_central/ctrl_bottom
+        weight: 1
+      - path: ctrl_central/ctrl_bottomleft
+        weight: 1
+      - path: ctrl_central/ctrl_bottomright
+        weight: 1
+      - path: ctrl_central/ctrl_left
+        weight: 1
+      - path: ctrl_central/ctrl_right
+        weight: 1
+      - path: ctrl_central/ctrl_top
+        weight: 1
+      - path: ctrl_central/ctrl_topleft
+        weight: 1
+      - path: ctrl_central/ctrl_topright
+        weight: 1
+      - path: jnt_central
+        weight: 1
+      - path: jnt_central/jnt_bottom
+        weight: 1
+      - path: jnt_central/jnt_bottomleft
+        weight: 1
+      - path: jnt_central/jnt_bottomright
+        weight: 1
+      - path: jnt_central/jnt_left
+        weight: 1
+      - path: jnt_central/jnt_right
+        weight: 1
+      - path: jnt_central/jnt_top
+        weight: 1
+      - path: jnt_central/jnt_topleft
+        weight: 1
+      - path: jnt_central/jnt_topright
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Inactive
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: cardRigged
+        weight: 1
+      - path: cardShown
+        weight: 1
+      - path: cardStack
+        weight: 1
+      - path: ctrl_central
+        weight: 1
+      - path: ctrl_central/ctrl_bottom
+        weight: 1
+      - path: ctrl_central/ctrl_bottomleft
+        weight: 1
+      - path: ctrl_central/ctrl_bottomright
+        weight: 1
+      - path: ctrl_central/ctrl_left
+        weight: 1
+      - path: ctrl_central/ctrl_right
+        weight: 1
+      - path: ctrl_central/ctrl_top
+        weight: 1
+      - path: ctrl_central/ctrl_topleft
+        weight: 1
+      - path: ctrl_central/ctrl_topright
+        weight: 1
+      - path: jnt_central
+        weight: 1
+      - path: jnt_central/jnt_bottom
+        weight: 1
+      - path: jnt_central/jnt_bottomleft
+        weight: 1
+      - path: jnt_central/jnt_bottomright
+        weight: 1
+      - path: jnt_central/jnt_left
+        weight: 1
+      - path: jnt_central/jnt_right
+        weight: 1
+      - path: jnt_central/jnt_top
+        weight: 1
+      - path: jnt_central/jnt_topleft
+        weight: 1
+      - path: jnt_central/jnt_topright
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: DeactivatePlayer
+      takeName: Take 001
+      firstFrame: 41
+      lastFrame: 53
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: cardRigged
+        weight: 1
+      - path: cardShown
+        weight: 1
+      - path: cardStack
+        weight: 1
+      - path: ctrl_central
+        weight: 1
+      - path: ctrl_central/ctrl_bottom
+        weight: 1
+      - path: ctrl_central/ctrl_bottomleft
+        weight: 1
+      - path: ctrl_central/ctrl_bottomright
+        weight: 1
+      - path: ctrl_central/ctrl_left
+        weight: 1
+      - path: ctrl_central/ctrl_right
+        weight: 1
+      - path: ctrl_central/ctrl_top
+        weight: 1
+      - path: ctrl_central/ctrl_topleft
+        weight: 1
+      - path: ctrl_central/ctrl_topright
+        weight: 1
+      - path: jnt_central
+        weight: 1
+      - path: jnt_central/jnt_bottom
+        weight: 1
+      - path: jnt_central/jnt_bottomleft
+        weight: 1
+      - path: jnt_central/jnt_bottomright
+        weight: 1
+      - path: jnt_central/jnt_left
+        weight: 1
+      - path: jnt_central/jnt_right
+        weight: 1
+      - path: jnt_central/jnt_top
+        weight: 1
+      - path: jnt_central/jnt_topleft
+        weight: 1
+      - path: jnt_central/jnt_topright
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,408 @@
+fileFormatVersion: 2
+guid: e6af654aa31114542964b24dcf569bdf
+timeCreated: 1482093224
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: smokey2_0
+    21300002: smokey2_1
+    21300004: smokey2_2
+    21300006: smokey2_3
+    21300008: smokey2_4
+    21300010: smokey2_5
+    21300012: smokey2_6
+    21300014: smokey2_7
+    21300016: smokey2_8
+    21300018: smokey2_9
+    21300020: smokey2_10
+    21300022: smokey2_11
+    21300024: smokey2_12
+    21300026: smokey2_13
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: smokey2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15.5, y: -297}
+        - {x: 8.5, y: -299}
+        - {x: 8.5, y: -316}
+        - {x: 21.5, y: -318}
+        - {x: 50.5, y: -318}
+        - {x: 51.5, y: -316}
+        - {x: 51.5, y: -304}
+        - {x: 45.5, y: -297}
+    - name: smokey2_1
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 640
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 28.5, y: -265}
+        - {x: 14.5, y: -269}
+        - {x: 13.5, y: -274}
+        - {x: 13.5, y: -303}
+        - {x: 16.5, y: -304}
+        - {x: 47.5, y: -304}
+        - {x: 54.5, y: -293}
+        - {x: 54.5, y: -273}
+        - {x: 48.5, y: -265}
+    - name: smokey2_2
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 640
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17.5, y: -228}
+        - {x: 10.5, y: -240}
+        - {x: 10.5, y: -285}
+        - {x: 58.5, y: -285}
+        - {x: 63.5, y: -266}
+        - {x: 63.5, y: -239}
+        - {x: 49.5, y: -228}
+    - name: smokey2_3
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 640
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10.5, y: -189}
+        - {x: -5.5, y: -198}
+        - {x: -5.5, y: -257}
+        - {x: -2.5, y: -266}
+        - {x: 50.5, y: -266}
+        - {x: 70.5, y: -246}
+        - {x: 70.5, y: -204}
+        - {x: 65.5, y: -189}
+    - name: smokey2_4
+      rect:
+        serializedVersion: 2
+        x: 1148
+        y: 640
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 50.5, y: -126}
+        - {x: 18.5, y: -126}
+        - {x: -14.5, y: -142}
+        - {x: -14.5, y: -221}
+        - {x: -2.5, y: -227}
+        - {x: 68.5, y: -227}
+        - {x: 76.5, y: -201}
+        - {x: 76.5, y: -154}
+        - {x: 64.5, y: -139}
+    - name: smokey2_5
+      rect:
+        serializedVersion: 2
+        x: 1435
+        y: 640
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24.5, y: -159}
+        - {x: -14.5, y: -172}
+        - {x: 62.5, y: -172}
+        - {x: 79.5, y: -164}
+        - {x: 79.5, y: -86}
+        - {x: 73.5, y: -75}
+        - {x: -6.5, y: -75}
+        - {x: -24.5, y: -92}
+    - name: smokey2_6
+      rect:
+        serializedVersion: 2
+        x: 1722
+        y: 640
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28.5, y: -9}
+        - {x: -30.5, y: -10}
+        - {x: -30.5, y: -114}
+        - {x: -29.5, y: -115}
+        - {x: 50.5, y: -115}
+        - {x: 76.5, y: -106}
+        - {x: 76.5, y: -26}
+        - {x: 70.5, y: -9}
+    - name: smokey2_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21.5, y: 77}
+        - {x: -33.5, y: 64}
+        - {x: -33.5, y: -18}
+        - {x: -27.5, y: -35}
+        - {x: 56.5, y: -35}
+        - {x: 80.5, y: -19}
+        - {x: 80.5, y: 70}
+        - {x: 54.5, y: 77}
+    - name: smokey2_8
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 0
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 38.5, y: 159}
+        - {x: -26.5, y: 159}
+        - {x: -45.5, y: 144}
+        - {x: -46.5, y: 140}
+        - {x: -46.5, y: 62}
+        - {x: -6.5, y: 34}
+        - {x: 59.5, y: 34}
+        - {x: 87.5, y: 60}
+        - {x: 87.5, y: 117}
+        - {x: 76.5, y: 147}
+    - name: smokey2_9
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 0
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25.5, y: 253}
+        - {x: -60.5, y: 234}
+        - {x: -60.5, y: 130}
+        - {x: -48.5, y: 105}
+        - {x: 88.5, y: 105}
+        - {x: 95.5, y: 128}
+        - {x: 95.5, y: 246}
+        - {x: 76.5, y: 253}
+    - name: smokey2_10
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 0
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -74.5, y: 182}
+        - {x: -38.5, y: 152}
+        - {x: 62.5, y: 152}
+        - {x: 98.5, y: 161}
+        - {x: 98.5, y: 257}
+        - {x: 83.5, y: 300}
+        - {x: -16.5, y: 300}
+        - {x: -74.5, y: 246}
+    - name: smokey2_11
+      rect:
+        serializedVersion: 2
+        x: 1148
+        y: 0
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5.5, y: 176}
+        - {x: 2.5, y: 174}
+        - {x: -5.5, y: 165}
+        - {x: -5.5, y: 143}
+        - {x: 20.5, y: 143}
+        - {x: 35.5, y: 152}
+        - {x: 35.5, y: 166}
+        - {x: 31.5, y: 176}
+      - - {x: -80.5, y: 255}
+        - {x: -104.5, y: 245}
+        - {x: -104.5, y: 179}
+        - {x: -40.5, y: 179}
+        - {x: -35.5, y: 190}
+        - {x: -35.5, y: 241}
+        - {x: -39.5, y: 255}
+      - - {x: 77.5, y: 245}
+        - {x: 65.5, y: 233}
+        - {x: 65.5, y: 199}
+        - {x: 70.5, y: 187}
+        - {x: 112.5, y: 187}
+        - {x: 123.5, y: 191}
+        - {x: 123.5, y: 231}
+        - {x: 109.5, y: 245}
+      - - {x: 31.5, y: 211}
+        - {x: 24.5, y: 204}
+        - {x: 25.5, y: 197}
+        - {x: 29.5, y: 193}
+        - {x: 41.5, y: 193}
+        - {x: 46.5, y: 197}
+        - {x: 46.5, y: 207}
+        - {x: 42.5, y: 211}
+      - - {x: -10.5, y: 242}
+        - {x: -13.5, y: 239}
+        - {x: -13.5, y: 216}
+        - {x: -8.5, y: 215}
+        - {x: 12.5, y: 215}
+        - {x: 16.5, y: 219}
+        - {x: 16.5, y: 235}
+        - {x: 13.5, y: 242}
+      - - {x: 55.5, y: 320}
+        - {x: -4.5, y: 320}
+        - {x: -8.5, y: 319}
+        - {x: -8.5, y: 275}
+        - {x: -5.5, y: 267}
+        - {x: 44.5, y: 267}
+        - {x: 59.5, y: 282}
+        - {x: 63.5, y: 295}
+        - {x: 63.5, y: 309}
+    - name: smokey2_12
+      rect:
+        serializedVersion: 2
+        x: 1435
+        y: 0
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 45.5, y: 213}
+        - {x: 34.5, y: 213}
+        - {x: 30.5, y: 211}
+        - {x: 30.5, y: 200}
+        - {x: 31.5, y: 198}
+        - {x: 37.5, y: 193}
+        - {x: 44.5, y: 193}
+        - {x: 49.5, y: 197}
+        - {x: 49.5, y: 208}
+      - - {x: -124.5, y: 195}
+        - {x: -82.5, y: 195}
+        - {x: -68.5, y: 198}
+        - {x: -68.5, y: 250}
+        - {x: -120.5, y: 250}
+        - {x: -124.5, y: 249}
+      - - {x: -53.5, y: 217}
+        - {x: -60.5, y: 211}
+        - {x: -60.5, y: 199}
+        - {x: -54.5, y: 195}
+        - {x: -44.5, y: 195}
+        - {x: -41.5, y: 196}
+        - {x: -38.5, y: 199}
+        - {x: -38.5, y: 212}
+        - {x: -39.5, y: 217}
+      - - {x: -29.5, y: 250}
+        - {x: -32.5, y: 245}
+        - {x: -32.5, y: 235}
+        - {x: -31.5, y: 231}
+        - {x: -16.5, y: 231}
+        - {x: -11.5, y: 232}
+        - {x: -11.5, y: 249}
+        - {x: -13.5, y: 250}
+      - - {x: -2.5, y: 320}
+        - {x: -2.5, y: 305}
+        - {x: 44.5, y: 305}
+        - {x: 44.5, y: 320}
+    - name: smokey2_13
+      rect:
+        serializedVersion: 2
+        x: 1722
+        y: 0
+        width: 287
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -132.5, y: 238}
+        - {x: -134.5, y: 232}
+        - {x: -134.5, y: 217}
+        - {x: -131.5, y: 215}
+        - {x: -105.5, y: 215}
+        - {x: -101.5, y: 221}
+        - {x: -101.5, y: 237}
+        - {x: -103.5, y: 238}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

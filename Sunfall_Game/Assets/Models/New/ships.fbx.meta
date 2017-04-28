@@ -1,0 +1,210 @@
+fileFormatVersion: 2
+guid: bfe74513de54e1d4b9cf9a19db3220c6
+timeCreated: 1479227066
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: gold_Parent
+    100002: gold_tiltParent
+    100004: GoldLeftCannon
+    100006: GoldLeftside
+    100008: GoldMasts
+    100010: GoldRightCannon
+    100012: GoldRightside
+    100014: green_Parent
+    100016: green_tiltParent
+    100018: GreenLeftCannon
+    100020: GreenLeftside
+    100022: GreenMast
+    100024: GreenRightCannon
+    100026: GreenRightside
+    100028: PurbleLeftCannon
+    100030: PurbleRightCannon
+    100032: purple_Parent
+    100034: purple_tiltParent
+    100036: PurpleLeftside
+    100038: PurpleMasts
+    100040: PurpleRightside
+    100042: red_Parent
+    100044: red_tiltParent
+    100046: RedLeftCannon
+    100048: RedLeftside
+    100050: RedMasts
+    100052: RedRightCannon
+    100054: RedRightside
+    100056: //RootNode
+    100058: GoldHull
+    100060: GreenHull
+    100062: PurpleHull
+    100064: RedHull
+    400000: gold_Parent
+    400002: gold_tiltParent
+    400004: GoldLeftCannon
+    400006: GoldLeftside
+    400008: GoldMasts
+    400010: GoldRightCannon
+    400012: GoldRightside
+    400014: green_Parent
+    400016: green_tiltParent
+    400018: GreenLeftCannon
+    400020: GreenLeftside
+    400022: GreenMast
+    400024: GreenRightCannon
+    400026: GreenRightside
+    400028: PurbleLeftCannon
+    400030: PurbleRightCannon
+    400032: purple_Parent
+    400034: purple_tiltParent
+    400036: PurpleLeftside
+    400038: PurpleMasts
+    400040: PurpleRightside
+    400042: red_Parent
+    400044: red_tiltParent
+    400046: RedLeftCannon
+    400048: RedLeftside
+    400050: RedMasts
+    400052: RedRightCannon
+    400054: RedRightside
+    400056: //RootNode
+    400058: GoldHull
+    400060: GreenHull
+    400062: PurpleHull
+    400064: RedHull
+    2300000: GoldLeftCannon
+    2300002: GoldLeftside
+    2300004: GoldMasts
+    2300006: GoldRightCannon
+    2300008: GoldRightside
+    2300010: GreenLeftCannon
+    2300012: GreenLeftside
+    2300014: GreenMast
+    2300016: GreenRightCannon
+    2300018: GreenRightside
+    2300020: PurbleLeftCannon
+    2300022: PurbleRightCannon
+    2300024: PurpleLeftside
+    2300026: PurpleMasts
+    2300028: PurpleRightside
+    2300030: RedLeftCannon
+    2300032: RedLeftside
+    2300034: RedMasts
+    2300036: RedRightCannon
+    2300038: RedRightside
+    2300040: GoldHull
+    2300042: GreenHull
+    2300044: PurpleHull
+    2300046: RedHull
+    3300000: GoldLeftCannon
+    3300002: GoldLeftside
+    3300004: GoldMasts
+    3300006: GoldRightCannon
+    3300008: GoldRightside
+    3300010: GreenLeftCannon
+    3300012: GreenLeftside
+    3300014: GreenMast
+    3300016: GreenRightCannon
+    3300018: GreenRightside
+    3300020: PurbleLeftCannon
+    3300022: PurbleRightCannon
+    3300024: PurpleLeftside
+    3300026: PurpleMasts
+    3300028: PurpleRightside
+    3300030: RedLeftCannon
+    3300032: RedLeftside
+    3300034: RedMasts
+    3300036: RedRightCannon
+    3300038: RedRightside
+    3300040: GoldHull
+    3300042: GreenHull
+    3300044: PurpleHull
+    3300046: RedHull
+    4300000: RedRightside
+    4300002: RedRightCannon
+    4300004: RedMasts
+    4300006: RedLeftside
+    4300008: RedLeftCannon
+    4300010: PurpleLeftside
+    4300012: PurbleLeftCannon
+    4300014: PurpleMasts
+    4300016: PurpleRightside
+    4300018: PurbleRightCannon
+    4300020: GoldLeftside
+    4300022: GoldLeftCannon
+    4300024: GoldMasts
+    4300026: GoldRightside
+    4300028: GoldRightCannon
+    4300030: GreenRightside
+    4300032: GreenLeftCannon
+    4300034: GreenMast
+    4300036: GreenLeftside
+    4300038: GreenRightCannon
+    4300040: RedHull
+    4300042: PurpleHull
+    4300044: GoldHull
+    4300046: GreenHull
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

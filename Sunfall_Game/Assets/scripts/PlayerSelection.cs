@@ -1,0 +1,481 @@
+﻿using UnityEngine;
+using System.Collections;
+
+[System.Serializable]
+public class Player{
+	public string startInput;
+	public Ship ship;
+	public Transform logoMenu;
+	public bool playing;
+	public GameObject scoreBoard;
+
+	public Animator animator;
+
+}
+
+public class PlayerSelection : MonoBehaviour {
+
+	public Player[] players;
+
+	public int startScreen = 3;
+	private float countdown = 3.0f;
+	private float exitCountDown = 3.9f;
+	public UnityEngine.UI.Text[] countDownText;
+	public UnityEngine.UI.Text exitCountDownText;
+	public Renderer countDownBorder;
+
+	public shipMenu shipMenu;
+
+	public GameObject menuCanvas;
+	public GameObject gameCanvas;
+	public GameObject winCanvas;
+	public GameObject exitCanvas;
+
+	public bool isPlaying = false;
+
+	public PowerUpSpawner powerUps;
+	public Canvas[] scoreCanvas;
+
+	public musicPlayer musicPlayer;
+	public AudioSource IntroSplash;
+	public AudioSource menuMusic;
+	public AudioSource gameMusic;
+
+	public Camera shipCam;
+	public bool scrollVisible;
+	public Animator controlScroll;
+	public Animator creditsScroll;
+
+	public Transform exitBar;
+
+	public fuse fuse;
+
+	private bool keyReleased = true;
+
+	public Animation blingAnimation;
+    public SpriteRenderer skull;
+    public TextMesh[] texts;
+
+
+	IEnumerator EnterControls () {
+		scrollVisible = true;
+		if (controlScroll != null) {
+			controlScroll.Play ("scrollIn");
+		}
+
+		bool stop = true;
+		yield return null;
+		while(stop){
+			foreach(Player p in players){
+				if(Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return)){
+					stop = false;
+				}
+			}
+			yield return null;
+
+		}
+		scrollVisible = false;
+		if(controlScroll != null){
+			controlScroll.Play ("scrollOut");			
+		}
+
+	}
+
+	IEnumerator EnterCredits () {
+		scrollVisible = true;
+		if (creditsScroll != null) {
+			creditsScroll.Play ("scrollIn");
+		}
+
+		bool stop = true;
+		yield return null;
+		while(stop){
+			foreach(Player p in players){
+				if(Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return)){
+					stop = false;
+				}
+			}
+			yield return null;
+
+		}
+		scrollVisible = false;
+		if(creditsScroll != null){
+			creditsScroll.Play ("scrollOut");			
+		}
+
+	}
+
+	void Start () {
+
+
+		UnityEngine.Cursor.visible = false;
+
+		menuCanvas.active = false;
+		gameCanvas.active = false;
+		winCanvas.active = false;
+		exitCanvas.active = false;
+
+		StartCoroutine (IntroFanfare ());
+	}
+
+	IEnumerator IntroFanfare () {
+
+		Debug.Log ("playerstarting music");
+
+		musicPlayer.Play (IntroSplash);
+		musicPlayer.GotoTime (IntroSplash, 2f);
+		yield return new WaitForSeconds (17.5f);
+		if (musicPlayer.currentSource == IntroSplash) {
+			musicPlayer.PlayWithFadeIn (menuMusic, 1f);
+			musicPlayer.GotoTime (menuMusic, 72f);
+		}
+	}
+
+	// Update is called once per frame
+	void Update () {
+		
+
+		if (startScreen > 0 && !scrollVisible) {
+
+			if (startScreen == 3) {
+
+				foreach (Player p in players) {
+					p.ship.alive = false;
+					p.ship.transform.position = Vector3.one * 100f;
+					if (p.animator == null) {
+						p.logoMenu.GetComponent<SpriteRenderer> ().color = Color.white;
+					}
+				}
+
+
+				shipCam.depth = 2;
+				if (Input.anyKeyDown) {
+					
+					shipMenu.gameObject.SetActive (true);
+					startScreen = 2;
+
+				}
+			} else if (startScreen == 2) {
+				shipCam.depth = 2;
+				bool keyPressed = false;
+
+				foreach (Player p in players) {
+					if ((Input.GetKeyDown (p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return)) && !keyPressed) {
+						keyPressed = true;
+
+					}
+
+					if (Input.GetKeyDown (p.ship.controls.shootLeft) || Input.GetKeyDown (p.ship.controls.shootLeftAlt) || Input.GetKeyDown (p.ship.controls.shootLeftKeyboard) ||
+						Input.GetKeyDown (p.ship.controls.shootRight) || Input.GetKeyDown (p.ship.controls.shootRightAlt) || Input.GetKeyDown (p.ship.controls.shootRightKeyboard)) {
+
+						if(shipMenu.cannonReload > 0.99f){
+							Transform ball = GameObject.Instantiate (shipMenu.cannonBall, shipMenu.cannon.position, Quaternion.identity) as Transform;
+							shipMenu.cannonReload = 0f;
+							if (Vector3.Distance (shipMenu.cannon.position, new Vector3 (3.9f, 83.2f, 19.1f)) < 3f) {
+								shipMenu.StartCoroutine (shipMenu.Shakecam ());
+							}
+						}
+
+					}
+
+				}
+
+				
+
+				if (shipMenu.currentSelection == 2 && keyPressed) {
+
+					StartCoroutine (EnterCredits ());
+					keyPressed = false;
+
+
+				} else if (shipMenu.currentSelection == 1 && keyPressed) {
+					
+					StartCoroutine (shipMenu.ChangeSceneAnimation (this));
+					keyPressed = false;
+
+			
+				} else if (shipMenu.currentSelection == 0 && keyPressed) {
+			
+					Application.Quit ();
+					keyPressed = false;
+
+
+				}
+			} else if (startScreen == 1) {
+				shipCam.depth = 0;
+				bool exit = false;
+				foreach (Player p in players) {
+					if (Input.GetKey (p.ship.controls.exit) || Input.GetKeyDown(KeyCode.Escape)) {
+						exit = true;
+
+					}
+				}
+				if (exit == true || Input.GetKey (KeyCode.Escape)) {
+
+					startScreen = 3;
+                    shipMenu.startBanner();
+					/*exitBar.gameObject.SetActive (true);
+					foreach (Player p in players) {
+						p.logoMenu.GetComponent<SpriteRenderer> ().enabled = false;
+					}
+
+					exitCountDown -= Time.deltaTime;
+					exitCanvas.SetActive (true);
+					exitCountDownText.text = ((int)exitCountDown).ToString ();*/
+
+				} /*else if (Input.GetKeyUp (KeyCode.Escape)) {
+					exitCountDown = 3.9f;
+					exitCanvas.SetActive (false);
+
+					exitBar.gameObject.SetActive (false);
+					foreach (Player p in players) {
+						p.logoMenu.GetComponent<SpriteRenderer> ().enabled = true;
+					}
+
+
+				}
+
+				if (exitCountDown <= 0f) {
+					Application.Quit ();
+				}*/
+
+				menuCanvas.active = true;
+				gameCanvas.active = false;
+				int playerNumber = 0;
+
+				foreach (Player p in players) {
+					
+
+					if (Input.GetKeyDown (p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return)) {
+						StartCoroutine (EnterControls ());
+
+					}
+
+					if (Input.GetKey (p.ship.controls.shootLeft) || Input.GetKey (p.ship.controls.shootLeftAlt) || Input.GetKey (p.ship.controls.shootLeftKeyboard) ||
+					   Input.GetKey (p.ship.controls.shootRight) || Input.GetKey (p.ship.controls.shootRightAlt) || Input.GetKey (p.ship.controls.shootRightKeyboard)) {
+						p.playing = true;
+
+						if (p.animator == null) {
+							p.logoMenu.localScale = Vector3.one;
+						} else if(p.animator.GetCurrentAnimatorStateInfo(0).IsName("Inactive")) {
+							p.animator.Play ("ActivatePlayer");
+						}
+
+						++playerNumber;
+						p.ship.kills = 0;
+					} else {
+						p.playing = false;
+
+						if (p.animator == null) {
+							p.logoMenu.localScale = Vector3.one * 0.75f;
+							p.logoMenu.GetComponent<SpriteRenderer> ().color = new Color (0.3f, 0.3f, 0.3f, 1f);
+						} else if(p.animator.GetCurrentAnimatorStateInfo(0).IsName("Active")) {
+							p.animator.Play ("DeactivatePlayer");
+						}
+
+
+						p.ship.kills = -1;
+					}
+				}
+				int i;
+				for (i = 0; i < scoreCanvas.Length; i++) {
+					if (i < playerNumber) {
+						scoreCanvas [i].enabled = true;
+					} else {
+						scoreCanvas [i].enabled = false;
+					}
+				}
+
+				if (playerNumber >= 2) {
+					countdown -= Time.deltaTime;
+					if (countDownBorder != null) {
+						countDownBorder.material.SetFloat ("_CutOff", countdown / 3.0f);
+					} else {
+						foreach (UnityEngine.UI.Text t in countDownText) {
+							t.enabled = true;
+							t.text = ((int)countdown).ToString ();
+						}
+					}
+					if (countdown <= 0f) {
+						startScreen = 0;
+					}
+
+				} else {
+					countdown = Mathf.Lerp(countdown, 3.0f, 0.3f);
+					if (countDownBorder != null) {
+						countDownBorder.material.SetFloat ("_CutOff", countdown / 3.0f);
+					} else {
+						foreach (UnityEngine.UI.Text t in countDownText) {
+							t.enabled = false;
+						}
+					}
+
+				}
+			}
+		} else if (!isPlaying && startScreen == 0) {
+			isPlaying = true;
+			StartGame();
+		}
+
+	}
+
+    public void EndGame (WinScreen winScreen, string winner) {
+		gameCanvas.active = false;
+		StartCoroutine (endSequence (winScreen, winner));
+
+		foreach (Player p in players) {
+			p.ship.alive = false;
+			p.ship.transform.position = Vector3.one * 100f;
+
+			if (p.animator == null) {
+				p.logoMenu.GetComponent<SpriteRenderer> ().color = Color.white;
+			}
+		}
+
+	}
+
+    public void SuddenDeathInit (Ship[] shipsAlive) {
+
+        foreach(Ship s in shipsAlive){
+            s.invulnerable = true;
+        }
+        StartCoroutine(suddenDeath( shipsAlive));
+    }
+
+    IEnumerator suddenDeath (Ship[] shipsAlive) {
+        blingAnimation.gameObject.SetActive (true);
+        blingAnimation.Play ("Bling");
+        yield return new WaitForSeconds (0.30f);
+		fuse.fuseLight.gameObject.SetActive (false);
+		fuse.transform.parent.gameObject.SetActive (false);
+        foreach (TextMesh t in texts)
+        {
+            t.text = "SUDDEN DEATH";
+        }
+       
+        yield return new WaitForSeconds(1.7f);
+
+        foreach (TextMesh t in texts)
+        {
+            t.text = "";
+        }
+
+        foreach(Ship s in shipsAlive){
+            s.invulnerable = false;
+            s.transform.position = s.startPos;
+            s.transform.rotation = s.startRot;
+        }
+
+        blingAnimation.gameObject.SetActive (false);
+    }
+
+    IEnumerator endSequence (WinScreen winScreen, string winner){
+
+		blingAnimation.gameObject.SetActive (true);
+		blingAnimation.Play ("Bling");
+
+        float points = 0;
+        Sprite skullsSprite = skull.sprite;
+        foreach (Player p in players)
+        {
+            if (p.ship.kills > points)
+            {
+                points = p.ship.kills;
+                winner = p.ship.name;
+                skull.sprite = p.ship.logo;
+            }
+        }
+
+		yield return new WaitForSeconds (0.30f);
+		fuse.fuseLight.gameObject.SetActive (false);
+		fuse.transform.parent.gameObject.SetActive (false);
+        foreach (TextMesh t in texts)
+        {
+            t.text = winner + " Wins!";
+        }
+
+        yield return new WaitForSeconds(1.7f);
+
+		while (!Input.anyKey) {
+			yield return null;
+		}
+
+        foreach (TextMesh t in texts)
+        {
+            t.text = "";
+        }
+        skull.sprite = skullsSprite;
+
+		blingAnimation.gameObject.SetActive (false);
+
+		winCanvas.active = true;
+		Camera.main.depth = 0f;
+
+		/*AudioSource a = GameObject.Find ("Adventure Meme").GetComponent<AudioSource> ();
+		a.Stop ();
+		a.clip = winScreen.winMusic;
+		a.Play ();*/
+
+
+		winScreen.ShowForReal ();
+
+
+        yield return null;
+
+		fuse.fuseLight.gameObject.SetActive (true);
+		fuse.transform.parent.gameObject.SetActive (true);
+
+        bool goBack = false;
+
+        while (!goBack) {
+            foreach (Player p in players) {
+				if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return)) {
+                    goBack = true;
+
+                }
+            }
+
+            yield return null;
+        }
+        MenuScreen();
+        winScreen.HideForReal ();
+		StartCoroutine (IntroFanfare ());
+	}
+
+	public void MenuScreen () {
+		//Application.LoadLevel (Application.loadedLevel);
+        startScreen = 2;
+        winCanvas.active = false;
+        shipMenu.bannerIn.SetActive (true);
+        shipMenu.bannerOut.SetActive (false);
+	}
+
+	void StartGame () {
+		/*AudioSource a = GameObject.Find ("Adventure Meme").GetComponent<AudioSource> ();
+		a.Play();*/
+		if (musicPlayer.currentSource != gameMusic) {
+			musicPlayer.PlayWithFadeIn (gameMusic, 0.1f);
+		}
+
+		fuse.Play ();
+
+		//PlayAudioAtInterval playA = FindObjectOfType<PlayAudioAtInterval> ();
+		//playA.enabled = false;
+		//audio.Stop();
+
+		menuCanvas.active = false;
+		gameCanvas.active = true;
+		Camera.main.depth = 2f;
+		Camera.main.GetComponent<Animation> ().Play ();
+		powerUps.enabled = true;
+
+		foreach (Player p in players) {
+
+			p.scoreBoard.active = p.playing;
+			if(p.playing){
+				p.ship.Spawn();
+			}
+		}
+	}
+
+}

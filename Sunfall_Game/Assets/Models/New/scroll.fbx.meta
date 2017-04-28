@@ -1,0 +1,350 @@
+fileFormatVersion: 2
+guid: 7d75248f26ea0cc4daa8dce0f648e129
+timeCreated: 1481035871
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: geo_ControlsScroll
+    100002: jnt_Roll
+    100004: jnt_Roll1
+    100006: jnt_Roll10
+    100008: jnt_Roll11
+    100010: jnt_Roll2
+    100012: jnt_Roll3
+    100014: jnt_Roll4
+    100016: jnt_Roll5
+    100018: jnt_Roll6
+    100020: jnt_Roll7
+    100022: jnt_Roll8
+    100024: jnt_Roll9
+    100026: jnt_Root
+    100028: joint1
+    100030: //RootNode
+    400000: geo_ControlsScroll
+    400002: jnt_Roll
+    400004: jnt_Roll1
+    400006: jnt_Roll10
+    400008: jnt_Roll11
+    400010: jnt_Roll2
+    400012: jnt_Roll3
+    400014: jnt_Roll4
+    400016: jnt_Roll5
+    400018: jnt_Roll6
+    400020: jnt_Roll7
+    400022: jnt_Roll8
+    400024: jnt_Roll9
+    400026: jnt_Root
+    400028: joint1
+    400030: //RootNode
+    4300000: geo_ControlsScroll
+    7400000: scrollIn
+    7400002: scrollOut
+    7400004: scrollHidden
+    7400006: scrollShown
+    9500000: //RootNode
+    13700000: geo_ControlsScroll
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0
+    animationPositionError: 0
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: scrollIn
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: geo_ControlsScroll
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/jnt_Root
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2/jnt_Roll1
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2/jnt_Roll1/jnt_Roll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: scrollOut
+      takeName: Take 001
+      firstFrame: 21
+      lastFrame: 41
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: geo_ControlsScroll
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/jnt_Root
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2/jnt_Roll1
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2/jnt_Roll1/jnt_Roll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: scrollHidden
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: geo_ControlsScroll
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/jnt_Root
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2/jnt_Roll1
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2/jnt_Roll1/jnt_Roll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: scrollShown
+      takeName: Take 001
+      firstFrame: 19
+      lastFrame: 19
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: geo_ControlsScroll
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/jnt_Root
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2/jnt_Roll1
+        weight: 1
+      - path: joint1/jnt_Root/jnt_Roll11/jnt_Roll10/jnt_Roll9/jnt_Roll8/jnt_Roll7/jnt_Roll6/jnt_Roll5/jnt_Roll4/jnt_Roll3/jnt_Roll2/jnt_Roll1/jnt_Roll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
