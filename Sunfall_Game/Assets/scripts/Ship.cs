@@ -360,7 +360,7 @@ public class Ship : MonoBehaviour {
 			RectTransform cRect = coins [kills-1].rectTransform;
 			--kills;
 			float i = 0;
-			while (i < 1) {
+			while (i < 1f) {
 				cRect.localScale = Vector3.one - (Vector3.one * coinAnimation.Evaluate (i));
 				i += Time.deltaTime * 4;
 				yield return null;
@@ -379,7 +379,7 @@ public class Ship : MonoBehaviour {
 		if (coins.Length == 0) {
 			pointText.text = kills.ToString ();
 		}
-		if (!winScreen.pause && kills > -1 && (Input.GetKeyDown (controls.pause) || Input.GetKeyDown (controls.pauseAlt))) {
+		if (!winScreen.pause && kills > -1 && Input.GetKeyDown (controls.exit)) {
 			StartCoroutine(winScreen.Pause ());
 
 		} 

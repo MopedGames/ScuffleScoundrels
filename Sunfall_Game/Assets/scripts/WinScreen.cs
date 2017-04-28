@@ -40,7 +40,7 @@ public class WinScreen : MonoBehaviour {
 
 
 	void Start () {
-		pauseCanvas.enabled = false;
+		pauseCanvas.gameObject.SetActive(false);
 
 	}
 
@@ -147,19 +147,32 @@ public class WinScreen : MonoBehaviour {
 	public IEnumerator Pause (){
 
 		pause = true;
-		pauseCanvas.enabled = true;
+		pauseCanvas.gameObject.SetActive(true);
+        float timescaleWas = Time.timeScale;
 		Time.timeScale = 0.0f;
 		while (pause) {
-			foreach(Ship s in ships){
+            Time.timeScale = 0.0f;
+            bool exitGame = true;
+            foreach (Ship s in ships){
 				if(Input.GetKeyDown(s.controls.controls)){
 					pause = false;
 				}
+                if (!Input.GetKeyDown(s.controls.exit) && s.kills > -1)
+                {
+                    exitGame = false;
+                }
 			}
+            if (exitGame)
+            {
+                Time.timeScale = 1f;
+                Application.LoadLevel(Application.loadedLevel);
+            }
 			yield return null;
 		}
 
-		pauseCanvas.enabled = false;
-		Time.timeScale = 1.0f;
+        pauseCanvas.gameObject.SetActive(false);
+
+        Time.timeScale = timescaleWas;
 
 	}
 	
