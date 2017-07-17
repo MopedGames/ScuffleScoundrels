@@ -61,6 +61,9 @@ ModelImporter:
     7400004: ChangeCharacter
     7400006: Inactive
     7400008: DeactivatePlayer
+    7400010: DeckDown
+    7400012: Take 001
+    7400014: hidden
     9500000: //RootNode
     13700000: cardRigged
   materials:
@@ -301,10 +304,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 1
     - serializedVersion: 16
-      name: Inactive
+      name: DeactivatePlayer
       takeName: Take 001
-      firstFrame: 1
-      lastFrame: 1
+      firstFrame: 41
+      lastFrame: 53
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -373,10 +376,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 1
     - serializedVersion: 16
-      name: DeactivatePlayer
+      name: DeckDown
       takeName: Take 001
-      firstFrame: 41
-      lastFrame: 53
+      firstFrame: 81
+      lastFrame: 102
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -405,23 +408,59 @@ ModelImporter:
         weight: 1
       - path: cardStack
         weight: 1
-      - path: ctrl_central
+      - path: jnt_central
         weight: 1
-      - path: ctrl_central/ctrl_bottom
+      - path: jnt_central/jnt_bottom
         weight: 1
-      - path: ctrl_central/ctrl_bottomleft
+      - path: jnt_central/jnt_bottomleft
         weight: 1
-      - path: ctrl_central/ctrl_bottomright
+      - path: jnt_central/jnt_bottomright
         weight: 1
-      - path: ctrl_central/ctrl_left
+      - path: jnt_central/jnt_left
         weight: 1
-      - path: ctrl_central/ctrl_right
+      - path: jnt_central/jnt_right
         weight: 1
-      - path: ctrl_central/ctrl_top
+      - path: jnt_central/jnt_top
         weight: 1
-      - path: ctrl_central/ctrl_topleft
+      - path: jnt_central/jnt_topleft
         weight: 1
-      - path: ctrl_central/ctrl_topright
+      - path: jnt_central/jnt_topright
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: hidden
+      takeName: Take 001
+      firstFrame: 81
+      lastFrame: 82
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: cardRigged
+        weight: 1
+      - path: cardShown
+        weight: 1
+      - path: cardStack
         weight: 1
       - path: jnt_central
         weight: 1

@@ -379,7 +379,7 @@ public class Ship : MonoBehaviour {
 		if (coins.Length == 0) {
 			pointText.text = kills.ToString ();
 		}
-		if (!winScreen.pause && kills > -1 && Input.GetKeyDown (controls.exit)) {
+		if (!winScreen.pause && kills > -1 && Input.GetKeyDown (controls.pause)) {
 			StartCoroutine(winScreen.Pause ());
 
 		} 

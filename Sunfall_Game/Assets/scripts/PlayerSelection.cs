@@ -8,6 +8,8 @@ public class Player{
 	public Transform logoMenu;
 	public bool playing;
 	public GameObject scoreBoard;
+    public ParticleSystem landparticle;
+    public PlaySound playsound;
 
 	public Animator animator;
 
@@ -56,8 +58,10 @@ public class PlayerSelection : MonoBehaviour {
     public SpriteRenderer skull;
     public TextMesh[] texts;
 
+    public int playerNumber = 0;
+    public int playerReady = 0;
 
-	IEnumerator EnterControls () {
+    IEnumerator EnterControls () {
 		scrollVisible = true;
 		if (controlScroll != null) {
 			controlScroll.Play ("scrollIn");
@@ -137,6 +141,8 @@ public class PlayerSelection : MonoBehaviour {
 
 		if (startScreen > 0 && !scrollVisible) {
 
+
+            //screen 3 - premenu
 			if (startScreen == 3) {
 
 				foreach (Player p in players) {
@@ -155,6 +161,7 @@ public class PlayerSelection : MonoBehaviour {
 					startScreen = 2;
 
 				}
+            //Main menu
 			} else if (startScreen == 2) {
 				shipCam.depth = 2;
 				bool keyPressed = false;
@@ -201,6 +208,7 @@ public class PlayerSelection : MonoBehaviour {
 
 
 				}
+            //Character Select
 			} else if (startScreen == 1) {
 				shipCam.depth = 0;
 				bool exit = false;
@@ -214,16 +222,24 @@ public class PlayerSelection : MonoBehaviour {
 
 					startScreen = 3;
                     shipMenu.startBanner();
-					/*exitBar.gameObject.SetActive (true);
-					foreach (Player p in players) {
-						p.logoMenu.GetComponent<SpriteRenderer> ().enabled = false;
-					}
+                    foreach (Player p in players) {
+                        p.playing = false;
+                        playerNumber = 0;
+                        playerReady = 0;
+                        p.animator.Play("Hidden");
+                        p.ship.kills = -1;
+                    }
 
-					exitCountDown -= Time.deltaTime;
-					exitCanvas.SetActive (true);
-					exitCountDownText.text = ((int)exitCountDown).ToString ();*/
+                        /*exitBar.gameObject.SetActive (true);
+                        foreach (Player p in players) {
+                            p.logoMenu.GetComponent<SpriteRenderer> ().enabled = false;
+                        }
 
-				} /*else if (Input.GetKeyUp (KeyCode.Escape)) {
+                        exitCountDown -= Time.deltaTime;
+                        exitCanvas.SetActive (true);
+                        exitCountDownText.text = ((int)exitCountDown).ToString ();*/
+
+                    } /*else if (Input.GetKeyUp (KeyCode.Escape)) {
 					exitCountDown = 3.9f;
 					exitCanvas.SetActive (false);
 
@@ -241,29 +257,59 @@ public class PlayerSelection : MonoBehaviour {
 
 				menuCanvas.active = true;
 				gameCanvas.active = false;
-				int playerNumber = 0;
+				
 
 				foreach (Player p in players) {
 					
 
 					if (Input.GetKeyDown (p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return)) {
 						StartCoroutine (EnterControls ());
-
 					}
 
-					if (Input.GetKey (p.ship.controls.shootLeft) || Input.GetKey (p.ship.controls.shootLeftAlt) || Input.GetKey (p.ship.controls.shootLeftKeyboard) ||
-					   Input.GetKey (p.ship.controls.shootRight) || Input.GetKey (p.ship.controls.shootRightAlt) || Input.GetKey (p.ship.controls.shootRightKeyboard)) {
-						p.playing = true;
+                    if (p.animator.GetCurrentAnimatorStateInfo(0).IsName("Hidden")) {
+                        p.ship.kills = -1;
 
-						if (p.animator == null) {
-							p.logoMenu.localScale = Vector3.one;
-						} else if(p.animator.GetCurrentAnimatorStateInfo(0).IsName("Inactive")) {
-							p.animator.Play ("ActivatePlayer");
-						}
+                        if (Input.GetKey (p.ship.controls.shootLeft) || Input.GetKey (p.ship.controls.shootLeftAlt) || Input.GetKey (p.ship.controls.shootLeftKeyboard) ||
+					       Input.GetKey (p.ship.controls.shootRight) || Input.GetKey (p.ship.controls.shootRightAlt) || Input.GetKey (p.ship.controls.shootRightKeyboard)) {
 
-						++playerNumber;
-						p.ship.kills = 0;
-					} else {
+						    p.animator.Play ("Show");
+                            p.landparticle.Play();
+                            p.playsound.Play(1);
+                            ++playerNumber;
+                            //++playerNumber;
+                            
+					    }
+                    } else if (p.animator.GetCurrentAnimatorStateInfo(0).IsName("Shown")){
+                        if (!p.playing)
+                        {
+                            if (Input.GetKey(p.ship.controls.shootLeft) || Input.GetKey(p.ship.controls.shootLeftAlt) || Input.GetKey(p.ship.controls.shootLeftKeyboard) ||
+                               Input.GetKey(p.ship.controls.shootRight) || Input.GetKey(p.ship.controls.shootRightAlt) || Input.GetKey(p.ship.controls.shootRightKeyboard)){
+                             
+                                p.animator.Play("ActivatePlayer");
+                                p.playsound.Play(0);
+                                p.playing = true;
+                                
+                                ++playerReady;
+                                
+                            }
+                        }
+
+                    } else if (p.animator.GetCurrentAnimatorStateInfo(0).IsName("Active"))
+                    {
+                        if (Input.GetKey(p.ship.controls.exit))
+                        {
+                             
+                            p.animator.Play("DeactivatePlayer");
+                            p.playsound.Play(0);
+                            p.playing = false;
+                            p.ship.kills = -1;
+                            --playerReady;
+                                
+                        }
+
+                    }
+
+                    /* {
 						p.playing = false;
 
 						if (p.animator == null) {
@@ -275,8 +321,8 @@ public class PlayerSelection : MonoBehaviour {
 
 
 						p.ship.kills = -1;
-					}
-				}
+					}*/
+                }
 				int i;
 				for (i = 0; i < scoreCanvas.Length; i++) {
 					if (i < playerNumber) {
@@ -286,7 +332,7 @@ public class PlayerSelection : MonoBehaviour {
 					}
 				}
 
-				if (playerNumber >= 2) {
+				if (playerNumber >= 2 && playerNumber==playerReady) {
 					countdown -= Time.deltaTime;
 					if (countDownBorder != null) {
 						countDownBorder.material.SetFloat ("_CutOff", countdown / 3.0f);
@@ -296,9 +342,17 @@ public class PlayerSelection : MonoBehaviour {
 							t.text = ((int)countdown).ToString ();
 						}
 					}
-					if (countdown <= 0f) {
-						startScreen = 0;
-					}
+                    if (countdown <= 0f)
+                    {
+                        startScreen = 0;
+                        foreach (Player p in players)
+                        {
+                            if (p.playing)
+                            {
+                                p.ship.kills = 0;
+                            }
+                        }
+                    }
 
 				} else {
 					countdown = Mathf.Lerp(countdown, 3.0f, 0.3f);

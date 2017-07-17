@@ -52,6 +52,7 @@
      <Compile Include="Assets\scripts\Grow.cs" />
      <Compile Include="Assets\scripts\IntroScreen.cs" />
      <Compile Include="Assets\scripts\Mine.cs" />
+     <Compile Include="Assets\scripts\Pixelation.cs" />
      <Compile Include="Assets\scripts\PlayAudioAtAnimationEvent.cs" />
      <Compile Include="Assets\scripts\PlayAudioAtInterval.cs" />
      <Compile Include="Assets\scripts\PlaySound.cs" />
@@ -62,6 +63,7 @@
      <Compile Include="Assets\scripts\RotateObject.cs" />
      <Compile Include="Assets\scripts\Shaker.cs" />
      <Compile Include="Assets\scripts\Ship.cs" />
+     <Compile Include="Assets\scripts\TriggerParent.cs" />
      <Compile Include="Assets\scripts\Vortex.cs" />
      <Compile Include="Assets\scripts\WinScreen.cs" />
      <Compile Include="Assets\scripts\animateUv.cs" />
@@ -71,6 +73,8 @@
      <Compile Include="Assets\scripts\cannonBall.cs" />
      <Compile Include="Assets\scripts\explosion.cs" />
      <Compile Include="Assets\scripts\fuse.cs" />
+     <Compile Include="Assets\scripts\increaseMeshBounds.cs" />
+     <Compile Include="Assets\scripts\line_between.cs" />
      <Compile Include="Assets\scripts\menuCannonBall.cs" />
      <Compile Include="Assets\scripts\moveAnimation.cs" />
      <Compile Include="Assets\scripts\musicPlayer.cs" />
@@ -88,10 +92,10 @@
      <None Include="Assets\Shader\UnlitAlphaWithFade.shader" />
      <None Include="Assets\Shader\UnlitColorTextures.shader" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files/Unity535/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Program Files/Unity535/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -44,6 +44,11 @@ public class Vortex : spawnable {
 		}
 	}
 
+    public void OnSpawn()
+    {
+        GetComponentInChildren<scaleAnimation>().Restart();
+    }
+
 	// Update is called once per frame
 	void OnTriggerStay (Collider col) {
 		Ship ship = col.gameObject.GetComponent<Ship>();

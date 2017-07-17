@@ -36,7 +36,7 @@ public class sargasso : spawnable {
 		}
 	}
 
-	void OnTriggerEnter (Collider col) {
+	public void OnTriggerEnter (Collider col) {
 
 		Ship ship = col.gameObject.GetComponent<Ship>();
 		if(ship != null){
@@ -53,7 +53,7 @@ public class sargasso : spawnable {
 
 	}
 
-	void OnTriggerExit (Collider col) {
+	public void OnTriggerExit (Collider col) {
 
 		Ship ship = col.gameObject.GetComponent<Ship>();
 		if(ship != null){
