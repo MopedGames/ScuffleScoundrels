@@ -15,7 +15,7 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     [SerializeField, Tooltip("The player")]
     private GameObject playerPrefab;
 
-    //static public ConnectionHandler Instance;
+    static public ConnectionHandler CHInstance;
     private GameObject instance;
 
     [SerializeField]
@@ -32,7 +32,7 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
         //levelForOneName = launcher.GameVersion + "LevelFor1";
         //levelForTwoName = launcher.GameVersion + "LevelFor2";
 
-        //Instance = this;
+        CHInstance = this;
         Debug.Log("Game Version Loaded: " + launcher.GameVersion);
 
         if (!PhotonNetwork.connected)
@@ -52,7 +52,8 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
                 {
                     Debug.Log("We are instantiating the LocalPlayer from " + SceneManagerHelper.ActiveSceneName); //TODO: write better version- (non obsoletee)
                     PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0, 0, 0), Quaternion.identity, 0);
-
+                    photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered); // lets start it UUUP!
+                    //FindObjectOfType<SelectionManager>().currentPlayers.Add(go.GetComponent<Player>());
 #if UNITY_EDITOR
                     if (!showPUNStartup)
                     {
@@ -94,9 +95,23 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
         //PhotonNetwork.LoadLevel(launcher.GameVersion + "LevelFor" + PhotonNetwork.room.PlayerCount); // TODO: Name scenes loaded by the lobby properly like this. or make it serialized
     }
 
+    [PunRPC]
+    public void AddPlayerToList()
+    {
+        SelectionManager.Instance.currentPlayers.Clear();
+        foreach (Player p in FindObjectsOfType<Player>())
+        {
+            SelectionManager.Instance.currentPlayers.Add(p.gameObject);
+        }
+    }
+
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
         Debug.Log("OnPhotonPlayerConnected() " + newPlayer.NickName);
+
+        //SelectionManager.Instance.photonPlayers.Add(newPlayer);
+
+
 
         if (PhotonNetwork.isMasterClient)
         {
@@ -110,7 +125,7 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     {
         Debug.Log("OnPhotonPlayerDisconnected() " + otherPlayer.NickName);
         //GameStatusManager.Instance.photonView.RPC("CleanupPlayerList", PhotonTargets.All, otherPlayer.ID);
-
+        photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered); // lets start it UUUP!
         if (PhotonNetwork.isMasterClient)
         {
             Debug.Log("OnPhotonPlayerDisconnected isMasterClient " + PhotonNetwork.isMasterClient);

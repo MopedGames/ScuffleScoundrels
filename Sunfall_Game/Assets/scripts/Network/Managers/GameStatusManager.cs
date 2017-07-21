@@ -161,7 +161,7 @@ public class GameStatusManager : PhotonManager<GameStatusManager>
         //        break;
         //    }
         //}
-        if (currentPlayers.Count == 0 && numberOfPlayers == 1 || currentPlayers.Count == 0 && SceneManagerHelper.ActiveSceneName == ConnectionHandler.Instance.LevelForOneName) // levelforOne testing case
+        if (currentPlayers.Count == 0 && numberOfPlayers == 1 || currentPlayers.Count == 0 && SceneManagerHelper.ActiveSceneName == ConnectionHandler.CHInstance.LevelForOneName) // levelforOne testing case
         {
             winnerUserName = "Computer"; // set him as winner
             winnerTeamNumber = 0;

@@ -1,11 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SelectionManager : PunBehaviourManager<SelectionManager>
 {
     [SerializeField, Tooltip("Players currently active in the scene")]
-    private List<Player> currentPlayers;
+    public List<GameObject> currentPlayers;
+
+    [SerializeField]
+    public List<PhotonPlayer> photonPlayers = new List<PhotonPlayer>();
+
+    public List<GameObject> decks = new List<GameObject>();
+
+    public List<GameObject> shipPrefabs = new List<GameObject>();
 
     public int startScreen = 3;
 
@@ -30,7 +38,8 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
             {
                 countDownBorder.material.SetFloat("_CutOff", countdown / 3.0f);
             }
-            else {
+            else
+            {
                 foreach (UnityEngine.UI.Text t in countDownText)
                 {
                     t.enabled = true;
@@ -40,8 +49,9 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
             if (countdown <= 0f)
             {
                 startScreen = 0;  // startscreen 0 means in game?
-                foreach (Player p in currentPlayers)
+                foreach (GameObject go in currentPlayers)
                 {
+                    Player p = go.GetComponent<Player>();
                     if (p.playing)
                     {
                         p.ship.kills = 0;
@@ -50,13 +60,15 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
             }
         }
         // or if the pllayer is still on his own
-        else {
+        else
+        {
             countdown = Mathf.Lerp(countdown, 3.0f, 0.3f);
             if (countDownBorder != null)
             {
                 countDownBorder.material.SetFloat("_CutOff", countdown / 3.0f);
             }
-            else {
+            else
+            {
                 foreach (UnityEngine.UI.Text t in countDownText)
                 {
                     t.enabled = false;
@@ -67,8 +79,9 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
 
     public void DealCards()
     {
-        foreach (Player p in currentPlayers)
+        foreach (GameObject go in currentPlayers)
         {
+            Player p = go.GetComponent<Player>();
             //if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return))
             //{
             //    StartCoroutine(EnterControls());
@@ -122,8 +135,40 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
     }
     public void Update()
     {
-        DealCards();
-        PlayersReady();
+        //DealCards();
+        //PlayersReady();
+
+        //Debug.Log(photonPlayers.Count);
+
+        switch (currentPlayers.Count)
+        {
+            case 1:
+                decks[0].SetActive(true);
+                decks[1].SetActive(false);
+                decks[2].SetActive(false);
+                decks[3].SetActive(false);
+                break;
+            case 2:
+                decks[0].SetActive(true);
+                decks[1].SetActive(true);
+                decks[2].SetActive(false);
+                decks[3].SetActive(false);
+                break;
+            case 3:
+                decks[0].SetActive(true);
+                decks[1].SetActive(true);
+                decks[2].SetActive(true);
+                decks[3].SetActive(false);
+                break;
+            case 4:
+                decks[0].SetActive(true);
+                decks[1].SetActive(true);
+                decks[2].SetActive(true);
+                decks[3].SetActive(true);
+                break;
+        }
+
+        ReadyUp();
 
         //if (!isPlaying && startScreen == 0)
         //{
@@ -181,5 +226,50 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
         //    isPlaying = true;
         //    //StartGame();  // start the game
         //}
+    }
+
+    private void ReadyUp()
+    {
+        if (Input.GetKeyUp(KeyCode.JoystickButton0))
+        {
+            photonView.RPC("PlayerReady", PhotonTargets.AllBuffered, PhotonNetwork.player.ID);
+            foreach (GameObject go in currentPlayers)
+            {
+                if (go.GetComponent<PhotonView>().ownerId == PhotonNetwork.player.ID)
+                {
+                    go.GetComponent<Player>().shipPrefab = shipPrefabs[PhotonNetwork.player.ID - 1];
+                }
+            }
+        }
+    }
+
+    [PunRPC]
+    public void PlayerReady(int playerID)
+    {
+        Debug.Log(playerID);
+        foreach (GameObject go in currentPlayers)
+        {
+            if (go.GetComponent<PhotonView>().ownerId == playerID)
+            {
+                go.GetComponent<Player>().ready = true;
+            }
+        }
+        bool allReady = true;
+        foreach (GameObject go in currentPlayers)
+        {
+            if (go.GetComponent<Player>().ready != true)
+            {
+                allReady = false;
+            }
+        }
+        if (allReady /*&& currentPlayers.Count > 1*/)
+        {
+            PhotonNetwork.LoadLevel("InGame1Players");
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //throw new NotImplementedException();
     }
 }

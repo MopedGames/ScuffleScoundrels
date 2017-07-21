@@ -62,7 +62,7 @@ public class Ship : MonoBehaviour
     public powerStats standardStats;
     public powerStats currentStats;
 
-    private float currentSteering;
+    public float currentSteering;
     public Cannon[] cannons;
 
     // X-Y-Z-W : top-bottom-right-left
@@ -272,7 +272,7 @@ public class Ship : MonoBehaviour
         trail.SetPosition(4, new Vector3(-2f, 0f, -0.75f * currentSteering / currentStats.steering));
     }
 
-    private void FireCannon(Cannon cannon, Vector3 force)
+    public void FireCannon(Cannon cannon, Vector3 force)
     {
         if (cannon.blast != null)
         {
@@ -344,11 +344,11 @@ public class Ship : MonoBehaviour
 
     private void hideAllCoins()
     {
-        foreach (UnityEngine.UI.Image c in coins)
-        {
-            RectTransform cRect = c.rectTransform;
-            cRect.localScale = Vector3.zero;
-        }
+        //foreach (UnityEngine.UI.Image c in coins)
+        //{
+        //    RectTransform cRect = c.rectTransform;
+        //    cRect.localScale = Vector3.zero;
+        //} ///CMT
     }
 
     public IEnumerator GetPoint()
@@ -404,53 +404,58 @@ public class Ship : MonoBehaviour
 
         if (alive)
         {
-            if (Input.GetKeyDown(controls.shootRight) || Input.GetKeyDown(controls.shootRightAlt) || Input.GetKeyDown(controls.shootRightKeyboard) ||
-                Input.GetKeyDown(controls.shootLeft) || Input.GetKeyDown(controls.shootLeftAlt) || Input.GetKeyDown(controls.shootLeftKeyboard))
-            {
-                shootalive = true;
-            }
+            //if (Input.GetKeyDown(controls.shootRight) || Input.GetKeyDown(controls.shootRightAlt) || Input.GetKeyDown(controls.shootRightKeyboard) ||
+            //    Input.GetKeyDown(controls.shootLeft) || Input.GetKeyDown(controls.shootLeftAlt) || Input.GetKeyDown(controls.shootLeftKeyboard))
+            //{
+            //    shootalive = true;
+            //}
 
             //TrailOffset
             trail.material.SetTextureOffset("_MainTex", new Vector2(-1.25f * Time.time * currentStats.speed, 0f));
             TrailTurn();
 
-            //Shoot Cannons
-            Vector3 force;
-            if (cannons[0].active && shootalive)
-            {
-                if (Input.GetKey(controls.shootRight) || Input.GetKey(controls.shootRightAlt) || Input.GetKey(controls.shootRightKeyboard))
-                {
-                    force = transform.forward * -1 * currentStats.shootForce;
-                    FireCannon(cannons[0], force);
-                }
-            }
-            if (cannons[1].active && shootalive)
-            {
-                if (Input.GetKey(controls.shootLeft) || Input.GetKey(controls.shootLeftAlt) || Input.GetKey(controls.shootLeftKeyboard))
-                {
-                    force = transform.forward * currentStats.shootForce;
-                    FireCannon(cannons[1], force);
-                }
-            }
+            ////Shoot Cannons
+            //Vector3 force;
+            //if (cannons[0].active && shootalive)
+            //{
+            //    if (Input.GetKey(controls.shootRight) || Input.GetKey(controls.shootRightAlt) || Input.GetKey(controls.shootRightKeyboard))
+            //    {
+            //        force = transform.forward * -1 * currentStats.shootForce;
+            //        FireCannon(cannons[0], force);
+            //    }
+            //}
+            //if (cannons[1].active && shootalive)
+            //{
+            //    if (Input.GetKey(controls.shootLeft) || Input.GetKey(controls.shootLeftAlt) || Input.GetKey(controls.shootLeftKeyboard))
+            //    {
+            //        force = transform.forward * currentStats.shootForce;
+            //        FireCannon(cannons[1], force);
+            //    }
+            //}
 
-            //Move forward
-            transform.Translate(Vector3.right * currentStats.speed * Time.fixedDeltaTime);
-            transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            ////Move forward
+            //transform.Translate(Vector3.right * currentStats.speed * Time.fixedDeltaTime);
+            //transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
 
-            //Steering
-            float leftInt = Convert.ToSingle(Input.GetKey(controls.leftKeyboard));
-            float rightInt = Convert.ToSingle(Input.GetKey(controls.rightKeyboard));
-            float horizontal = Mathf.Clamp((rightInt - leftInt) + Input.GetAxis(controls.axis), -1f, 1f);
-            currentSteering = horizontal * currentStats.steering;
-            Vector3 currentRotation = new Vector3(0, currentSteering, 0);
-            transform.Rotate(currentRotation * Time.fixedDeltaTime);
-            hull.localEulerAngles = Vector3.Lerp(hull.localEulerAngles, new Vector3(horizontal * 13f, hull.eulerAngles.y, 0), 0.5f);
+            ////Steering
+            //float leftInt = Convert.ToSingle(Input.GetKey(controls.leftKeyboard));
+            //float rightInt = Convert.ToSingle(Input.GetKey(controls.rightKeyboard));
+            //float horizontal = Mathf.Clamp((rightInt - leftInt) + Input.GetAxis(controls.axis), -1f, 1f);
+            //currentSteering = horizontal * currentStats.steering;
+            //Vector3 currentRotation = new Vector3(0, currentSteering, 0);
+            //transform.Rotate(currentRotation * Time.fixedDeltaTime);
+            //hull.localEulerAngles = Vector3.Lerp(hull.localEulerAngles, new Vector3(horizontal * 13f, hull.eulerAngles.y, 0), 0.5f);
 
             //If you leave the frame, reappear in the other side
             CheckFrame();
         }
-        else {
+        else
+        {
             shootalive = false;
         }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
     }
 }

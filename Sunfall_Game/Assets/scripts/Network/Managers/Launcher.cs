@@ -130,11 +130,6 @@ public class Launcher : PunBehaviourManager<Launcher>
         }
     }
 
-    public void hej()
-    {
-        Debug.Log("hej");
-    }
-
     public void Update()
     {
         if (Input.GetKeyUp(KeyCode.KeypadEnter) || Input.GetKeyUp(KeyCode.Return))
