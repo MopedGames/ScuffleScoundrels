@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System;
 
 public class Launcher : PunBehaviourManager<Launcher>
 {
@@ -22,11 +23,11 @@ public class Launcher : PunBehaviourManager<Launcher>
     [SerializeField, Tooltip("How much information is kept by the network")]
     private PhotonLogLevel logLevel = PhotonLogLevel.Informational;
 
-    [SerializeField, Tooltip("The ui panel to let the user enter name, connect to player")]
-    private GameObject controlPanel;
+    //[SerializeField, Tooltip("The ui panel to let the user enter name, connect to player")]
+    //private GameObject controlPanel;
 
-    [SerializeField, Tooltip("The ui label to inform the user that the connection is in progress")]
-    private GameObject progressLabel;
+    //[SerializeField, Tooltip("The ui label to inform the user that the connection is in progress")]
+    //private GameObject progressLabel;
 
     /// <summary>
     /// keep track of the current process. Since connection is asynchronous and is based on several callbacksfrom photon
@@ -39,6 +40,7 @@ public class Launcher : PunBehaviourManager<Launcher>
 
     protected override void Awake()
     {
+        base.Awake();
         //not important
         //force full loglevel
         PhotonNetwork.logLevel = logLevel;
@@ -50,9 +52,11 @@ public class Launcher : PunBehaviourManager<Launcher>
 
     private void Start()
     {
-        PhotonNetwork.offlineMode = true;
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
+        //PhotonNetwork.offlineMode = true; //CMT
+
+        //progressLabel.SetActive(false);
+        //controlPanel.SetActive(true);,
+
         Cursor.visible = true;
     }
 
@@ -65,8 +69,8 @@ public class Launcher : PunBehaviourManager<Launcher>
     {
         // keep track of the will to join a rooom, because when we come back from a game we will get a callback that we are connected, so we need to know what to do then..
         isConnecting = true;
-        progressLabel.SetActive(true);
-        controlPanel.SetActive(false);
+        //progressLabel.SetActive(true);
+        //controlPanel.SetActive(false);
 
         if (PhotonNetwork.connected || PhotonNetwork.offlineMode)
         {
@@ -96,17 +100,18 @@ public class Launcher : PunBehaviourManager<Launcher>
 
     public override void OnDisconnectedFromPhoton()
     {
-        Debug.LogWarning("OnDisconnectedFromPhoton() wa called by PUN");
+        Debug.LogWarning("OnDisconnectedFromPhoton() was called by PUN");
 
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
+        //progressLabel.SetActive(false);
+        //controlPanel.SetActive(true);
     }
+
     public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
     {
         Debug.Log("OnPhotonRoomJoinFailed() was called by PUN. No room available, so we create one. \nCalling: PhotonNetwork.Createroom(null, new RoomOptions() {maxPlayers = 2},null;");
-        PhotonNetwork.offlineMode = true;
+        //PhotonNetwork.offlineMode = true; // CMT
         // we failed to join the random room, maybe none exist or they are all full. No worries, we'll create a new one
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { maxPlayers = maxPlayersPerRoom }, null); //TODO; moar players
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = maxPlayersPerRoom }, null); //TODO; moar players
     }
 
     public override void OnJoinedRoom()
@@ -114,14 +119,20 @@ public class Launcher : PunBehaviourManager<Launcher>
         Debug.Log("OnJoinedRoom() called by PUN, now this client is in a room");
 
         //we only load if we are the first player , else we rely on photonnetwork.automaticallySyncScene to sync our instance scene
-        if (PhotonNetwork.room.playerCount == 1)
+        if (PhotonNetwork.room.PlayerCount == 1)
         {
-            PhotonNetwork.LoadLevel(gameVersion + "LevelFor1"); // change if scene name changes
+            PhotonNetwork.LoadLevel("Selection");
+            //PhotonNetwork.LoadLevel(gameVersion + "LevelFor1"); // change if scene name changes
         }
-        if (PhotonNetwork.room.playerCount == 2)
+        if (PhotonNetwork.room.PlayerCount == 2)
         {
-            PhotonNetwork.LoadLevel(gameVersion + "LevelFor2");
+            //PhotonNetwork.LoadLevel(gameVersion + "LevelFor2");
         }
+    }
+
+    public void hej()
+    {
+        Debug.Log("hej");
     }
 
     public void Update()

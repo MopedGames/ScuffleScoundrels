@@ -151,14 +151,14 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>Assets\Plugins\WebSocket\websocket-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="Photon3Unity3D">
       <HintPath>Assets\Plugins\Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\Photon Unity Networking\Editor\PhotonNetwork\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Assets\Plugins\WebSocket\websocket-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +172,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Plugins\Photon Unity Networking\Demos\DemoHub\Editor\PunStartup.cs" />
     <Compile Include="Assets\Plugins\Photon Unity Networking\Editor\PhotonNetwork\AccountService.cs" />
     <Compile Include="Assets\Plugins\Photon Unity Networking\Editor\PhotonNetwork\CullAreaEditor.cs" />
     <Compile Include="Assets\Plugins\Photon Unity Networking\Editor\PhotonNetwork\PhotonConverter.cs" />
@@ -192,10 +191,6 @@
     <Compile Include="Assets\Plugins\Photon Unity Networking\UtilityScripts\PhotonPlayer\Editor\PunTeamsInspector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Plugins\Photon Unity Networking\Demos\DemoBoxes\Resources\eurof_tt.txt" />
-    <None Include="Assets\Plugins\Photon Unity Networking\Demos\DemoRockPaperScissors\Assets\OpenSans\Apache License.txt" />
-    <None Include="Assets\Plugins\Photon Unity Networking\Demos\MarcoPolo-Tutorial\marcopolo-readme.txt" />
-    <None Include="Assets\Plugins\Photon Unity Networking\Demos\Shared Assets\Skin\3dText.shader" />
     <None Include="Assets\Plugins\Photon Unity Networking\changelog.txt" />
     <None Include="Assets\Plugins\Photon Unity Networking\link.xml" />
     <None Include="Assets\Plugins\Photon Unity Networking\readme.txt" />

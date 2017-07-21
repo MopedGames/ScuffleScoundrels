@@ -15,11 +15,11 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     [SerializeField, Tooltip("The player")]
     private GameObject playerPrefab;
 
-    static public ConnectionHandler Instance;
+    //static public ConnectionHandler Instance;
     private GameObject instance;
 
     [SerializeField]
-    private Launcher launcher;
+    private Launcher launcher = Launcher.Instance;
 
     public Launcher Launcher { get { return launcher; } }
 
@@ -29,15 +29,15 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
 
     private void Start()
     {
-        levelForOneName = launcher.GameVersion + "LevelFor1";
-        levelForTwoName = launcher.GameVersion + "LevelFor2";
+        //levelForOneName = launcher.GameVersion + "LevelFor1";
+        //levelForTwoName = launcher.GameVersion + "LevelFor2";
 
-        Instance = this;
+        //Instance = this;
         Debug.Log("Game Version Loaded: " + launcher.GameVersion);
 
         if (!PhotonNetwork.connected)
         {
-            SceneManager.LoadScene("Launcher");
+            SceneManager.LoadScene("OnlineMenu");
             return;
         }
         if (playerPrefab == null)
@@ -90,27 +90,26 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
             Debug.LogError("PhotonNetwork : Trying to load a level but we are not the master client");
         }
 
-        Debug.Log("PhotonNetwork : Loading Level : " + PhotonNetwork.room.playerCount);
-
-        PhotonNetwork.LoadLevel(launcher.GameVersion + "LevelFor" + PhotonNetwork.room.playerCount); // TODO: Name scenes loaded by the lobby properly like this. or make it serialized
+        Debug.Log("PhotonNetwork : Loading Level : " + PhotonNetwork.room.PlayerCount);
+        //PhotonNetwork.LoadLevel(launcher.GameVersion + "LevelFor" + PhotonNetwork.room.PlayerCount); // TODO: Name scenes loaded by the lobby properly like this. or make it serialized
     }
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
-        Debug.Log("OnPhotonPlayerConnected() " + newPlayer.name);
+        Debug.Log("OnPhotonPlayerConnected() " + newPlayer.NickName);
 
         if (PhotonNetwork.isMasterClient)
         {
             Debug.Log("OnPhotonPlayerConnected isMasterClient " + PhotonNetwork.isMasterClient);
 
-            LoadMatchmaking();
+            //LoadMatchmaking(); //TODO: load matchmaking when the players are all ready
         }
     }
 
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
-        Debug.Log("OnPhotonPlayerDisconnected() " + otherPlayer.name);
-        GameStatusManager.Instance.photonView.RPC("CleanupPlayerList", PhotonTargets.All, otherPlayer.ID);
+        Debug.Log("OnPhotonPlayerDisconnected() " + otherPlayer.NickName);
+        //GameStatusManager.Instance.photonView.RPC("CleanupPlayerList", PhotonTargets.All, otherPlayer.ID);
 
         if (PhotonNetwork.isMasterClient)
         {
@@ -149,5 +148,10 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //throw new NotImplementedException();
+    }
+
+    public void hej()
+    {
+        Debug.Log("hej");
     }
 }

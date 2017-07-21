@@ -53,7 +53,6 @@ public class GameStatusManager : PhotonManager<GameStatusManager>
 
     private void Start()
     {
-        neutralPlayer = GameObject.Find("NeutralPlayer"); // add the neutral player.
         gameIsStarted = false;
     }
 
@@ -91,14 +90,14 @@ public class GameStatusManager : PhotonManager<GameStatusManager>
             {
                 Player player = p.GetComponent<Player>(); // for ease of use.
 
-                if (!p.GetComponentInChildren<Town>())
-                {
-                    player.CreateTown(); // create our home town. // give the player a place to live
-                }
+                //if (!p.GetComponentInChildren<Town>())
+                //{
+                //    player.CreateTown(); // create our home town. // give the player a place to live
+                //}
             }
             gameIsStarted = true; // now that everything is ready the game is started.
         }
-        if (currentPlayers.Count == numberOfPlayers && DestinctionHandler.Instance.IsPositioned && gameIsStarted)
+        if (currentPlayers.Count == numberOfPlayers /*&& DestinctionHandler.Instance.IsPositioned && gameIsStarted*/)
         {
             StartCoroutine(Delay(.2f)); // start delay which checks the players.
         }
@@ -108,31 +107,31 @@ public class GameStatusManager : PhotonManager<GameStatusManager>
     /// </summary>
     /// <param name="winnerName">name of the winning player</param>
     /// <param name="winnerNumber"> winning players number</param>
-    [PunRPC]
-    public void GameOver(string winnerName, int winnerNumber)
-    {
-        remainingPlayers.AddRange(GameObject.FindGameObjectsWithTag("Player")); // find all players. ( even people who died)
+    //[PunRPC]
+    //public void GameOver(string winnerName, int winnerNumber)
+    //{
+    //    remainingPlayers.AddRange(GameObject.FindGameObjectsWithTag("Player")); // find all players. ( even people who died)
 
-        foreach (var p in remainingPlayers)
-        {
-            if (p.GetComponent<PhotonView>().isMine)
-            {
-                p.GetComponent<Player>().GameOverPnl.SetActive(true); // gameoverpnl is activated
+    //    foreach (var p in remainingPlayers)
+    //    {
+    //        if (p.GetComponent<PhotonView>().isMine)
+    //        {
+    //            p.GetComponent<Player>().GameOverPnl.SetActive(true); // gameoverpnl is activated
 
-                p.GetComponentInChildren<GameOver>().gameObject.GetComponent<Animator>().SetBool("GameOver", true); // set the bool to start the animation
-                if (winnerNumber != 0) // if the winner is a player
-                {
-                    p.GetComponentInChildren<GameOver>().GameOverTxt.text = winnerName + "(Player " + winnerNumber + ")" + " Wins the Game"; // txt for the end screen
-                }
-                else
-                {
-                    p.GetComponentInChildren<GameOver>().GameOverTxt.text = "Computer wins!";
-                }
-            }
-        }
+    //            p.GetComponentInChildren<GameOver>().gameObject.GetComponent<Animator>().SetBool("GameOver", true); // set the bool to start the animation
+    //            if (winnerNumber != 0) // if the winner is a player
+    //            {
+    //                p.GetComponentInChildren<GameOver>().GameOverTxt.text = winnerName + "(Player " + winnerNumber + ")" + " Wins the Game"; // txt for the end screen
+    //            }
+    //            else
+    //            {
+    //                p.GetComponentInChildren<GameOver>().GameOverTxt.text = "Computer wins!";
+    //            }
+    //        }
+    //    }
 
-        GameIsOver = true; // game is over.
-    }
+    //    GameIsOver = true; // game is over.
+    //}
 
     /// <summary>
     /// check if the players are present and accounted for and they have a place to live.
@@ -140,28 +139,28 @@ public class GameStatusManager : PhotonManager<GameStatusManager>
     [PunRPC]
     public void CheckPlayers()
     {
-        foreach (var p in currentPlayers) // run through the active players ( after the removal process)
-        {
-            if (!p.GetComponentInChildren<Town>()) // if the player doesnt has a hometown
-            {
-                CleanupPlayerList(p.GetComponent<PhotonView>().ownerId);
-                break;
-            }
-            if (currentPlayers.Count == 1 && numberOfPlayers != 1) // only one guy left;
-            {
-                if (p.GetComponentInChildren<Town>()) // if the player has a town
-                {
-                    winnerUserName = p.GetComponent<Player>().Username; // set him as winner
-                    winnerTeamNumber = p.GetComponent<Player>().TeamNumber;
-                }
-                if (PhotonNetwork.isMasterClient)
-                {
-                    photonView.RPC("GameOver", PhotonTargets.AllBuffered, winnerUserName, winnerTeamNumber);// game over yo.
-                }
+        //foreach (var p in currentPlayers) // run through the active players ( after the removal process)
+        //{
+        //if (!p.GetComponentInChildren<Town>()) // if the player doesnt has a hometown
+        //{
+        //    CleanupPlayerList(p.GetComponent<PhotonView>().ownerId);
+        //    break;
+        //}
+        //    if (currentPlayers.Count == 1 && numberOfPlayers != 1) // only one guy left;
+        //    {
+        //        if (p.GetComponentInChildren<Town>()) // if the player has a town
+        //        {
+        //            winnerUserName = p.GetComponent<Player>().Username; // set him as winner
+        //            winnerTeamNumber = p.GetComponent<Player>().TeamNumber;
+        //        }
+        //        if (PhotonNetwork.isMasterClient)
+        //        {
+        //            photonView.RPC("GameOver", PhotonTargets.AllBuffered, winnerUserName, winnerTeamNumber);// game over yo.
+        //        }
 
-                break;
-            }
-        }
+        //        break;
+        //    }
+        //}
         if (currentPlayers.Count == 0 && numberOfPlayers == 1 || currentPlayers.Count == 0 && SceneManagerHelper.ActiveSceneName == ConnectionHandler.Instance.LevelForOneName) // levelforOne testing case
         {
             winnerUserName = "Computer"; // set him as winner
@@ -175,19 +174,19 @@ public class GameStatusManager : PhotonManager<GameStatusManager>
     /// <summary>
     /// reset the level to its natural neutral state ( give back turncoats etc to the neutral player)
     /// </summary>
-    public void ResetLevel()
-    {
-        TurncoatBuilding[] neutralBuildingsToReturn = removedPlayer.GetComponentsInChildren<TurncoatBuilding>(); // make an array of the players we need to give back from the removed player (player who lost)
-        Buildings b = neutralPlayer.GetComponentInChildren<Buildings>(); // where the buildings are going
+    //public void ResetLevel()
+    //{
+    //    TurncoatBuilding[] neutralBuildingsToReturn = removedPlayer.GetComponentsInChildren<TurncoatBuilding>(); // make an array of the players we need to give back from the removed player (player who lost)
+    //    Buildings b = neutralPlayer.GetComponentInChildren<Buildings>(); // where the buildings are going
 
-        foreach (var nB in neutralBuildingsToReturn)
-        {
-            nB.GetComponent<PhotonView>().TransferOwnership(neutralPlayer.GetComponent<PhotonView>().ownerId); // change owner to the scene
-            nB.transform.parent = neutralPlayer.GetComponentInChildren<Buildings>().transform; // change it in the heirachy
-            DestinctionHandler.Instance.SetColor(); // change the colour to neutral
-            nB.UnderControl = false; // make sure it is no longer under player control
-        }
-    }
+    //    foreach (var nB in neutralBuildingsToReturn)
+    //    {
+    //        nB.GetComponent<PhotonView>().TransferOwnership(neutralPlayer.GetComponent<PhotonView>().ownerId); // change owner to the scene
+    //        nB.transform.parent = neutralPlayer.GetComponentInChildren<Buildings>().transform; // change it in the heirachy
+    //        DestinctionHandler.Instance.SetColor(); // change the colour to neutral
+    //        nB.UnderControl = false; // make sure it is no longer under player control
+    //    }
+    //}
     /// <summary>
     /// delay the player check, adds time between player losing his town and running the end game animation
     /// </summary>
@@ -214,7 +213,7 @@ public class GameStatusManager : PhotonManager<GameStatusManager>
             {
                 removedPlayer = p;
                 currentPlayers.Remove(p); // remove him from the active players
-                ResetLevel(); // reset the level - i.e. give back their buildings etc.
+                //ResetLevel(); // reset the level - i.e. give back their buildings etc.
                 break;
             }
         }
