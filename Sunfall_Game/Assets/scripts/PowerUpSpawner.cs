@@ -30,7 +30,7 @@ public class PowerUpSpawner : MonoBehaviour
 
     public Transform bubbles;
 
-    private PlayerSelection selection;
+    public PlayerSelection selection;
 
     private IEnumerator Spawn(Vector3 spawnPos)
     {

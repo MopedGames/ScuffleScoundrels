@@ -30,36 +30,39 @@ public class Player : MonoBehaviour, IPunObservable
         {
             //Shoot Cannons
             Vector3 force;
-            if (ship.cannons[0].active)
+            if (ship)
             {
-                if (Input.GetKeyDown(KeyCode.JoystickButton5))/* || Input.GetKey(controls.shootRightAlt) || Input.GetKey(controls.shootRightKeyboard))*/
+                if (ship.cannons[0].active)
                 {
-                    force = transform.forward * -1 * ship.currentStats.shootForce;
-                    ship.FireCannon(ship.cannons[0], force);
+                    if (Input.GetKeyDown(KeyCode.JoystickButton5))/* || Input.GetKey(controls.shootRightAlt) || Input.GetKey(controls.shootRightKeyboard))*/
+                    {
+                        force = transform.forward * -1 * ship.currentStats.shootForce;
+                        ship.FireCannon(ship.cannons[0], force);
+                    }
                 }
-            }
-            if (ship.cannons[1].active)
-            {
-                if (Input.GetKey(KeyCode.JoystickButton4))/* || Input.GetKey(controls.shootLeftAlt) || Input.GetKey(controls.shootLeftKeyboard))*/
+                if (ship.cannons[1].active)
                 {
-                    force = transform.forward * ship.currentStats.shootForce;
-                    ship.FireCannon(ship.cannons[1], force);
+                    if (Input.GetKey(KeyCode.JoystickButton4))/* || Input.GetKey(controls.shootLeftAlt) || Input.GetKey(controls.shootLeftKeyboard))*/
+                    {
+                        force = transform.forward * ship.currentStats.shootForce;
+                        ship.FireCannon(ship.cannons[1], force);
+                    }
                 }
+
+                //Move forward
+                ship.transform.Translate(Vector3.right * ship.currentStats.speed * Time.fixedDeltaTime);
+                ship.transform.position = new Vector3(ship.transform.position.x, 0.5f, ship.transform.position.z);
+                //ship.transform.position = new Vector3(ship.transform.position.x + ship.transform.forward.x * 5, ship.transform.position.y, ship.transform.position.z);
+
+                //Steering
+                float leftInt = Convert.ToSingle((Input.GetAxis("Horizontal_Red")));
+                float rightInt = Convert.ToSingle((Input.GetAxis("Horizontal_Red")));
+                float horizontal = Mathf.Clamp((rightInt - leftInt) + Input.GetAxis(ship.controls.axis), -1f, 1f);
+                ship.currentSteering = horizontal * ship.currentStats.steering;
+                Vector3 currentRotation = new Vector3(0, ship.currentSteering, 0);
+                ship.transform.Rotate(currentRotation * Time.fixedDeltaTime);
+                ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(horizontal * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
             }
-
-            //Move forward
-            ship.transform.Translate(Vector3.right * ship.currentStats.speed * Time.fixedDeltaTime);
-            ship.transform.position = new Vector3(ship.transform.position.x, 0.5f, ship.transform.position.z);
-            //ship.transform.position = new Vector3(ship.transform.position.x + ship.transform.forward.x * 5, ship.transform.position.y, ship.transform.position.z);
-
-            //Steering
-            float leftInt = Convert.ToSingle((Input.GetAxis("Horizontal_Red")));
-            float rightInt = Convert.ToSingle((Input.GetAxis("Horizontal_Red")));
-            float horizontal = Mathf.Clamp((rightInt - leftInt) + Input.GetAxis(ship.controls.axis), -1f, 1f);
-            ship.currentSteering = horizontal * ship.currentStats.steering;
-            Vector3 currentRotation = new Vector3(0, ship.currentSteering, 0);
-            ship.transform.Rotate(currentRotation * Time.fixedDeltaTime);
-            ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(horizontal * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
         }
     }
 

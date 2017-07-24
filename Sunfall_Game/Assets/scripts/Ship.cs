@@ -284,10 +284,10 @@ public class Ship : MonoBehaviour
             cannonBall thisProjectile;
             if (!cannon.cannonOrigin)
             {
-                thisProjectile = Instantiate(currentStats.projectile, cannon.cannonTransform.position, transform.rotation) as cannonBall;
+                thisProjectile = PhotonNetwork.Instantiate(currentStats.projectile.name, cannon.cannonTransform.position, transform.rotation, 0).GetComponent<cannonBall>();
             }
             else {
-                thisProjectile = Instantiate(currentStats.projectile, cannon.cannonOrigin.position, transform.rotation) as cannonBall;
+                thisProjectile = PhotonNetwork.Instantiate(currentStats.projectile.name, cannon.cannonOrigin.position, transform.rotation, 0).GetComponent<cannonBall>();
             }
             thisProjectile.owner = this;
             thisProjectile.GetComponent<Rigidbody>().velocity = force;

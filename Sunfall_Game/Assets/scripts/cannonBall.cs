@@ -32,7 +32,7 @@ public class cannonBall : MonoBehaviour {
 			Ship ship = contact.otherCollider.transform.GetComponent<Ship>();
 			collided = true;
 
-			if(ship != null && owner != ship){
+			if(ship != null && GetComponent<PhotonView>().owner != ship.GetComponent<PhotonView>().owner){
 				if(Explosion != null && !exploded){
 					exploded = true;
 					GameObject ex;
