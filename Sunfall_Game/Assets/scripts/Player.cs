@@ -32,11 +32,17 @@ public class Player : MonoBehaviour, IPunObservable
             Vector3 force;
             if (ship)
             {
+                if (ship.tiltParent)
+                {
+                    ship.tiltParent.transform.eulerAngles = new Vector3(45f, 0f, 0f);
+                    ship.tiltParent.GetChild(0).transform.localEulerAngles = new Vector3(0f, ship.transform.eulerAngles.y, 0f);
+                }
+
                 if (ship.cannons[0].active)
                 {
                     if (Input.GetKeyDown(KeyCode.JoystickButton5))/* || Input.GetKey(controls.shootRightAlt) || Input.GetKey(controls.shootRightKeyboard))*/
                     {
-                        force = transform.forward * -1 * ship.currentStats.shootForce;
+                        force = ship.transform.forward * -1 * ship.currentStats.shootForce;
                         ship.FireCannon(ship.cannons[0], force);
                     }
                 }
@@ -44,7 +50,7 @@ public class Player : MonoBehaviour, IPunObservable
                 {
                     if (Input.GetKey(KeyCode.JoystickButton4))/* || Input.GetKey(controls.shootLeftAlt) || Input.GetKey(controls.shootLeftKeyboard))*/
                     {
-                        force = transform.forward * ship.currentStats.shootForce;
+                        force = ship.transform.forward * ship.currentStats.shootForce;
                         ship.FireCannon(ship.cannons[1], force);
                     }
                 }
@@ -61,7 +67,9 @@ public class Player : MonoBehaviour, IPunObservable
                 ship.currentSteering = horizontal * ship.currentStats.steering;
                 Vector3 currentRotation = new Vector3(0, ship.currentSteering, 0);
                 ship.transform.Rotate(currentRotation * Time.fixedDeltaTime);
-                ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(horizontal * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
+                /*Debug.Log*/ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(horizontal * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
+                //TODO: BUG Random 'flick' here once in a while (Mostly when turning left?)
+                //Debug.Log("h" + horizontal);
             }
         }
     }

@@ -128,31 +128,32 @@ public class Ship : MonoBehaviour
             if (suddenDeath)
             {
             }
-            else {
+            else
+            {
                 yield return new WaitForSeconds(2.0f);
-                if (/*!winScreen.winState ||*/ suddenDeath)
-                {
-                    transform.position = startPos;
-                    transform.rotation = startRot;
-                    alive = true;
+                //if (/*!winScreen.winState ||*/ suddenDeath)
+                //{
+                transform.position = startPos;
+                transform.rotation = startRot;
+                alive = true;
 
-                    //Beep beep
-                    for (int i = 0; i < 3; ++i)
-                    {
-                        yield return new WaitForSeconds(invulnerableTime / 8f);
-                        material.SetColor("_Color", new Color(0.5f, 0.5f, 0.5f, 0f));
-                        yield return new WaitForSeconds(invulnerableTime / 8f);
-                        material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
-                    }
-                    //Bipbipbipbip
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        yield return new WaitForSeconds(invulnerableTime / 16f);
-                        material.SetColor("_Color", new Color(0.5f, 0.5f, 0.5f, 0f));
-                        yield return new WaitForSeconds(invulnerableTime / 16f);
-                        material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
-                    }
+                //Beep beep
+                for (int i = 0; i < 3; ++i)
+                {
+                    yield return new WaitForSeconds(invulnerableTime / 8f);
+                    material.SetColor("_Color", new Color(0.5f, 0.5f, 0.5f, 0f));
+                    yield return new WaitForSeconds(invulnerableTime / 8f);
+                    material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
                 }
+                //Bipbipbipbip
+                for (int i = 0; i < 5; ++i)
+                {
+                    yield return new WaitForSeconds(invulnerableTime / 16f);
+                    material.SetColor("_Color", new Color(0.5f, 0.5f, 0.5f, 0f));
+                    yield return new WaitForSeconds(invulnerableTime / 16f);
+                    material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
+                }
+                //}
                 invulnerable = false;
             }
         }
@@ -281,18 +282,34 @@ public class Ship : MonoBehaviour
 
         if (currentStats.projectile != null)
         {
-            cannonBall thisProjectile;
+
             if (!cannon.cannonOrigin)
             {
-                thisProjectile = PhotonNetwork.Instantiate(currentStats.projectile.name, cannon.cannonTransform.position, transform.rotation, 0).GetComponent<cannonBall>();
+                GetComponent<PhotonView>().RPC("LaunchProjectile", PhotonTargets.All, true, force, cannon.cannonTransform.position);
             }
-            else {
-                thisProjectile = PhotonNetwork.Instantiate(currentStats.projectile.name, cannon.cannonOrigin.position, transform.rotation, 0).GetComponent<cannonBall>();
+            else
+            {
+                GetComponent<PhotonView>().RPC("LaunchProjectile", PhotonTargets.All, false, force, cannon.cannonOrigin.position);
             }
+            StartCoroutine("ReloadCannon", cannon);
+        }
+    }
+
+    [PunRPC]
+    public void LaunchProjectile(bool cannonOrigin, Vector3 force, Vector3 position, PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            Debug.Log("Launch");
+            Debug.Log(info.sender);
+            Debug.Log(cannonOrigin);
+
+            cannonBall thisProjectile;
+
+            thisProjectile = Instantiate(currentStats.projectile, position, transform.rotation).GetComponent<cannonBall>();
+
             thisProjectile.owner = this;
             thisProjectile.GetComponent<Rigidbody>().velocity = force;
-
-            StartCoroutine("ReloadCannon", cannon);
         }
     }
 
@@ -302,7 +319,8 @@ public class Ship : MonoBehaviour
         {
             cannon.cannonTransform.localScale = Vector3.one * 0.1f;
         }
-        else {
+        else
+        {
             cannon.targetPos = new Vector3(cannon.startPos.x,
                                             cannon.startPos.y,
                                             0.0f);
@@ -317,7 +335,8 @@ public class Ship : MonoBehaviour
             {
                 cannon.cannonTransform.localScale = Vector3.one * (t / currentStats.reloadTime);
             }
-            else {
+            else
+            {
                 cannon.cannonTransform.localPosition = Vector3.Lerp(cannon.cannonTransform.localPosition,
                                                                     cannon.targetPos,
                                                                     0.1f);
@@ -328,7 +347,8 @@ public class Ship : MonoBehaviour
         {
             cannon.cannonTransform.localScale = Vector3.one;
         }
-        else {
+        else
+        {
             cannon.targetPos = cannon.startPos;
         }
 
@@ -387,11 +407,7 @@ public class Ship : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (tiltParent)
-        {
-            tiltParent.transform.eulerAngles = new Vector3(45f, 0f, 0f);
-            tiltParent.GetChild(0).transform.localEulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
-        }
+        
 
         if (coins.Length == 0)
         {
