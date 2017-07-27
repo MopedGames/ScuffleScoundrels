@@ -113,6 +113,15 @@ public class Ship : MonoBehaviour
         Time.fixedDeltaTime = Mathf.Lerp(0.0f, 0.02f, 1f);
     }
 
+    [PunRPC]
+    public void PUNDie(PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            StartCoroutine(Die());
+        }
+    }
+
     public IEnumerator Die()
     {
         if (!invulnerable)
@@ -371,6 +380,15 @@ public class Ship : MonoBehaviour
         //} ///CMT
     }
 
+    [PunRPC]
+    public void PUNGetPoint(PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            StartCoroutine(GetPoint());
+        }
+    }
+
     public IEnumerator GetPoint()
     {
         yield return new WaitForSeconds(2.5f);
@@ -385,6 +403,15 @@ public class Ship : MonoBehaviour
                 i += Time.deltaTime * 4;
                 yield return null;
             }
+        }
+    }
+    
+    [PunRPC]
+    public void PUNRemovePoint(PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            StartCoroutine(RemovePoint());
         }
     }
 
@@ -407,7 +434,7 @@ public class Ship : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        
+
 
         if (coins.Length == 0)
         {
@@ -473,5 +500,13 @@ public class Ship : MonoBehaviour
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (stream.isWriting)
+        {
+            stream.SendNext(currentSteering);
+        }
+        else if (stream.isReading)
+        {
+            currentSteering = (float)stream.ReceiveNext();
+        }
     }
 }

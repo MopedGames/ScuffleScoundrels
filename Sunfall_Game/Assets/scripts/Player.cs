@@ -26,17 +26,25 @@ public class Player : MonoBehaviour, IPunObservable
 
     public void Update()
     {
+        if (ship)
+        {
+            if (ship.tiltParent)
+            {
+                ship.tiltParent.transform.eulerAngles = new Vector3(45f, 0f, 0f);
+                ship.tiltParent.GetChild(0).transform.localEulerAngles = new Vector3(0f, ship.transform.eulerAngles.y, 0f);
+            }
+        }
         if (GetComponent<PhotonView>().isMine)
         {
             //Shoot Cannons
             Vector3 force;
             if (ship)
             {
-                if (ship.tiltParent)
-                {
-                    ship.tiltParent.transform.eulerAngles = new Vector3(45f, 0f, 0f);
-                    ship.tiltParent.GetChild(0).transform.localEulerAngles = new Vector3(0f, ship.transform.eulerAngles.y, 0f);
-                }
+                //if (ship.tiltParent)
+                //{
+                //    ship.tiltParent.transform.eulerAngles = new Vector3(45f, 0f, 0f);
+                //    ship.tiltParent.GetChild(0).transform.localEulerAngles = new Vector3(0f, ship.transform.eulerAngles.y, 0f);
+                //}
 
                 if (ship.cannons[0].active)
                 {
@@ -66,11 +74,16 @@ public class Player : MonoBehaviour, IPunObservable
                 float horizontal = Mathf.Clamp((rightInt - leftInt) + Input.GetAxis(ship.controls.axis), -1f, 1f);
                 ship.currentSteering = horizontal * ship.currentStats.steering;
                 Vector3 currentRotation = new Vector3(0, ship.currentSteering, 0);
-                ship.transform.Rotate(currentRotation * Time.fixedDeltaTime);
-                /*Debug.Log*/ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(horizontal * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
+                ship.transform.Rotate(currentRotation * Time.fixedDeltaTime); //TODO: Optimize rotation updates
+                /*Debug.Log*/
+                ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(horizontal * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
                 //TODO: BUG Random 'flick' here once in a while (Mostly when turning left?)
                 //Debug.Log("h" + horizontal);
             }
+        }
+        else if (ship)
+        { //Tilts the ship for everyone else
+            ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(ship.currentSteering / ship.currentStats.steering * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
         }
     }
 

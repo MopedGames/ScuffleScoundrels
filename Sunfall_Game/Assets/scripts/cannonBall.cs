@@ -38,57 +38,59 @@ public class cannonBall : MonoBehaviour
             Ship ship = contact.otherCollider.transform.GetComponent<Ship>();
             collided = true;
 
-            if (ship != null && GetComponent<PhotonView>().owner != ship.GetComponent<PhotonView>().owner && owner != ship)
+            if (ship != null && owner != ship)
             {
-
-                if (Explosion != null && !exploded)
+                if (owner.GetComponent<PhotonView>().isMine)
                 {
-                    exploded = true;
-                    GameObject ex;
-                    ex = Instantiate(Explosion, contact.otherCollider.transform.position, Quaternion.identity) as GameObject;
-
-
-                    cannonBall c = ex.GetComponentInChildren<cannonBall>();
-                    if (c != null)
+                    if (Explosion != null && !exploded)
                     {
+                        exploded = true;
+                        GameObject ex;
+                        ex = PhotonNetwork.Instantiate(Explosion.name, contact.otherCollider.transform.position, Quaternion.identity, 0) as GameObject;
 
-                        if (owner == null)
+
+                        cannonBall c = ex.GetComponentInChildren<cannonBall>();
+                        if (c != null)
                         {
-                            c.owner = ship;
+
+                            if (owner == null)
+                            {
+                                c.owner = ship;
+                            }
+                            else
+                            {
+                                c.owner = owner;
+                            }
+
                         }
-                        else
+                    }
+
+                    if (!ship.invulnerable)
+                    {
+                        ship.GetComponent<PhotonView>().RPC("PUNDie", PhotonTargets.All);
+
+                        if (owner != null && owner != ship)
                         {
-                            c.owner = owner;
+                            GameObject coin;
+                            coin = PhotonNetwork.Instantiate(owner.currentStats.rewardCoin.name, contact.otherCollider.transform.position, Quaternion.identity, 0) as GameObject;
+                            coin.GetComponent<rewardCoin>().target = (owner.startPos * 1.2f) - (Vector3.forward * 2.5f);
+
+                            owner.GetComponent<PhotonView>().RPC("PUNGetPoint", PhotonTargets.All); /*owner.StartCoroutine(owner.GetPoint());*/ //CMT
+
                         }
-
+                        else if (ship.kills > 0)
+                        {
+                            ship.GetComponent<PhotonView>().RPC("PUNRemovePoint", PhotonTargets.All); /* ship.StartCoroutine(ship.RemovePoint());*/ //CMT
+                        }
                     }
-                }
 
-                if (!ship.invulnerable)
-                {
-                    ship.StartCoroutine(ship.Die());
 
-                    if (owner != null)
+                    if (destroyOnImpact)
                     {
-                        GameObject coin;
-                        coin = Instantiate(owner.currentStats.rewardCoin, contact.otherCollider.transform.position, Quaternion.identity) as GameObject;
-                        coin.GetComponent<rewardCoin>().target = (owner.startPos * 1.2f) - (Vector3.forward * 2.5f);
-
-                        owner.StartCoroutine(owner.GetPoint());
-
+                        this.GetComponent<PhotonView>().RPC("Destroy", PhotonTargets.All);
                     }
-                    else if (ship.kills > 0)
-                    {
-                        ship.StartCoroutine(ship.RemovePoint());
-                    }
+
                 }
-
-
-                if (destroyOnImpact)
-                {
-                    Destroy(gameObject);
-                }
-
             }
             else if (ship == null)
             {
@@ -112,5 +114,17 @@ public class cannonBall : MonoBehaviour
         }
         exploded = false;
     }
+
+    [PunRPC]
+    public void Destroy(PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            Destroy(this.gameObject); //TODO: This calls an "Illigal view ID 0"
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    { }
 }
 

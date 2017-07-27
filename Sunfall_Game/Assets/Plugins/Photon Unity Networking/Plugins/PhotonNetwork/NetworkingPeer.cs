@@ -3650,7 +3650,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
         if (view.viewID < 1)
         {
-            Debug.LogError("Illegal view ID:" + view.viewID + " method: " + methodName + " GO:" + view.gameObject.name);
+            Debug.Log/*Error*/("Illegal view ID:" + view.viewID + " method: " + methodName + " GO:" + view.gameObject.name); //CMT RDG TODO - without this, the game stops
         }
 
         if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)

@@ -72,7 +72,7 @@ public class Mine : spawnable {
 
                 if (!ship.invulnerable)
                 {
-                    ship.StartCoroutine(ship.Die());
+                    ship.GetComponent<PhotonView>().RPC("PUNDie", PhotonTargets.All);
 
                     if (owner != null)
                     {

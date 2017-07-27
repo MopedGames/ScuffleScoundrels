@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunfall_Game.Plugins", "Sunfall_Game.Plugins.csproj", "{1DB693B7-A3AA-25D3-A4AD-86664ADCE765}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunfall_Game.CSharp.Plugins", "Sunfall_Game.CSharp.Plugins.csproj", "{0023294C-2E40-22A8-DB7F-1C830ADFDCD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunfall_Game", "Sunfall_Game.csproj", "{FAA755BF-233C-B464-0090-A0999964A3D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunfall_Game.CSharp", "Sunfall_Game.CSharp.csproj", "{DC032551-F8DB-72C7-1945-F1CFC5A0C1BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunfall_Game.Editor.Plugins", "Sunfall_Game.Editor.Plugins.csproj", "{B72AA998-DDC0-B503-7EF8-5897CA1F4964}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunfall_Game.CSharp.Editor.Plugins", "Sunfall_Game.CSharp.Editor.Plugins.csproj", "{E8F2148F-08CD-57A4-A69D-420B94430807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1DB693B7-A3AA-25D3-A4AD-86664ADCE765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DB693B7-A3AA-25D3-A4AD-86664ADCE765}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DB693B7-A3AA-25D3-A4AD-86664ADCE765}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DB693B7-A3AA-25D3-A4AD-86664ADCE765}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FAA755BF-233C-B464-0090-A0999964A3D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAA755BF-233C-B464-0090-A0999964A3D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAA755BF-233C-B464-0090-A0999964A3D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAA755BF-233C-B464-0090-A0999964A3D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B72AA998-DDC0-B503-7EF8-5897CA1F4964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B72AA998-DDC0-B503-7EF8-5897CA1F4964}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B72AA998-DDC0-B503-7EF8-5897CA1F4964}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B72AA998-DDC0-B503-7EF8-5897CA1F4964}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0023294C-2E40-22A8-DB7F-1C830ADFDCD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0023294C-2E40-22A8-DB7F-1C830ADFDCD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0023294C-2E40-22A8-DB7F-1C830ADFDCD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0023294C-2E40-22A8-DB7F-1C830ADFDCD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC032551-F8DB-72C7-1945-F1CFC5A0C1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC032551-F8DB-72C7-1945-F1CFC5A0C1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC032551-F8DB-72C7-1945-F1CFC5A0C1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC032551-F8DB-72C7-1945-F1CFC5A0C1BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8F2148F-08CD-57A4-A69D-420B94430807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8F2148F-08CD-57A4-A69D-420B94430807}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8F2148F-08CD-57A4-A69D-420B94430807}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8F2148F-08CD-57A4-A69D-420B94430807}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

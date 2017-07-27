@@ -76,4 +76,8 @@ public class ShipAssignManager : MonoBehaviour
             Debug.LogWarning("Player is null");
         }
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+    }
 }

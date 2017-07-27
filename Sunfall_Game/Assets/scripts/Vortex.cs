@@ -27,9 +27,9 @@ public class Vortex : spawnable {
 	}
 
 	void Swallow(Ship ship){
-		ship.StartCoroutine(ship.Die ());
+        ship.GetComponent<PhotonView>().RPC("PUNDie", PhotonTargets.All);
 
-		GameObject ex;
+        GameObject ex;
 		ex = Instantiate(Splash, transform.position, Quaternion.identity) as GameObject;
 
 		if (ship.kills > 0) {
