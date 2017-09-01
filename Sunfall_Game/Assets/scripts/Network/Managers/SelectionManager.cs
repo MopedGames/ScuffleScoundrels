@@ -108,8 +108,8 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 {
                     if (!p.playing)
                     {
-                        if (Input.GetKey(p.ship.controls.shootLeft) || Input.GetKey(p.ship.controls.shootLeftAlt) || Input.GetKey(p.ship.controls.shootLeftKeyboard) ||
-                           Input.GetKey(p.ship.controls.shootRight) || Input.GetKey(p.ship.controls.shootRightAlt) || Input.GetKey(p.ship.controls.shootRightKeyboard))
+                        //    if (Input.GetKey(p.ship.controls.shootLeft) || Input.GetKey(p.ship.controls.shootLeftAlt) || Input.GetKey(p.ship.controls.shootLeftKeyboard) ||
+                        //       Input.GetKey(p.ship.controls.shootRight) || Input.GetKey(p.ship.controls.shootRightAlt) || Input.GetKey(p.ship.controls.shootRightKeyboard))
                         {
                             p.animator.Play("ActivatePlayer");
                             p.playsound.Play(0);
@@ -133,6 +133,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
             }
         }
     }
+
     public void Update()
     {
         //DealCards();
@@ -148,18 +149,21 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 decks[2].SetActive(false);
                 decks[3].SetActive(false);
                 break;
+
             case 2:
                 decks[0].SetActive(true);
                 decks[1].SetActive(true);
                 decks[2].SetActive(false);
                 decks[3].SetActive(false);
                 break;
+
             case 3:
                 decks[0].SetActive(true);
                 decks[1].SetActive(true);
                 decks[2].SetActive(true);
                 decks[3].SetActive(false);
                 break;
+
             case 4:
                 decks[0].SetActive(true);
                 decks[1].SetActive(true);
@@ -228,11 +232,13 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
         //}
     }
 
-    private void ReadyUp()
+    private void ReadyUp() // players say they are ready
     {
         if (Input.GetKeyUp(KeyCode.JoystickButton0))
         {
             photonView.RPC("PlayerReady", PhotonTargets.AllBuffered, PhotonNetwork.player.ID);
+            DealCards();
+
             foreach (GameObject go in currentPlayers)
             {
                 if (go.GetComponent<PhotonView>().ownerId == PhotonNetwork.player.ID)
@@ -246,7 +252,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
     [PunRPC]
     public void PlayerReady(int playerID)
     {
-        Debug.Log(playerID);
+        Debug.Log("Player" + playerID + " ready");
         foreach (GameObject go in currentPlayers)
         {
             if (go.GetComponent<PhotonView>().ownerId == playerID)
@@ -254,6 +260,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 go.GetComponent<Player>().ready = true;
             }
         }
+
         bool allReady = true;
         foreach (GameObject go in currentPlayers)
         {
@@ -262,9 +269,16 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 allReady = false;
             }
         }
+
         if (allReady /*&& currentPlayers.Count > 1*/)
         {
-            PhotonNetwork.LoadLevel("InGame1Players");
+            PhotonNetwork.LoadLevel(Launcher.Instance.InGameSceneName);
+            //PhotonNetwork.room.IsOpen = false;
+        }
+        else if (allReady && Launcher.Instance.TestVersion/*&& currentPlayers.Count > 1*/)
+        {
+            PhotonNetwork.LoadLevel(Launcher.Instance.InGameSceneName);
+            //PhotonNetwork.room.IsOpen = false;
         }
     }
 

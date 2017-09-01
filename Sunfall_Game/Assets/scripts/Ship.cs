@@ -291,7 +291,6 @@ public class Ship : MonoBehaviour
 
         if (currentStats.projectile != null)
         {
-
             if (!cannon.cannonOrigin)
             {
                 GetComponent<PhotonView>().RPC("LaunchProjectile", PhotonTargets.All, true, force, cannon.cannonTransform.position);
@@ -405,7 +404,7 @@ public class Ship : MonoBehaviour
             }
         }
     }
-    
+
     [PunRPC]
     public void PUNRemovePoint(PhotonMessageInfo info)
     {
@@ -434,8 +433,6 @@ public class Ship : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-
-
         if (coins.Length == 0)
         {
             pointText.text = kills.ToString();
@@ -455,6 +452,7 @@ public class Ship : MonoBehaviour
 
             //TrailOffset
             trail.material.SetTextureOffset("_MainTex", new Vector2(-1.25f * Time.time * currentStats.speed, 0f));
+
             TrailTurn();
 
             ////Shoot Cannons

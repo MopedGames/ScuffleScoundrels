@@ -484,34 +484,34 @@ public class PlayerSelection : MonoBehaviour
         //shipMenu.bannerOut.SetActive(false);
     }
 
-    private void StartGame()
-    {
-        /*AudioSource a = GameObject.Find ("Adventure Meme").GetComponent<AudioSource> ();
-        a.Play();*/
-        if (musicPlayer.currentSource != gameMusic)
-        {
-            musicPlayer.PlayWithFadeIn(gameMusic, 0.1f);
-        }
+    //private void StartGame()
+    //{
+    //    /*AudioSource a = GameObject.Find ("Adventure Meme").GetComponent<AudioSource> ();
+    //    a.Play();*/
+    //    if (musicPlayer.currentSource != gameMusic)
+    //    {
+    //        musicPlayer.PlayWithFadeIn(gameMusic, 0.1f);
+    //    }
 
-        fuse.Play();
+    //    fuse.Play();
 
-        //PlayAudioAtInterval playA = FindObjectOfType<PlayAudioAtInterval> ();
-        //playA.enabled = false;
-        //audio.Stop();
+    //    //PlayAudioAtInterval playA = FindObjectOfType<PlayAudioAtInterval> ();
+    //    //playA.enabled = false;
+    //    //audio.Stop();
 
-        menuCanvas.active = false;
-        gameCanvas.active = true;
-        Camera.main.depth = 2f;
-        Camera.main.GetComponent<Animation>().Play();
-        powerUps.enabled = true;
+    //    menuCanvas.active = false;
+    //    gameCanvas.active = true;
+    //    Camera.main.depth = 2f;
+    //    Camera.main.GetComponent<Animation>().Play();
+    //    powerUps.enabled = true;
 
-        foreach (Player p in players)
-        {
-            p.scoreBoard.active = p.playing;
-            if (p.playing)
-            {
-                p.ship.Spawn();
-            }
-        }
-    }
+    //    foreach (Player p in players)
+    //    {
+    //        p.scoreBoard.active = p.playing;
+    //        if (p.playing)
+    //        {
+    //            p.ship.Spawn();
+    //        }
+    //    }
+    //}
 }

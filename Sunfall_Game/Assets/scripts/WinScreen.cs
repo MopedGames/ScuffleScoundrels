@@ -44,7 +44,6 @@ public class WinScreen : MonoBehaviour
     public SpriteRenderer skull;
     public TextMesh[] texts;
 
-
     private void Start()
     {
         pauseCanvas.gameObject.SetActive(false);
@@ -97,7 +96,7 @@ public class WinScreen : MonoBehaviour
                 s.suddenDeath = true;
             }
 
-            ShipAssignManager.Instance.SuddenDeathInit(shipAlive.ToArray());
+            GameStatusManager.Instance.SuddenDeathInit(shipAlive.ToArray());
         }
         else
         {
@@ -141,7 +140,7 @@ public class WinScreen : MonoBehaviour
         gameCanvas.SetActive(false);
         StartCoroutine(endSequence(winScreen, winner));
 
-        foreach (Player p in ShipAssignManager.Instance.players)
+        foreach (Player p in GameStatusManager.Instance.players)
         {
             p.ship.alive = false;
             p.ship.transform.position = Vector3.one * 100f;
@@ -163,7 +162,7 @@ public class WinScreen : MonoBehaviour
 
         float points = 0;
         Sprite skullsSprite = skull.sprite;
-        foreach (Player p in ShipAssignManager.Instance.players)
+        foreach (Player p in GameStatusManager.Instance.players)
         {
             if (p.ship.kills > points)
             {
@@ -174,8 +173,8 @@ public class WinScreen : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.30f);
-        ShipAssignManager.Instance.fuse.fuseLight.gameObject.SetActive(false);
-        ShipAssignManager.Instance.fuse.transform.parent.gameObject.SetActive(false);
+        GameStatusManager.Instance.fuse.fuseLight.gameObject.SetActive(false);
+        GameStatusManager.Instance.fuse.transform.parent.gameObject.SetActive(false);
         foreach (TextMesh t in texts)
         {
             t.text = winner + " Wins!";
@@ -208,14 +207,14 @@ public class WinScreen : MonoBehaviour
 
         yield return null;
 
-        ShipAssignManager.Instance.fuse.fuseLight.gameObject.SetActive(true);
-        ShipAssignManager.Instance.fuse.transform.parent.gameObject.SetActive(true);
+        GameStatusManager.Instance.fuse.fuseLight.gameObject.SetActive(true);
+        GameStatusManager.Instance.fuse.transform.parent.gameObject.SetActive(true);
 
         bool goBack = false;
 
         while (!goBack)
         {
-            foreach (Player p in ShipAssignManager.Instance.players)
+            foreach (Player p in GameStatusManager.Instance.players)
             {
                 if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return))
                 {
@@ -321,7 +320,6 @@ public class WinScreen : MonoBehaviour
             {
                 if (s == null)
                 {
-
                 }
             }
             if (!winState && !pause)

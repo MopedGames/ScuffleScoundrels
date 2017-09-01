@@ -23,12 +23,6 @@ public class Launcher : PunBehaviourManager<Launcher>
     [SerializeField, Tooltip("How much information is kept by the network")]
     private PhotonLogLevel logLevel = PhotonLogLevel.Informational;
 
-    //[SerializeField, Tooltip("The ui panel to let the user enter name, connect to player")]
-    //private GameObject controlPanel;
-
-    //[SerializeField, Tooltip("The ui label to inform the user that the connection is in progress")]
-    //private GameObject progressLabel;
-
     /// <summary>
     /// keep track of the current process. Since connection is asynchronous and is based on several callbacksfrom photon
     /// we need to keep track of this to properly adjust the behaviour when we recieve call back by photon
@@ -36,7 +30,32 @@ public class Launcher : PunBehaviourManager<Launcher>
     /// </summary>
     private bool isConnecting;
 
+    [Header("Network options")]
+    [SerializeField, Tooltip("set photon to join rooms offline rather than trying to join online multiplayer")]
+    private bool manualOfflineMode;
+
+    [SerializeField, Tooltip("Set this to true if you want to load specific scenes based on your personal game version ex. AGSInGameLevel (AGS = the gameversion) - must rename your scene as AGSInGameLevel to correspond to the loaded level ")]
+    private bool testVersion;
+
+    [Header("Scenes To Load")]
+    [SerializeField, Tooltip("the MainMenu - the starting point for any interaction with the network")]
+    private string launcherSceneName;
+
+    [SerializeField, Tooltip("The scene we show the players who are waiting to join a game")]
+    private string waitingRoomSceneName;
+
+    [SerializeField, Tooltip("the main in game scene - where the players play the game")]
+    private string inGameSceneName;// alternately if different maps are added, this could be a list of "ingamescenes" picked at random
+
     public string GameVersion { get { return gameVersion; } }
+
+    public bool TestVersion { get { return testVersion; } }
+
+    public string LauncherSceneName { get { return launcherSceneName; } }
+
+    public string WaitingRoomSceneName { get { return waitingRoomSceneName; } }
+
+    public string InGameSceneName { get { return inGameSceneName; } }
 
     protected override void Awake()
     {
@@ -52,10 +71,10 @@ public class Launcher : PunBehaviourManager<Launcher>
 
     private void Start()
     {
-        //PhotonNetwork.offlineMode = true; //CMT
-
-        //progressLabel.SetActive(false);
-        //controlPanel.SetActive(true);,
+        if (manualOfflineMode)
+        {
+            PhotonNetwork.offlineMode = true; //CMT
+        }
 
         Cursor.visible = true;
     }
@@ -69,10 +88,8 @@ public class Launcher : PunBehaviourManager<Launcher>
     {
         // keep track of the will to join a rooom, because when we come back from a game we will get a callback that we are connected, so we need to know what to do then..
         isConnecting = true;
-        //progressLabel.SetActive(true);
-        //controlPanel.SetActive(false);
 
-        if (PhotonNetwork.connected || PhotonNetwork.offlineMode)
+        if (PhotonNetwork.connected /*|| PhotonNetwork.offlineMode*/) //CMT
         {
             // we need this point to attempt joining a random room. if it fails we'll get notified in OnPhotonRandomJoinFailed(), and we'll create a room
             PhotonNetwork.JoinRandomRoom();
@@ -101,15 +118,17 @@ public class Launcher : PunBehaviourManager<Launcher>
     public override void OnDisconnectedFromPhoton()
     {
         Debug.LogWarning("OnDisconnectedFromPhoton() was called by PUN");
-
-        //progressLabel.SetActive(false);
-        //controlPanel.SetActive(true);
     }
 
     public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
     {
         Debug.Log("OnPhotonRoomJoinFailed() was called by PUN. No room available, so we create one. \nCalling: PhotonNetwork.Createroom(null, new RoomOptions() {maxPlayers = 2},null;");
-        //PhotonNetwork.offlineMode = true; // CMT
+
+        if (manualOfflineMode)
+        {
+            PhotonNetwork.offlineMode = true; //CMT
+        }
+
         // we failed to join the random room, maybe none exist or they are all full. No worries, we'll create a new one
         PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = maxPlayersPerRoom }, null); //TODO; moar players
     }
@@ -118,16 +137,17 @@ public class Launcher : PunBehaviourManager<Launcher>
     {
         Debug.Log("OnJoinedRoom() called by PUN, now this client is in a room");
 
-        //we only load if we are the first player , else we rely on photonnetwork.automaticallySyncScene to sync our instance scene
-        if (PhotonNetwork.room.PlayerCount == 1)
+        if (testVersion)
         {
-            PhotonNetwork.LoadLevel("Selection");
-            //PhotonNetwork.LoadLevel(gameVersion + "LevelFor1"); // change if scene name changes
+            PhotonNetwork.LoadLevel(gameVersion + waitingRoomSceneName);
         }
-        if (PhotonNetwork.room.PlayerCount == 2)
+        else
         {
-            //PhotonNetwork.LoadLevel(gameVersion + "LevelFor2");
+            PhotonNetwork.LoadLevel(waitingRoomSceneName); // load selection scene "waitingforplayersoom
         }
+
+        // alternatively insert direct load of ingame level if the PhotonNetwork.Room.PlayerCount == maxplayers
+        // that way there will be no "ready check" but games will start when there are enough players
     }
 
     public void Update()
@@ -135,6 +155,10 @@ public class Launcher : PunBehaviourManager<Launcher>
         if (Input.GetKeyUp(KeyCode.KeypadEnter) || Input.GetKeyUp(KeyCode.Return))
         {
             Connect();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
 }

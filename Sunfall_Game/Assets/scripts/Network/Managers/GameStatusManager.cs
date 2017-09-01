@@ -1,226 +1,242 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class GameStatusManager : PhotonManager<GameStatusManager>
+/// <summary>
+/// Overall game logic and ship assignment
+/// </summary>
+public class GameStatusManager : PunBehaviourManager<GameStatusManager>
 {
-    [SerializeField, Tooltip("Players currently active in the scene")]
-    private List<GameObject> currentPlayers;
+    public fuse fuse;
+    public PowerUpSpawner powerUps;
+    public WinScreen winscreen;
 
-    [SerializeField, Tooltip("The number of players needed to play the game in this scene / map")]
-    private int numberOfPlayers = 2;
+    public List<RectTransform> playerCanvass = new List<RectTransform>();
 
-    [SerializeField, Tooltip("Delay before starting the end game animation")]
-    private float gameOverFadeDelay = 0.2f;
+    public bool suddenDeath;
 
-    private bool gameIsStarted = false;
-    private bool gameIsOver = false;
+    public float gameTimer = 120f;
 
-    [SerializeField, Tooltip("Remaining players after a check, who ever needs to see the end game animation")]
-    private List<GameObject> remainingPlayers;
+    public List<Player> players = new List<Player>();
+    public List<Ship> ships = new List<Ship>();
 
-    private GameObject removedPlayer;
-    private GameObject neutralPlayer;
-    private string winnerUserName = "No One";
-    private int winnerTeamNumber = 0;
+    public int readyPlayers = 0;
 
-    // is the game over?
-    public bool GameIsOver
-    { get { return gameIsOver; } set { gameIsOver = value; } }
-
-    /// <summary>
-    /// the players in the game.
-    /// </summary>
-    public List<GameObject> Players
-    { get { return currentPlayers; } set { currentPlayers = value; } }
-
-    /// <summary>
-    /// the number of players allowed in the level
-    /// </summary>
-    public int NumberOfPlayers
-    { get { return numberOfPlayers; } }
-
-    /// <summary>
-    /// the time before the player list is checked for whether or not the game should end.
-    /// </summary>
-    public float GameOverFadeDelay
-    { get { return gameOverFadeDelay; } set { gameOverFadeDelay = value; } }
-
-    public bool GameIsStarted
-    { get { return gameIsStarted; } set { gameIsStarted = value; } }
-
+    // Use this for initialization
     private void Start()
     {
-        gameIsStarted = false;
+        if (winscreen == null)
+        {
+            winscreen = FindObjectOfType<WinScreen>();
+        }
     }
 
-    private void Update()
+    public void OnLevelWasLoaded()
     {
-        if (PhotonNetwork.playerList.Length >= numberOfPlayers) // make sure we run it after the players are all instantiated //toDO make this dynamic with connection handler
-        {
-            if (gameIsStarted == false) // make sure we only run it once
-            {
-                GameObject[] checkPlayers = GameObject.FindGameObjectsWithTag("Player"); // temporary list of players to make sure not to start anything before everyone is ready
+        MakeReady();
+    }
 
-                if (checkPlayers.Length == numberOfPlayers) // is everyone here?
+    [PunRPC]
+    public void MakeReady()
+    {
+        foreach (Player p in FindObjectsOfType<Player>())
+        {
+            players.Add(p);
+            {
+                if (p.GetComponent<PhotonView>().isMine)
                 {
-                    photonView.RPC("GameStarted", PhotonTargets.AllBuffered); // lets start it UUUP!
+                    p.ship = PhotonNetwork.Instantiate(p.shipPrefab.name, p.shipPrefab.transform.position, p.shipPrefab.transform.rotation, 0).GetComponent<Ship>();
+                    photonView.RPC("SpawnShip", PhotonTargets.AllBuffered, p.GetComponent<PhotonView>().ownerId);
+                    p.ship.currentStats.speed = 0;
+                    photonView.RPC("StartGame", PhotonTargets.AllBuffered);
                 }
             }
         }
     }
-    /// <summary>
-    /// Run at the start of the game
-    /// </summary>
+
     [PunRPC]
-    public void GameStarted()
+    public void StartGame()
     {
-        if (remainingPlayers.Count >= 1)
-        {
-            remainingPlayers.Clear(); // clear the lists to start fresh
-        }
-        currentPlayers.Clear();
-        currentPlayers.AddRange(GameObject.FindGameObjectsWithTag("Player")); // find the players
+        readyPlayers++;
 
-        if (currentPlayers.Count == numberOfPlayers)
+        if (readyPlayers == PhotonNetwork.playerList.Length)
         {
-            foreach (var p in currentPlayers) // run though them
+            if (PhotonNetwork.isMasterClient)
             {
-                Player player = p.GetComponent<Player>(); // for ease of use.
+                // TODO : add upstart sequence 3... 2... 1... START
+                suddenDeath = false;
 
-                //if (!p.GetComponentInChildren<Town>())
-                //{
-                //    player.CreateTown(); // create our home town. // give the player a place to live
-                //}
+                //fuse.Play();
+                powerUps.enabled = true;
+                //Debug.Log("I'm 'ere!");
+
+                fuse.GetComponent<PhotonView>().RPC("Play", PhotonTargets.AllBufferedViaServer);
+
+                PhotonNetwork.room.IsOpen = false;
             }
-            gameIsStarted = true; // now that everything is ready the game is started.
+
+            foreach (Player p in players)
+            {
+                if (p.GetComponent<PhotonView>().isMine)
+                {
+                    p.ship.currentStats.speed = 4;
+                }
+            }
+            Debug.Log(readyPlayers + " players ready, set, GO!");
         }
-        if (currentPlayers.Count == numberOfPlayers /*&& DestinctionHandler.Instance.IsPositioned && gameIsStarted*/)
+        else
         {
-            StartCoroutine(Delay(.2f)); // start delay which checks the players.
+            Debug.Log(readyPlayers + " players ready");
+            // TODO: loading screeen
         }
     }
-    /// <summary>
-    /// Game is over, who won? start the animation.
-    /// </summary>
-    /// <param name="winnerName">name of the winning player</param>
-    /// <param name="winnerNumber"> winning players number</param>
-    //[PunRPC]
-    //public void GameOver(string winnerName, int winnerNumber)
-    //{
-    //    remainingPlayers.AddRange(GameObject.FindGameObjectsWithTag("Player")); // find all players. ( even people who died)
 
-    //    foreach (var p in remainingPlayers)
-    //    {
-    //        if (p.GetComponent<PhotonView>().isMine)
-    //        {
-    //            p.GetComponent<Player>().GameOverPnl.SetActive(true); // gameoverpnl is activated
-
-    //            p.GetComponentInChildren<GameOver>().gameObject.GetComponent<Animator>().SetBool("GameOver", true); // set the bool to start the animation
-    //            if (winnerNumber != 0) // if the winner is a player
-    //            {
-    //                p.GetComponentInChildren<GameOver>().GameOverTxt.text = winnerName + "(Player " + winnerNumber + ")" + " Wins the Game"; // txt for the end screen
-    //            }
-    //            else
-    //            {
-    //                p.GetComponentInChildren<GameOver>().GameOverTxt.text = "Computer wins!";
-    //            }
-    //        }
-    //    }
-
-    //    GameIsOver = true; // game is over.
-    //}
-
-    /// <summary>
-    /// check if the players are present and accounted for and they have a place to live.
-    /// </summary>
-    [PunRPC]
-    public void CheckPlayers()
+    // Update is called once per frame
+    private void Update()
     {
-        //foreach (var p in currentPlayers) // run through the active players ( after the removal process)
+        //if (!suddenDeath)
         //{
-        //if (!p.GetComponentInChildren<Town>()) // if the player doesnt has a hometown
-        //{
-        //    CleanupPlayerList(p.GetComponent<PhotonView>().ownerId);
-        //    break;
-        //}
-        //    if (currentPlayers.Count == 1 && numberOfPlayers != 1) // only one guy left;
-        //    {
-        //        if (p.GetComponentInChildren<Town>()) // if the player has a town
-        //        {
-        //            winnerUserName = p.GetComponent<Player>().Username; // set him as winner
-        //            winnerTeamNumber = p.GetComponent<Player>().TeamNumber;
-        //        }
-        //        if (PhotonNetwork.isMasterClient)
-        //        {
-        //            photonView.RPC("GameOver", PhotonTargets.AllBuffered, winnerUserName, winnerTeamNumber);// game over yo.
-        //        }
+        //    gameTimer -= Time.deltaTime;
 
-        //        break;
+        //    foreach (Ship s in ships)
+        //    {
+        //        if (s.kills >= 10)
+        //        {
+        //            winState = true;
+        //            timer = 0f;
+        //            gameTimer = 90f;
+        //            ShowScreen();
+        //        }
+        //    }
+
+        //    if (gameTimer < 0)
+        //    {
+        //        CheckForSuddenDeath();
         //    }
         //}
-        if (currentPlayers.Count == 0 && numberOfPlayers == 1 || currentPlayers.Count == 0 && SceneManagerHelper.ActiveSceneName == ConnectionHandler.CHInstance.LevelForOneName) // levelforOne testing case
-        {
-            winnerUserName = "Computer"; // set him as winner
-            winnerTeamNumber = 0;
-            if (PhotonNetwork.isMasterClient) // game over yo.
-            {
-                photonView.RPC("GameOver", PhotonTargets.AllBuffered, winnerUserName, winnerTeamNumber);
-            }
-        }
+        //else if (suddenDeath)
+        //{
+        //    int alive = 0;
+        //    Ship lastStanding = null;
+        //    foreach (Ship s in ships)
+        //    {
+        //        if (s.alive)
+        //        {
+        //            lastStanding = s;
+        //            alive++;
+        //        }
+        //    }
+        //    if (alive <= 1)
+        //    {
+        //        lastStanding.kills += 2;
+        //        winState = true;
+        //        timer = 0f;
+        //        gameTimer = 90f;
+        //        ShowScreen();
+        //    }
+        //}
     }
-    /// <summary>
-    /// reset the level to its natural neutral state ( give back turncoats etc to the neutral player)
-    /// </summary>
-    //public void ResetLevel()
-    //{
-    //    TurncoatBuilding[] neutralBuildingsToReturn = removedPlayer.GetComponentsInChildren<TurncoatBuilding>(); // make an array of the players we need to give back from the removed player (player who lost)
-    //    Buildings b = neutralPlayer.GetComponentInChildren<Buildings>(); // where the buildings are going
 
-    //    foreach (var nB in neutralBuildingsToReturn)
-    //    {
-    //        nB.GetComponent<PhotonView>().TransferOwnership(neutralPlayer.GetComponent<PhotonView>().ownerId); // change owner to the scene
-    //        nB.transform.parent = neutralPlayer.GetComponentInChildren<Buildings>().transform; // change it in the heirachy
-    //        DestinctionHandler.Instance.SetColor(); // change the colour to neutral
-    //        nB.UnderControl = false; // make sure it is no longer under player control
-    //    }
-    //}
-    /// <summary>
-    /// delay the player check, adds time between player losing his town and running the end game animation
-    /// </summary>
-    /// <param name="delay"></param>
-    /// <returns></returns>
-    public IEnumerator Delay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (PhotonNetwork.isMasterClient)
-        {
-            photonView.RPC("CheckPlayers", PhotonTargets.All);
-        }
-    }
-    /// <summary>
-    /// cleanup the list of current players, either after they leave or they die.
-    /// </summary>
-    /// <param name="id">id of the player who needs to be removed</param>
     [PunRPC]
-    public void CleanupPlayerList(int id)
+    private void SpawnShip(int id)
     {
-        foreach (var p in currentPlayers)
+        Player p = null;
+        foreach (Player player in FindObjectsOfType<Player>())
         {
-            if (p.GetComponent<PhotonView>().ownerId == id)
+            if (player.GetComponent<PhotonView>().ownerId == id)
             {
-                removedPlayer = p;
-                currentPlayers.Remove(p); // remove him from the active players
-                //ResetLevel(); // reset the level - i.e. give back their buildings etc.
-                break;
+                p = player;
             }
         }
-        photonView.RPC("CheckPlayers", PhotonTargets.All); // rerun checkplayers. to see if twe need to end the game.
+        if (p != null)
+        {
+            foreach (Ship s in FindObjectsOfType<Ship>())
+            {
+                if (s.GetComponent<PhotonView>().ownerId == id)
+                {
+                    p.ship = s;
+                }
+            }
+            if (p.ship != null)
+            {
+                ships.Add(p.ship);
+                winscreen.ships = ships.ToArray();
+
+                p.ship.Spawn();
+                p.ship.controls.axis = "Horizontal_Red";
+                p.scoreBoard = playerCanvass[p.ship.id].gameObject;
+                p.scoreBoard.SetActive(true);
+                int counter = 0;
+
+                foreach (Image i in p.scoreBoard.GetComponentsInChildren<Image>())
+                {
+                    if (i.name.Contains("coin"))
+                    {
+                        p.ship.coins[counter] = i;
+                        i.GetComponent<RectTransform>().localScale = Vector3.zero;
+                        counter++;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Player is null");
+        }
+    }
+
+    public void SuddenDeathInit(Ship[] shipsAlive)
+    {
+        foreach (Ship s in shipsAlive)
+        {
+            s.invulnerable = true;
+        }
+        StartCoroutine(suddenDeathEnumartor(shipsAlive));
+    }
+
+    private IEnumerator suddenDeathEnumartor(Ship[] shipsAlive)
+    {
+        //blingAnimation.gameObject.SetActive(true);
+        //blingAnimation.Play("Bling");
+        yield return new WaitForSeconds(0.30f);
+        //fuse.fuseLight.gameObject.SetActive(false);
+        //fuse.transform.parent.gameObject.SetActive(false);
+        //foreach (TextMesh t in texts)
+        //{
+        //    t.text = "SUDDEN DEATH";
+        //}
+
+        //yield return new WaitForSeconds(1.7f);
+
+        //foreach (TextMesh t in texts)
+        //{
+        //    t.text = "";
+        //}
+
+        //foreach (Ship s in shipsAlive)
+        //{
+        //    s.invulnerable = false;
+        //    s.transform.position = s.startPos;
+        //    s.transform.rotation = s.startRot;
+        //}
+
+        //blingAnimation.gameObject.SetActive(false);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        //if (stream.isWriting /*&& PhotonNetwork.isMasterClient*/)
+        //{
+        //    stream.SendNext(readyPlayers);
+        //    //stream.SendNext(fuseLight.transform.position.x);
+        //    //stream.SendNext(fuseLight.transform.position.y);
+        //}
+        //else
+        //{
+        //    readyPlayers = (int)stream.ReceiveNext();
+        //    //fuseLight.transform.position.x = (float)stream.ReceiveNext();
+        //}
     }
 }

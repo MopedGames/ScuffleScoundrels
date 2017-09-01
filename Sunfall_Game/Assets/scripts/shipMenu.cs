@@ -104,8 +104,6 @@ public class shipMenu : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        ConnectToRoom();
-
         panAnimation.Play("pan_panning");
 
         yield return new WaitForSeconds(1.5f);
@@ -114,6 +112,7 @@ public class shipMenu : MonoBehaviour
         //playerselection.startScreen = 1; -- go to player Selection scene
         yield return new WaitForSeconds(0.1f);
         panAnimation.Play("pan_stopped");
+        ConnectToRoom();
     }
 
     public void ConnectToRoom()

@@ -87,7 +87,6 @@ public class Player : MonoBehaviour, IPunObservable
         }
     }
 
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
     }

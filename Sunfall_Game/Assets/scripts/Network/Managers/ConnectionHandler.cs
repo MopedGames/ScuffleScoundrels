@@ -9,36 +9,28 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     [SerializeField, Tooltip("tick to show the full debug log from before the players joined the game")]
     private bool showPUNStartup = false;
 
-    private string levelForOneName;
-    private string levelForTwoName;
-
     [SerializeField, Tooltip("The player")]
     private GameObject playerPrefab;
-
-    static public ConnectionHandler CHInstance;
-    private GameObject instance;
 
     [SerializeField]
     private Launcher launcher = Launcher.Instance;
 
-    public Launcher Launcher { get { return launcher; } }
-
-    public string LevelForOneName { get { return levelForOneName; } }
-
-    public string LevelForTwoName { get { return levelForTwoName; } }
-
     private void Start()
     {
-        //levelForOneName = launcher.GameVersion + "LevelFor1";
-        //levelForTwoName = launcher.GameVersion + "LevelFor2";
-
-        CHInstance = this;
         Debug.Log("Game Version Loaded: " + launcher.GameVersion);
 
         if (!PhotonNetwork.connected)
         {
-            SceneManager.LoadScene("OnlineMenu");
-            return;
+            if (launcher.TestVersion)
+            {
+                SceneManager.LoadScene(launcher.GameVersion + launcher.LauncherSceneName);
+                return;
+            }
+            else
+            {
+                SceneManager.LoadScene(launcher.LauncherSceneName);
+                return;
+            }
         }
         if (playerPrefab == null)
         {
@@ -48,27 +40,20 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
         {
             if (LocalHandler.LocalIntance == null)
             {
-                //if (GameStatusManager.Instance)
-                {
-                    Debug.Log("We are instantiating the LocalPlayer from " + SceneManagerHelper.ActiveSceneName); //TODO: write better version- (non obsoletee)
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0, 0, 0), Quaternion.identity, 0);
-                    photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered); // lets start it UUUP!
-                    //FindObjectOfType<SelectionManager>().currentPlayers.Add(go.GetComponent<Player>());
+                Debug.Log("We are instantiating the LocalPlayer from " + SceneManagerHelper.ActiveSceneName); //TODO: write better version- (non obsoletee)
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0, 0, 0), Quaternion.identity, 0);
+                photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered); // lets start it UUUP!
 #if UNITY_EDITOR
-                    if (!showPUNStartup)
-                    {
-                        DevMan.Instance.ClearDebug(); // Clear Debug if everything is loaded properly
-                    }
-#endif
+                if (!showPUNStartup)
+                {
+                    DevMan.Instance.ClearDebug(); // Clear Debug if everything is loaded properly
                 }
+#endif
             }
             else
             {
                 Debug.Log("Ignoring scene load for " + SceneManagerHelper.ActiveSceneName);
             }
-            //playerPrefab.GetComponent<PhotonView>().RPC("SetPlayerDistinction", PhotonTargets.AllBufferedViaServer);
-
-            // we are in a rooom. spawn the player. it gets synced by using PhotonNetwork.Instantiate
         }
     }
 
@@ -80,7 +65,15 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
         // "back" button of phone equals "Escape". quit app if that's pressed
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            QuitApplication();
+            //QuitApplication(); //CMT: if leaving the whole game is what you want, this should only be available in the main menu
+            if (launcher.TestVersion)
+            {
+                PhotonNetwork.LoadLevel(launcher.GameVersion + launcher.LauncherSceneName); //
+            }
+            else
+            {
+                PhotonNetwork.LoadLevel(launcher.LauncherSceneName); //
+            }
         }
     }
 
@@ -91,10 +84,13 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
             Debug.LogError("PhotonNetwork : Trying to load a level but we are not the master client");
         }
 
-        Debug.Log("PhotonNetwork : Loading Level : " + PhotonNetwork.room.PlayerCount);
+        //Debug.Log("PhotonNetwork : Loading Level : " + PhotonNetwork.room.PlayerCount); // debug log meant to show which level is being loaded
         //PhotonNetwork.LoadLevel(launcher.GameVersion + "LevelFor" + PhotonNetwork.room.PlayerCount); // TODO: Name scenes loaded by the lobby properly like this. or make it serialized
     }
 
+    /// <summary>
+    /// add the players that have joined to a list of players in the selection manager so we can give them their ship
+    /// </summary>
     [PunRPC]
     public void AddPlayerToList()
     {
@@ -108,10 +104,6 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
         Debug.Log("OnPhotonPlayerConnected() " + newPlayer.NickName);
-
-        //SelectionManager.Instance.photonPlayers.Add(newPlayer);
-
-
 
         if (PhotonNetwork.isMasterClient)
         {
@@ -144,7 +136,16 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
 
         base.OnLeftRoom();
 
-        SceneManager.LoadScene(0);
+        if (launcher.TestVersion)
+        {
+            SceneManager.LoadScene(launcher.GameVersion + launcher.LauncherSceneName);
+            return;
+        }
+        else
+        {
+            SceneManager.LoadScene(launcher.LauncherSceneName);
+            return;
+        }
     }
 
     public void LeaveRoom()
@@ -163,10 +164,5 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //throw new NotImplementedException();
-    }
-
-    public void hej()
-    {
-        Debug.Log("hej");
     }
 }
