@@ -50,6 +50,7 @@ public class PowerUpSpawner : MonoBehaviour
             {
                 spawned.OnSpawn();
             }
+            GetComponent<PhotonView>().RPC("PUNOnSpawn", PhotonTargets.All, crate, spawnPos);
 
             active.Add(crate);
             pool.Remove(crate);
@@ -68,12 +69,18 @@ public class PowerUpSpawner : MonoBehaviour
         pool.Add(crate);
         active.Remove(crate);
         crate.SetActive(false);
+        GetComponent<PhotonView>().RPC("PUNOnDespawn", PhotonTargets.All, crate);
     }
+
+    
 
     private void Start()
     {
-        Fillpool();
-        selection = FindObjectOfType<PlayerSelection>();
+        if (PhotonNetwork.isMasterClient)
+        {
+            Fillpool();
+        }
+        //selection = FindObjectOfType<PlayerSelection>();
     }
 
     private void Fillpool()
@@ -83,7 +90,7 @@ public class PowerUpSpawner : MonoBehaviour
             int i = 0;
             while (i < p.amount)
             {
-                GameObject crate = (GameObject)Instantiate(p.powerup, poolPos, Quaternion.identity);
+                GameObject crate = (GameObject)PhotonNetwork.Instantiate(p.powerup.name, poolPos, Quaternion.identity, 0);
 
                 pool.Add(crate);
                 i++;
@@ -94,20 +101,21 @@ public class PowerUpSpawner : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (selection)
+        //if (selection)
+        //{
+        //    if (selection.isPlaying)
+        //{
+        if (PhotonNetwork.isMasterClient)
         {
-            if (selection.isPlaying)
+            Transform[] children = GetComponentsInChildren<Transform>();
+            if (children.Length < maxCrates)
             {
-                Transform[] children = GetComponentsInChildren<Transform>();
-                if (children.Length < maxCrates)
-                {
-                    timer += Time.deltaTime;
-                }
-                if (timer >= waitTime)
-                {
-                    timer = 0f;
-                    StartCoroutine(SpawnRequest());
-                }
+                timer += Time.deltaTime;
+            }
+            if (timer >= waitTime)
+            {
+                timer = 0f;
+                StartCoroutine(SpawnRequest());
             }
         }
     }

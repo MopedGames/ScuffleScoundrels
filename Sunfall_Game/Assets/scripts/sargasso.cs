@@ -21,7 +21,7 @@ public class sargasso : spawnable {
 
     public override void OnSpawn()
     {
-       
+        base.OnSpawn();
         foreach (Transform sarg in subSargasso)
         {
             sarg.eulerAngles = new Vector3(0f,Random.Range(0f,359f),0f);
@@ -30,9 +30,9 @@ public class sargasso : spawnable {
 
 	public override void OnDespawn(){
 
-		foreach (Ship s in ships) {
+        base.OnDespawn();
+        foreach (Ship s in ships) {
 			s.ExitSargasso ();
-
 		}
 	}
 
