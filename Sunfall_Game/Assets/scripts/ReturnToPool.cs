@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ReturnToPool : MonoBehaviour {
+public class ReturnToPool : MonoBehaviour
+{
 
     public float timeToReturn;
     public float timeToFade;
@@ -14,13 +15,22 @@ public class ReturnToPool : MonoBehaviour {
         spawner = FindObjectOfType<PowerUpSpawner>();
     }
 
-	// Use this for initialization
-	public void StartTimer () {
-        timer = timeToReturn;
-        fadeTime = timeToFade;
-        StartCoroutine(Timer());
+    // Use this for initialization
+    public void StartTimer()
+    {
+        GetComponent<PhotonView>().RPC("PUNStartTimer", PhotonTargets.All);
     }
 
+    [PunRPC]
+    public void PUNStartTimer(PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            timer = timeToReturn;
+            fadeTime = timeToFade;
+            StartCoroutine(Timer());
+        }
+    }
 
     IEnumerator Timer()
     {
@@ -62,7 +72,7 @@ public class ReturnToPool : MonoBehaviour {
 
         spawner.Despawn(gameObject);
         spawnable spawned = gameObject.GetComponent<spawnable>();
-        if(spawned != null)
+        if (spawned != null)
         {
             spawned.OnDespawn();
         }

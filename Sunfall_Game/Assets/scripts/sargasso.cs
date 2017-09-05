@@ -2,68 +2,99 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class sargasso : spawnable {
+public class sargasso : spawnable
+{
 
-	public float speed = 1f;
-	public float steering = 20f;
-	public AudioClip audio;
+    public float speed = 1f;
+    public float steering = 20f;
+    public AudioClip audio;
 
-	private AudioSource audiosource;
+    private AudioSource audiosource;
 
-	private List<Ship> ships = new List<Ship>();
+    private List<Ship> ships = new List<Ship>();
 
     public Transform[] subSargasso;
 
-	void Awake () {
-		audiosource = Camera.main.GetComponent<AudioSource> ();
+    void Awake()
+    {
+        audiosource = Camera.main.GetComponent<AudioSource>();
 
-	}
+    }
 
     public override void OnSpawn()
     {
         base.OnSpawn();
-        foreach (Transform sarg in subSargasso)
+        if (PhotonNetwork.isMasterClient)
         {
-            sarg.eulerAngles = new Vector3(0f,Random.Range(0f,359f),0f);
+            int counter = 0;
+            foreach (Transform sarg in subSargasso)
+            {
+                float rndFloat = Random.Range(0f, 359f);
+                sarg.eulerAngles = new Vector3(0f, rndFloat, 0f);
+                GetComponent<PhotonView>().RPC("SetSubSargs", PhotonTargets.Others, rndFloat, counter);
+                counter++;
+            }
         }
     }
 
-	public override void OnDespawn(){
+    [PunRPC]
+    public void SetSubSargs(float rndFloat, int counter, PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            subSargasso[counter].eulerAngles = new Vector3(0f, rndFloat, 0f);
+        }
+    }
 
+    public override void OnDespawn()
+    {
+
+        foreach (Ship s in ships)
+        {
+            s.ExitSargasso();
+        }
         base.OnDespawn();
-        foreach (Ship s in ships) {
-			s.ExitSargasso ();
-		}
-	}
+    }
 
-	public void OnTriggerEnter (Collider col) {
+    public override void DisableThings()
+    {
+        base.DisableThings();
 
-		Ship ship = col.gameObject.GetComponent<Ship>();
-		if(ship != null){
+    }
 
-			//Give ship PowerUp
-			audiosource.clip = audio;
-			audiosource.Play();
 
-			ship.EnterSargasso (speed, steering);
+    public void OnTriggerEnter(Collider col)
+    {
 
-			//add ship
-			ships.Add(ship);
-		}
+        Ship ship = col.gameObject.GetComponent<Ship>();
+        if (ship != null)
+        {
 
-	}
+            //Give ship PowerUp
+            audiosource.clip = audio;
+            audiosource.Play();
 
-	public void OnTriggerExit (Collider col) {
+            ship.EnterSargasso(speed, steering);
 
-		Ship ship = col.gameObject.GetComponent<Ship>();
-		if(ship != null){
-			ship.ExitSargasso ();
+            //add ship
+            ships.Add(ship);
+        }
 
-			//add ship
-			ships.Remove(ship);
+    }
 
-		}
+    public void OnTriggerExit(Collider col)
+    {
 
-	}
+        Ship ship = col.gameObject.GetComponent<Ship>();
+        if (ship != null)
+        {
+            ship.ExitSargasso();
+
+            //add ship
+            ships.Remove(ship);
+
+        }
+
+    }
 
 }

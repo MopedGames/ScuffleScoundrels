@@ -179,6 +179,20 @@ public class Ship : MonoBehaviour
         material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
     }
 
+    [PunRPC]
+    public void PUNGivePowerUps(int photonTargetID, PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            PowerUp powerUp = PhotonView.Find(photonTargetID).gameObject.GetComponent<PowerUp>();
+            //info.photonView.GetComponent<PowerUp>();
+            StartCoroutine(GivePowerUp(powerUp.powers, powerUp.powerUpColor, powerUp.duration));
+            //Debug.Log(powerUp);
+            //Debug.Log(powerUp.powers.projectile);
+            //Debug.Log(powerUp.duration);
+        }
+    }
+
     public IEnumerator GivePowerUp(powerStats powerUp, Color color, float duration)
     {
         powerTimer = 0f;
@@ -214,8 +228,17 @@ public class Ship : MonoBehaviour
 
     public void ExitSargasso()
     {
-        currentStats.speed = standardStats.speed;
-        currentStats.steering = standardStats.steering;
+        GetComponent<PhotonView>().RPC("PUNExitSargasso", PhotonTargets.All);
+    }
+
+    [PunRPC]
+    public void PUNExitSargasso(PhotonMessageInfo info)
+    {
+        if (info.photonView.gameObject == this.gameObject)
+        {
+            currentStats.speed = standardStats.speed;
+            currentStats.steering = standardStats.steering;
+        }
     }
 
     private void Awake()

@@ -36,9 +36,9 @@ public class PowerUpSpawner : MonoBehaviour
     {
         if (pool.Count > 0)
         {
-            bubbles.position = spawnPos;
+            GetComponent<PhotonView>().RPC("PUNShowBubbles", PhotonTargets.All, spawnPos);
             yield return new WaitForSeconds(2f);
-            bubbles.position = new Vector3(100f, 0f, 100f);
+            GetComponent<PhotonView>().RPC("PUNHideBubbles", PhotonTargets.All);
 
             int randomCrate = Random.Range(0, pool.Count);
             GameObject crate = pool[randomCrate];
@@ -50,7 +50,7 @@ public class PowerUpSpawner : MonoBehaviour
             {
                 spawned.OnSpawn();
             }
-            GetComponent<PhotonView>().RPC("PUNOnSpawn", PhotonTargets.All, crate, spawnPos);
+            //GetComponent<PhotonView>().RPC("PUNOnSpawn", PhotonTargets.All, crate, spawnPos);
 
             active.Add(crate);
             pool.Remove(crate);
@@ -64,15 +64,34 @@ public class PowerUpSpawner : MonoBehaviour
         //Transform crate = Instantiate(powerUps[Random.Range(0,powerUps.Length)], spawnPos, Quaternion.identity) as Transform;
     }
 
+    
+
+    [PunRPC]
+    public void PUNShowBubbles(Vector3 spawnPos, PhotonMessageInfo info)
+    {
+        bubbles.position = spawnPos;
+    }
+
+    [PunRPC]
+    public void PUNHideBubbles(PhotonMessageInfo info)
+    {
+        bubbles.position = new Vector3(100f, 0f, 100f);
+    }
+
     public void Despawn(GameObject crate)
     {
         pool.Add(crate);
         active.Remove(crate);
-        crate.SetActive(false);
-        GetComponent<PhotonView>().RPC("PUNOnDespawn", PhotonTargets.All, crate);
+        spawnable spawned = crate.GetComponent<spawnable>();
+        if (spawned != null)
+        {
+            spawned.OnDespawn();
+        }
+        //crate.SetActive(false);
+        //GetComponent<PhotonView>().RPC("PUNOnDespawn", PhotonTargets.All, crate);
     }
 
-    
+
 
     private void Start()
     {
