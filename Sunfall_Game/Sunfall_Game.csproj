@@ -90,6 +90,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CardStack.cs" />
     <Compile Include="Assets\scripts\ArcadeControlsTest.cs" />
     <Compile Include="Assets\scripts\CalibrateControls.cs" />
     <Compile Include="Assets\scripts\CannonBallChild.cs" />

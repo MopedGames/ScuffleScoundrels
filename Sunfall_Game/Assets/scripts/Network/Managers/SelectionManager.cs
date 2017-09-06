@@ -97,7 +97,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                     //if (Input.GetKey(p.ship.controls.shootLeft) || Input.GetKey(p.ship.controls.shootLeftAlt) || Input.GetKey(p.ship.controls.shootLeftKeyboard) ||
                     //   Input.GetKey(p.ship.controls.shootRight) || Input.GetKey(p.ship.controls.shootRightAlt) || Input.GetKey(p.ship.controls.shootRightKeyboard))
                     {
-                        p.animator.Play("Show");
+                        //p.animator.Play("Show");
                         p.landparticle.Play();
                         p.playsound.Play(1);
                         ++playerNumber;
@@ -111,7 +111,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                         //    if (Input.GetKey(p.ship.controls.shootLeft) || Input.GetKey(p.ship.controls.shootLeftAlt) || Input.GetKey(p.ship.controls.shootLeftKeyboard) ||
                         //       Input.GetKey(p.ship.controls.shootRight) || Input.GetKey(p.ship.controls.shootRightAlt) || Input.GetKey(p.ship.controls.shootRightKeyboard))
                         {
-                            p.animator.Play("ActivatePlayer");
+                            //p.animator.Play("ActivatePlayer");
                             p.playsound.Play(0);
                             p.playing = true;
 
@@ -123,7 +123,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 {
                     if (Input.GetKey(p.ship.controls.exit))
                     {
-                        p.animator.Play("DeactivatePlayer");
+                        //p.animator.Play("DeactivatePlayer");
                         p.playsound.Play(0);
                         p.playing = false;
                         p.ship.kills = -1; // what ? how can the player loose kills at this point?=
@@ -144,31 +144,107 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
         switch (currentPlayers.Count)
         {
             case 1:
-                decks[0].SetActive(true);
+                //if (decks[0].activeSelf != true)
+                //{
+                    decks[0].SetActive(true);
+                    decks[0].GetComponent<Animator>().SetTrigger("Show");
+                    if (currentPlayers[0].GetComponent<Player>().ready)
+                    {
+                        decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                    }
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                //}
                 decks[1].SetActive(false);
                 decks[2].SetActive(false);
                 decks[3].SetActive(false);
                 break;
 
             case 2:
-                decks[0].SetActive(true);
-                decks[1].SetActive(true);
+                if (decks[0].activeSelf != true)
+                {
+                    decks[0].SetActive(true);
+                    decks[0].GetComponent<Animator>().SetTrigger("Show");
+                    if (currentPlayers[0].GetComponent<Player>().ready)
+                    {
+                        decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                    }
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
+                if (decks[1].activeSelf != true)
+                {
+                    decks[1].SetActive(true);
+                    decks[1].GetComponent<Animator>().SetTrigger("Show");
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
                 decks[2].SetActive(false);
                 decks[3].SetActive(false);
                 break;
 
             case 3:
-                decks[0].SetActive(true);
-                decks[1].SetActive(true);
-                decks[2].SetActive(true);
+                if (decks[0].activeSelf != true)
+                {
+                    decks[0].SetActive(true);
+                    decks[0].GetComponent<Animator>().SetTrigger("Show");
+                    if (currentPlayers[0].GetComponent<Player>().ready)
+                    {
+                        decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                    }
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
+                if (decks[1].activeSelf != true)
+                {
+                    decks[1].SetActive(true);
+                    decks[1].GetComponent<Animator>().SetTrigger("Show");
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
+                if (decks[2].activeSelf != true)
+                {
+                    decks[2].SetActive(true);
+                    decks[2].GetComponent<Animator>().SetTrigger("Show");
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
                 decks[3].SetActive(false);
                 break;
 
             case 4:
-                decks[0].SetActive(true);
-                decks[1].SetActive(true);
-                decks[2].SetActive(true);
-                decks[3].SetActive(true);
+                if (decks[0].activeSelf != true)
+                {
+                    decks[0].SetActive(true);
+                    decks[0].GetComponent<Animator>().SetTrigger("Show");
+                    if (currentPlayers[0].GetComponent<Player>().ready)
+                    {
+                        decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                    }
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
+                if (decks[1].activeSelf != true)
+                {
+                    decks[1].SetActive(true);
+                    decks[1].GetComponent<Animator>().SetTrigger("Show");
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
+                if (decks[2].activeSelf != true)
+                {
+                    decks[2].SetActive(true);
+                    decks[2].GetComponent<Animator>().SetTrigger("Show");
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
+                if (decks[3].activeSelf != true)
+                {
+                    decks[3].SetActive(true);
+                    decks[3].GetComponent<Animator>().SetTrigger("Show");
+                    //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
+                    //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
+                }
                 break;
         }
 
@@ -237,7 +313,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
         if (Input.GetKeyUp(KeyCode.JoystickButton0))
         {
             photonView.RPC("PlayerReady", PhotonTargets.AllBuffered, PhotonNetwork.player.ID);
-            DealCards();
+            //DealCards();
 
             foreach (GameObject go in currentPlayers)
             {
@@ -253,6 +329,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
     public void PlayerReady(int playerID)
     {
         Debug.Log("Player" + playerID + " ready");
+        decks[playerID - 1].GetComponent<Animator>().SetTrigger("Aktivate");
         foreach (GameObject go in currentPlayers)
         {
             if (go.GetComponent<PhotonView>().ownerId == playerID)
@@ -269,6 +346,8 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 allReady = false;
             }
         }
+
+
 
         if (allReady /*&& currentPlayers.Count > 1*/)
         {
