@@ -19,9 +19,11 @@ public class Player : MonoBehaviour, IPunObservable
 
     public Animator animator;
 
+    public int playerNumber;
+
     public void Start()
     {
-        ready = false;
+        //ready = false;
     }
 
     public void Update()
@@ -89,5 +91,13 @@ public class Player : MonoBehaviour, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (stream.isWriting)
+        {
+            stream.SendNext(playerNumber);
+        }
+        else if (stream.isReading)
+        {
+            playerNumber = (int)stream.ReceiveNext();
+        }
     }
 }

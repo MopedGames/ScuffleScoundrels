@@ -28,6 +28,18 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
 
     public bool isPlaying = false;
 
+    public void Start()
+    {
+        //Debug.Log("Selection manager start " + currentPlayers.Count);
+        //foreach (GameObject go in currentPlayers)
+        //{
+        //    if (go.GetComponent<PhotonView>().isMine/* == PhotonNetwork.player.ID*/)
+        //    {
+        //        AddPlayer(go);
+        //    }
+        //}
+    }
+
     public void PlayersReady()
     {
         // when there are more than one player that is set to ready
@@ -144,17 +156,24 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
         switch (currentPlayers.Count)
         {
             case 1:
-                //if (decks[0].activeSelf != true)
-                //{
+                if (decks[0].activeSelf != true)
+                {
                     decks[0].SetActive(true);
                     decks[0].GetComponent<Animator>().SetTrigger("Show");
-                    if (currentPlayers[0].GetComponent<Player>().ready)
+                    foreach (GameObject go in currentPlayers)
                     {
-                        decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                        if (go.GetComponent<Player>().playerNumber == 1)
+                        {
+                            if (go.GetComponent<Player>().ready == true)
+                            {
+                                decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                            }
+                        }
                     }
+
                     //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
                     //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
-                //}
+                }
                 decks[1].SetActive(false);
                 decks[2].SetActive(false);
                 decks[3].SetActive(false);
@@ -165,9 +184,15 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 {
                     decks[0].SetActive(true);
                     decks[0].GetComponent<Animator>().SetTrigger("Show");
-                    if (currentPlayers[0].GetComponent<Player>().ready)
+                    foreach (GameObject go in currentPlayers)
                     {
-                        decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                        if (go.GetComponent<Player>().playerNumber == 1)
+                        {
+                            if (go.GetComponent<Player>().ready == true)
+                            {
+                                decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                            }
+                        }
                     }
                     //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
                     //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
@@ -188,9 +213,15 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 {
                     decks[0].SetActive(true);
                     decks[0].GetComponent<Animator>().SetTrigger("Show");
-                    if (currentPlayers[0].GetComponent<Player>().ready)
+                    foreach (GameObject go in currentPlayers)
                     {
-                        decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                        if (go.GetComponent<Player>().playerNumber == 1)
+                        {
+                            if (go.GetComponent<Player>().ready == true)
+                            {
+                                decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                            }
+                        }
                     }
                     //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
                     //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
@@ -217,9 +248,15 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
                 {
                     decks[0].SetActive(true);
                     decks[0].GetComponent<Animator>().SetTrigger("Show");
-                    if (currentPlayers[0].GetComponent<Player>().ready)
+                    foreach (GameObject go in currentPlayers)
                     {
-                        decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                        if (go.GetComponent<Player>().playerNumber == 1)
+                        {
+                            if (go.GetComponent<Player>().ready == true)
+                            {
+                                decks[0].GetComponent<Animator>().SetTrigger("Aktivate");
+                            }
+                        }
                     }
                     //decks[PhotonNetwork.player.ID - 1].landparticle.Play();
                     //decks[PhotonNetwork.player.ID - 1].GetComponent<PlaySound>().Play(1);
@@ -312,29 +349,78 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
     {
         if (Input.GetKeyUp(KeyCode.JoystickButton0))
         {
-            photonView.RPC("PlayerReady", PhotonTargets.AllBuffered, PhotonNetwork.player.ID);
             //DealCards();
 
             foreach (GameObject go in currentPlayers)
             {
-                if (go.GetComponent<PhotonView>().ownerId == PhotonNetwork.player.ID)
+                if (go.GetComponent<PhotonView>().isMine/* == PhotonNetwork.player.ID*/)
                 {
-                    go.GetComponent<Player>().shipPrefab = shipPrefabs[PhotonNetwork.player.ID - 1];
+                    photonView.RPC("PlayerReady", PhotonTargets.AllBufferedViaServer, /*player.playerNumber */PhotonNetwork.player.ID);
                 }
             }
         }
+    }
+
+    public void AddPlayer(GameObject playerObject)
+    {
+        Debug.Log("Adding player");
+        Player player = playerObject.GetComponent<Player>();
+        if (player.playerNumber == 0/* && PhotonNetwork.playerList.Length <= currentPlayers.Count*/)
+        {
+            int number = 1;
+            bool foundOne = true;
+            int amount = currentPlayers.Count;
+            if (currentPlayers.Count > 1)
+            {
+                while (foundOne)
+                {
+                    foreach (GameObject p in currentPlayers)
+                    {
+                        Debug.Log(p.GetComponent<Player>().playerNumber);
+                        if (p.GetComponent<Player>().playerNumber != 0)
+                        {
+                            Debug.Log(p.GetComponent<Player>().playerNumber);
+                            if (number == p.GetComponent<Player>().playerNumber)
+                            {
+                                number++;
+                                Debug.Log("Number increased" + p.GetComponent<Player>().playerNumber);
+                            }
+                            else
+                            {
+                                foundOne = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            player.playerNumber = number;
+            Debug.Log("PLayer number sat: " + number);
+
+            player.shipPrefab = shipPrefabs[player.playerNumber - 1];
+        }
+    }
+
+    public void RemovePlayer(GameObject player)
+    {
+
     }
 
     [PunRPC]
     public void PlayerReady(int playerID)
     {
         Debug.Log("Player" + playerID + " ready");
-        decks[playerID - 1].GetComponent<Animator>().SetTrigger("Aktivate");
+
+        Debug.Log(currentPlayers.Count);
         foreach (GameObject go in currentPlayers)
         {
+            Debug.Log(go.GetComponent<PhotonView>().ownerId);
             if (go.GetComponent<PhotonView>().ownerId == playerID)
             {
                 go.GetComponent<Player>().ready = true;
+                decks[go.GetComponent<Player>().playerNumber - 1].GetComponent<Animator>().SetTrigger("Aktivate");
+                Debug.Log(go + " is ready");
             }
         }
 
