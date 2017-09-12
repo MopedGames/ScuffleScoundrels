@@ -105,13 +105,13 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
         Debug.Log("Photon players " + PhotonNetwork.playerList.Length);
         //if (PhotonNetwork.playerList.Length <= SelectionManager.Instance.currentPlayers.Count)
         //{
-            foreach (GameObject p in SelectionManager.Instance.currentPlayers)
-            {
-                if (p.GetComponent<PhotonView>().isMine)
-                {
-                    SelectionManager.Instance.AddPlayer(p.gameObject);
-                }
-            }
+        //foreach (GameObject p in SelectionManager.Instance.currentPlayers)
+        //{
+        //    if (p.GetComponent<PhotonView>().isMine)
+        //    {
+        //        SelectionManager.Instance.AddPlayer(p.gameObject);
+        //    }
+        //}
         //}
     }
 
@@ -133,7 +133,10 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     {
         Debug.Log("OnPhotonPlayerDisconnected() " + otherPlayer.NickName);
         //GameStatusManager.Instance.photonView.RPC("CleanupPlayerList", PhotonTargets.All, otherPlayer.ID);
-        photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered); // lets start it UUUP!
+        if (photonView != null)
+        {
+            photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered); // lets start it UUUP! //TODO: Null here when a player quits.
+        }
         if (PhotonNetwork.isMasterClient)
         {
             Debug.Log("OnPhotonPlayerDisconnected isMasterClient " + PhotonNetwork.isMasterClient);

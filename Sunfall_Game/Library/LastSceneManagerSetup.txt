@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Network/Selection.unity
+- path: Assets/Scenes/Network/InGame.unity
   isLoaded: 1
   isActive: 1

@@ -55,8 +55,11 @@ public class WinScreen : MonoBehaviour
         List<Ship> shipsByPoints = new List<Ship>();
         shipsByPoints = ships.OrderBy(go => go.kills).ToList();
 
-        if (ships.Count() > 1 & shipsByPoints[ships.Count() - 2].kills == shipsByPoints[ships.Count() - 1].kills)
+        if (ships.Count() > 1 )
         {
+            if (shipsByPoints[ships.Count() - 2].kills == shipsByPoints[ships.Count() - 1].kills)
+            {
+
             musicPlayer.Play(suddenDeathMusic);
 
             /*AudioSource a = GameObject.Find ("Adventure Meme").GetComponent<AudioSource> ();
@@ -97,6 +100,17 @@ public class WinScreen : MonoBehaviour
             }
 
             GameStatusManager.Instance.SuddenDeathInit(shipAlive.ToArray());
+            }
+            else
+            {
+                Debug.Log("No!");
+                winState = true;
+                timer = 0f;
+                gameTimer = 90f;
+                ShowScreen();
+
+                //musicPlayer.PlayAfterDelay (fanfare, 0.0f);
+            }
         }
         else
         {
@@ -115,8 +129,8 @@ public class WinScreen : MonoBehaviour
     {
         List<Ship> shipsByPoints = new List<Ship>();
         shipsByPoints = ships.OrderBy(go => go.kills).ToList();
-        winnerRendition.sprite = shipsByPoints[3].WinRendition;
-        winner = shipsByPoints[3].name;
+        winnerRendition.sprite = shipsByPoints[shipsByPoints.Count - 1].WinRendition;
+        winner = shipsByPoints[shipsByPoints.Count - 1].name;
 
         int i;
         for (i = 0; i < shipsByPoints.Count; i++)
@@ -216,7 +230,7 @@ public class WinScreen : MonoBehaviour
         {
             foreach (Player p in GameStatusManager.Instance.players)
             {
-                if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.JoystickButton1))
                 {
                     goBack = true;
                 }
@@ -234,6 +248,8 @@ public class WinScreen : MonoBehaviour
         //Application.LoadLevel (Application.loadedLevel);
         //startScreen = 2;
         winCanvas.SetActive(false);
+        PhotonNetwork.LoadLevel(Launcher.Instance.WaitingRoomSceneName);
+        Debug.Log("Should have loaded a new scene");
         //shipMenu.bannerIn.SetActive(true);
         //shipMenu.bannerOut.SetActive(false);
     }

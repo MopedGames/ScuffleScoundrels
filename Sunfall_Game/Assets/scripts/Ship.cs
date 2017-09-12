@@ -89,6 +89,10 @@ public class Ship : MonoBehaviour
 
     public Transform tiltParent;
 
+    Vector3 trueLoc;
+    Quaternion trueRot;
+    PhotonView pv;
+
     /*void OnCollisionEnter (){
 		if (alive) {
 			StartCoroutine("Die");
@@ -257,6 +261,11 @@ public class Ship : MonoBehaviour
         {
             c.startPos = c.cannonTransform.localPosition;
         }
+    }
+
+    private void Start()
+    {
+        pv = GetComponent<PhotonView>();
     }
 
     private void CheckFrame()
@@ -519,15 +528,34 @@ public class Ship : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        //if (!pv.isMine)
+        //{
+        //    transform.position = Vector3.Lerp(transform.position, trueLoc, Time.deltaTime * 5);
+        //    transform.rotation = Quaternion.Lerp(transform.rotation, trueRot, Time.deltaTime * 5);
+        //}
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
             stream.SendNext(currentSteering);
+            if (pv.isMine)
+            {
+                stream.SendNext(transform.position);
+                stream.SendNext(transform.rotation);
+            }
         }
         else if (stream.isReading)
         {
             currentSteering = (float)stream.ReceiveNext();
+            if (!pv.isMine)
+            {
+                this.trueLoc = (Vector3)stream.ReceiveNext();
+                this.trueRot = (Quaternion)stream.ReceiveNext();
+            }
         }
     }
 }

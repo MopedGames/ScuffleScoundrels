@@ -17,7 +17,7 @@ public class musicPlayer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        //Play(currentSource);
 	}
 
 	public void GotoTime (AudioSource source, float time){

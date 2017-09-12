@@ -110,8 +110,8 @@ public class shipMenu : MonoBehaviour
 
         Debug.Log("hello, i want to go the next scene yo");
         //playerselection.startScreen = 1; -- go to player Selection scene
-        yield return new WaitForSeconds(0.1f);
-        panAnimation.Play("pan_stopped");
+        //yield return new WaitForSeconds(0.1f); //RDG Commented out to make time for loading the next scene.
+        //panAnimation.Play("pan_stopped"); //RDG Commented out to make time for loading the next scene.
         ConnectToRoom();
     }
 

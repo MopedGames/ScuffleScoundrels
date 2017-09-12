@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class LocalHandler : Photon.PunBehaviour, IPunObservable
 {
-    [SerializeField, Tooltip("THe local player instance. Use thiss to know if the okayer is represented in the scene")]
+    [SerializeField, Tooltip("The local player instance. Use thiss to know if the okayer is represented in the scene")]
     private static GameObject localIntance;
 
     public static GameObject LocalIntance

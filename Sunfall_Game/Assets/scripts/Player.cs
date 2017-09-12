@@ -15,15 +15,19 @@ public class Player : MonoBehaviour, IPunObservable
     public ParticleSystem landparticle;
     public PlaySound playsound;
 
+    public bool joined;
     public bool ready;
 
     public Animator animator;
 
     public int playerNumber;
 
+    PhotonView pv;
+
     public void Start()
     {
         //ready = false;
+        pv = GetComponent<PhotonView>();
     }
 
     public void Update()
@@ -66,8 +70,8 @@ public class Player : MonoBehaviour, IPunObservable
                 }
 
                 //Move forward
-                ship.transform.Translate(Vector3.right * ship.currentStats.speed * Time.fixedDeltaTime);
-                ship.transform.position = new Vector3(ship.transform.position.x, 0.5f, ship.transform.position.z);
+                ship.transform.Translate(Vector3.right * ship.currentStats.speed * Time.deltaTime/*Time.fixedDeltaTime*/); //moves the ship //TODO: Jacobs ship was really sped up!
+                ship.transform.position = new Vector3(ship.transform.position.x, 0.5f, ship.transform.position.z); //Makes sure the ship does not fly
                 //ship.transform.position = new Vector3(ship.transform.position.x + ship.transform.forward.x * 5, ship.transform.position.y, ship.transform.position.z);
 
                 //Steering
@@ -76,7 +80,7 @@ public class Player : MonoBehaviour, IPunObservable
                 float horizontal = Mathf.Clamp((rightInt - leftInt) + Input.GetAxis(ship.controls.axis), -1f, 1f);
                 ship.currentSteering = horizontal * ship.currentStats.steering;
                 Vector3 currentRotation = new Vector3(0, ship.currentSteering, 0);
-                ship.transform.Rotate(currentRotation * Time.fixedDeltaTime); //TODO: Optimize rotation updates
+                ship.transform.Rotate(currentRotation * Time.deltaTime/*Time.fixedDeltaTime*/); //TODO: Optimize rotation updates - Maybe send (estimated?) position, and make others lerp to it?
                 /*Debug.Log*/
                 ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(horizontal * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
                 //TODO: BUG Random 'flick' here once in a while (Mostly when turning left?)
@@ -86,6 +90,7 @@ public class Player : MonoBehaviour, IPunObservable
         else if (ship)
         { //Tilts the ship for everyone else
             ship.hull.localEulerAngles = Vector3.Lerp(ship.hull.localEulerAngles, new Vector3(ship.currentSteering / ship.currentStats.steering * 13f, ship.hull.eulerAngles.y, 0), 0.5f);
+            
         }
     }
 
@@ -94,10 +99,16 @@ public class Player : MonoBehaviour, IPunObservable
         if (stream.isWriting)
         {
             stream.SendNext(playerNumber);
+            stream.SendNext(joined);
+            stream.SendNext(ready);
+            
         }
         else if (stream.isReading)
         {
             playerNumber = (int)stream.ReceiveNext();
+            joined = (bool)stream.ReceiveNext();
+            ready = (bool)stream.ReceiveNext();
+            
         }
     }
 }

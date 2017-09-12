@@ -174,4 +174,9 @@ public class PowerUpSpawner : MonoBehaviour
         Gizmos.DrawSphere(new Vector3(frame.x, 0.17f, frame.w), 1f);
         Gizmos.DrawSphere(new Vector3(frame.y, 0.17f, frame.w), 1f);
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //throw new NotImplementedException();
+    }
 }

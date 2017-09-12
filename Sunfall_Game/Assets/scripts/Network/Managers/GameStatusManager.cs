@@ -22,6 +22,11 @@ public class GameStatusManager : PunBehaviourManager<GameStatusManager>
     public List<Player> players = new List<Player>();
     public List<Ship> ships = new List<Ship>();
 
+    public GameObject redArrow;
+    public GameObject greenArrow;
+    public GameObject yellowArrow;
+    public GameObject purpleArrow;
+
     public int readyPlayers = 0;
 
     // Use this for initialization
@@ -83,6 +88,22 @@ public class GameStatusManager : PunBehaviourManager<GameStatusManager>
                 {
                     p.ship.currentStats.speed = 4;
                 }
+                if (p.ship.name.Contains("Red"))
+                {
+                    redArrow.GetComponent<arrow>().targetShip = p.ship;
+                }
+                else if (p.ship.name.Contains("Yellow"))
+                {
+                    yellowArrow.GetComponent<arrow>().targetShip = p.ship;
+                }
+                else if(p.ship.name.Contains("Green"))
+                {
+                    greenArrow.GetComponent<arrow>().targetShip = p.ship;
+                }
+                else if(p.ship.name.Contains("Purple"))
+                {
+                    purpleArrow.GetComponent<arrow>().targetShip = p.ship;
+                }
             }
             Debug.Log(readyPlayers + " players ready, set, GO!");
         }
@@ -93,7 +114,9 @@ public class GameStatusManager : PunBehaviourManager<GameStatusManager>
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update is called once per frame
+    /// </summary>
     private void Update()
     {
         //if (!suddenDeath)
