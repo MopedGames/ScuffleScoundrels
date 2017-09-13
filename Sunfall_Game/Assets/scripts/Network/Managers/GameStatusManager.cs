@@ -87,12 +87,13 @@ public class GameStatusManager : PunBehaviourManager<GameStatusManager>
                 if (p.GetComponent<PhotonView>().isMine)
                 {
                     p.ship.currentStats.speed = 4;
+                    p.ready = false;
                 }
                 if (p.ship.name.Contains("Red"))
                 {
                     redArrow.GetComponent<arrow>().targetShip = p.ship;
                 }
-                else if (p.ship.name.Contains("Yellow"))
+                else if (p.ship.name.Contains("Golden"))
                 {
                     yellowArrow.GetComponent<arrow>().targetShip = p.ship;
                 }
@@ -224,26 +225,26 @@ public class GameStatusManager : PunBehaviourManager<GameStatusManager>
         //blingAnimation.gameObject.SetActive(true);
         //blingAnimation.Play("Bling");
         yield return new WaitForSeconds(0.30f);
-        //fuse.fuseLight.gameObject.SetActive(false);
-        //fuse.transform.parent.gameObject.SetActive(false);
+        fuse.fuseLight.gameObject.SetActive(false);
+        fuse.transform.parent.gameObject.SetActive(false);
         //foreach (TextMesh t in texts)
         //{
         //    t.text = "SUDDEN DEATH";
         //}
 
-        //yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(1.7f);
 
         //foreach (TextMesh t in texts)
         //{
         //    t.text = "";
         //}
 
-        //foreach (Ship s in shipsAlive)
-        //{
-        //    s.invulnerable = false;
-        //    s.transform.position = s.startPos;
-        //    s.transform.rotation = s.startRot;
-        //}
+        foreach (Ship s in shipsAlive)
+        {
+            s.invulnerable = false;
+            s.transform.position = s.startPos;
+            s.transform.rotation = s.startRot;
+        }
 
         //blingAnimation.gameObject.SetActive(false);
     }

@@ -55,51 +55,51 @@ public class WinScreen : MonoBehaviour
         List<Ship> shipsByPoints = new List<Ship>();
         shipsByPoints = ships.OrderBy(go => go.kills).ToList();
 
-        if (ships.Count() > 1 )
+        if (ships.Count() > 1)
         {
             if (shipsByPoints[ships.Count() - 2].kills == shipsByPoints[ships.Count() - 1].kills)
             {
 
-            musicPlayer.Play(suddenDeathMusic);
+                musicPlayer.Play(suddenDeathMusic);
 
-            /*AudioSource a = GameObject.Find ("Adventure Meme").GetComponent<AudioSource> ();
-			a.Stop();
-			a.clip = suddenDeathMusic;
-			suddenDeathSpeak.Play ();
-			a.Play();*/
+                /*AudioSource a = GameObject.Find ("Adventure Meme").GetComponent<AudioSource> ();
+                a.Stop();
+                a.clip = suddenDeathMusic;
+                suddenDeathSpeak.Play ();
+                a.Play();*/
 
-            suddenDeath = true;
-            PowerUpSpawner p = GameObject.FindObjectOfType<PowerUpSpawner>();
-            p.enabled = false;
-            List<Ship> shipAlive = new List<Ship>();
+                suddenDeath = true;
+                PowerUpSpawner p = GameObject.FindObjectOfType<PowerUpSpawner>();
+                p.enabled = false;
+                List<Ship> shipAlive = new List<Ship>();
 
-            foreach (Ship ss in shipsByPoints)
-            {
-                if (ss.kills >= shipsByPoints[ships.Count() - 1].kills)
+                foreach (Ship ss in shipsByPoints)
                 {
-                    ss.GivePowerUp(ss.standardStats, Color.black, 0.0f);
-                    shipAlive.Add(ss);
+                    if (ss.kills >= shipsByPoints[ships.Count() - 1].kills)
+                    {
+                        ss.GivePowerUp(ss.standardStats, Color.black, 0.0f);
+                        shipAlive.Add(ss);
+                    }
+                    else
+                    {
+                        Instantiate(explosion, ss.transform.position, Quaternion.identity);
+                        ss.StartCoroutine(ss.Die());
+                    }
                 }
-                else
+
+                GameObject[] crates = GameObject.FindGameObjectsWithTag("powerUp");
+                foreach (GameObject crate in crates)
                 {
-                    Instantiate(explosion, ss.transform.position, Quaternion.identity);
-                    ss.StartCoroutine(ss.Die());
+                    Instantiate(explosion, crate.transform.position, Quaternion.identity);
+                    Destroy(crate);
                 }
-            }
 
-            GameObject[] crates = GameObject.FindGameObjectsWithTag("powerUp");
-            foreach (GameObject crate in crates)
-            {
-                Instantiate(explosion, crate.transform.position, Quaternion.identity);
-                Destroy(crate);
-            }
+                foreach (Ship s in ships)
+                {
+                    s.suddenDeath = true;
+                }
 
-            foreach (Ship s in ships)
-            {
-                s.suddenDeath = true;
-            }
-
-            GameStatusManager.Instance.SuddenDeathInit(shipAlive.ToArray());
+                GameStatusManager.Instance.SuddenDeathInit(shipAlive.ToArray());
             }
             else
             {
@@ -249,6 +249,7 @@ public class WinScreen : MonoBehaviour
         //startScreen = 2;
         winCanvas.SetActive(false);
         PhotonNetwork.LoadLevel(Launcher.Instance.WaitingRoomSceneName);
+
         Debug.Log("Should have loaded a new scene");
         //shipMenu.bannerIn.SetActive(true);
         //shipMenu.bannerOut.SetActive(false);
@@ -290,7 +291,7 @@ public class WinScreen : MonoBehaviour
     public void HideForReal()
     {
         //GetComponent<Camera>().depth = 0f;
-        Application.LoadLevel(Application.loadedLevel);
+        //Application.LoadLevel(Application.loadedLevel);
     }
 
     public IEnumerator Pause()
@@ -317,7 +318,7 @@ public class WinScreen : MonoBehaviour
             if (exitGame)
             {
                 Time.timeScale = 1f;
-                Application.LoadLevel(Application.loadedLevel);
+                //Application.LoadLevel(Application.loadedLevel);
             }
             yield return null;
         }

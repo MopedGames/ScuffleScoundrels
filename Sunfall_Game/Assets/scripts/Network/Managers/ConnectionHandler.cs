@@ -94,15 +94,15 @@ public class ConnectionHandler : PunBehaviourManager<ConnectionHandler>
     [PunRPC]
     public void AddPlayerToList()
     {
-        int playerID = 1;
+        //int playerID = 1;
         SelectionManager.Instance.currentPlayers.Clear();
         foreach (Player p in FindObjectsOfType<Player>())
         {
             SelectionManager.Instance.currentPlayers.Add(p.gameObject);
-            playerID++;
+            //playerID++;
         }
-        Debug.Log("Current players " + SelectionManager.Instance.currentPlayers.Count);
-        Debug.Log("Photon players " + PhotonNetwork.playerList.Length);
+        //Debug.Log("Current players " + SelectionManager.Instance.currentPlayers.Count);
+        //Debug.Log("Photon players " + PhotonNetwork.playerList.Length);
         //if (PhotonNetwork.playerList.Length <= SelectionManager.Instance.currentPlayers.Count)
         //{
         //foreach (GameObject p in SelectionManager.Instance.currentPlayers)

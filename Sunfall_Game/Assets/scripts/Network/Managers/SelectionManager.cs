@@ -35,13 +35,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
     public void Start()
     {
         //Debug.Log("Selection manager start " + currentPlayers.Count);
-        //foreach (GameObject go in currentPlayers)
-        //{
-        //    if (go.GetComponent<PhotonView>().isMine/* == PhotonNetwork.player.ID*/)
-        //    {
-        //        AddPlayer(go);
-        //    }
-        //}
+        ConnectionHandler.Instance.photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered);
     }
 
     public void PlayersReady()
@@ -479,36 +473,38 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
     {
         Debug.Log("Adding player");
         Player player = playerObject.GetComponent<Player>();
-        if (player.playerNumber == 0 && player.GetComponent<PhotonView>().isMine/* && PhotonNetwork.playerList.Length <= currentPlayers.Count*/)
+        if (player.GetComponent<PhotonView>().isMine)
         {
-            int number = 1;
-            bool foundOne = true;
-            int amount = currentPlayers.Count;
-            if (currentPlayers.Count > 1)
+            if (player.playerNumber == 0/* && PhotonNetwork.playerList.Length <= currentPlayers.Count*/)
             {
-                while (foundOne)
+                int number = 1;
+                bool foundOne = true;
+                int amount = currentPlayers.Count;
+                if (currentPlayers.Count > 1)
                 {
-                    foundOne = false;
-                    foreach (GameObject p in currentPlayers)
+                    while (foundOne)
                     {
-                        Debug.Log(p.GetComponent<Player>().playerNumber);
-                        if (p.GetComponent<PhotonView>().isMine != true)
+                        foundOne = false;
+                        foreach (GameObject p in currentPlayers)
                         {
                             Debug.Log(p.GetComponent<Player>().playerNumber);
-                            if (number == p.GetComponent<Player>().playerNumber)
+                            if (p.GetComponent<PhotonView>().isMine != true)
                             {
-                                number++;
-                                Debug.Log("Number increased" + p.GetComponent<Player>().playerNumber);
-                                foundOne = true;
+                                Debug.Log(p.GetComponent<Player>().playerNumber);
+                                if (number == p.GetComponent<Player>().playerNumber)
+                                {
+                                    number++;
+                                    Debug.Log("Number increased" + p.GetComponent<Player>().playerNumber);
+                                    foundOne = true;
+                                }
                             }
                         }
                     }
                 }
+
+                player.playerNumber = number;
+                Debug.Log("PLayer number sat: " + number);
             }
-
-            player.playerNumber = number;
-            Debug.Log("PLayer number sat: " + number);
-
             player.joined = true;
             player.shipPrefab = shipPrefabs[player.playerNumber - 1];
         }
@@ -594,7 +590,7 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
             {
                 go.GetComponent<Player>().ready = false;
                 decks[go.GetComponent<Player>().playerNumber - 1].GetComponent<Animator>().SetTrigger("Deactivate");
-                Debug.Log("Player" + playerID + " undready!"); 
+                Debug.Log("Player" + playerID + " undready!");
             }
         }
     }

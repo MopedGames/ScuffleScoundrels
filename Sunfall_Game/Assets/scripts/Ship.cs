@@ -542,6 +542,10 @@ public class Ship : MonoBehaviour
         if (stream.isWriting)
         {
             stream.SendNext(currentSteering);
+            if (pv == null)
+            {
+                pv = GetComponent<PhotonView>();
+            }
             if (pv.isMine)
             {
                 stream.SendNext(transform.position);
@@ -551,6 +555,10 @@ public class Ship : MonoBehaviour
         else if (stream.isReading)
         {
             currentSteering = (float)stream.ReceiveNext();
+            if (pv == null)
+            {
+                pv = GetComponent<PhotonView>();
+            }
             if (!pv.isMine)
             {
                 this.trueLoc = (Vector3)stream.ReceiveNext();
