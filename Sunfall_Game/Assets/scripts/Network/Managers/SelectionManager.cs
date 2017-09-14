@@ -32,10 +32,14 @@ public class SelectionManager : PunBehaviourManager<SelectionManager>
 
     public GameObject controls;
 
+    public musicPlayer musicPlayer;
+    public AudioSource selectionMusic;
+
     public void Start()
     {
         //Debug.Log("Selection manager start " + currentPlayers.Count);
         ConnectionHandler.Instance.photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered);
+        musicPlayer.Play(selectionMusic);
     }
 
     public void PlayersReady()

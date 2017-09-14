@@ -29,6 +29,9 @@ public class GameStatusManager : PunBehaviourManager<GameStatusManager>
 
     public int readyPlayers = 0;
 
+    public musicPlayer musicPlayer;
+    public AudioSource gameMusic;
+
     // Use this for initialization
     private void Start()
     {
@@ -72,7 +75,7 @@ public class GameStatusManager : PunBehaviourManager<GameStatusManager>
             {
                 // TODO : add upstart sequence 3... 2... 1... START
                 suddenDeath = false;
-
+                
                 //fuse.Play();
                 powerUps.enabled = true;
                 //Debug.Log("I'm 'ere!");
@@ -81,7 +84,8 @@ public class GameStatusManager : PunBehaviourManager<GameStatusManager>
 
                 PhotonNetwork.room.IsOpen = false;
             }
-
+            Debug.Log("play music");
+            musicPlayer.Play(gameMusic);
             foreach (Player p in players)
             {
                 if (p.GetComponent<PhotonView>().isMine)

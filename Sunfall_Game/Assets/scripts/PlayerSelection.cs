@@ -73,33 +73,7 @@ public class PlayerSelection : MonoBehaviour
     //    }
     //}
 
-    //private IEnumerator EnterCredits()
-    //{
-    //    scrollVisible = true;
-    //    if (creditsScroll != null)
-    //    {
-    //        creditsScroll.Play("scrollIn");
-    //    }
-
-    //    bool stop = true;
-    //    yield return null;
-    //    while (stop)
-    //    {
-    //        foreach (Player p in players)
-    //        {
-    //            if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return))
-    //            {
-    //                stop = false;
-    //            }
-    //        }
-    //        yield return null;
-    //    }
-    //    scrollVisible = false;
-    //    if (creditsScroll != null)
-    //    {
-    //        creditsScroll.Play("scrollOut");
-    //    }
-    //}
+    
 
     private void Start()
     {

@@ -331,7 +331,7 @@ public class Ship : MonoBehaviour
             {
                 GetComponent<PhotonView>().RPC("LaunchProjectile", PhotonTargets.All, false, force, cannon.cannonOrigin.position);
             }
-            StartCoroutine("ReloadCannon", cannon);
+            //StartCoroutine("ReloadCannon", cannon);
         }
     }
 
@@ -350,6 +350,14 @@ public class Ship : MonoBehaviour
 
             thisProjectile.owner = this;
             thisProjectile.GetComponent<Rigidbody>().velocity = force;
+            if (cannons[0].cannonTransform.position == position | cannons[0].cannonOrigin.position == position)
+            {
+                StartCoroutine("ReloadCannon", cannons[0]);
+            }
+            else
+            {
+                StartCoroutine("ReloadCannon", cannons[1]);
+            }
         }
     }
 

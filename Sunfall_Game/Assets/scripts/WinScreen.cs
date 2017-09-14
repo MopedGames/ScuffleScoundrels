@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class WinScreen : MonoBehaviour
 {
@@ -49,6 +49,119 @@ public class WinScreen : MonoBehaviour
         pauseCanvas.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Update is called once per frame
+    /// </summary>
+    private void Update()
+    {
+        if (ships != null)
+        {
+            foreach (Ship s in ships)
+            {
+                if (s == null)
+                {
+                }
+            }
+            if (!winState && !pause)
+            {
+                foreach (UnityEngine.UI.Text t in timers)
+                {
+                    if (!suddenDeath)
+                    {
+                        t.text = ((int)gameTimer).ToString();
+                    }
+                    else
+                    {
+                        /*t.color = Color.red;
+                        t.fontSize = 10;
+                        t.text = ("SUDDEN DEATH");*/
+                    }
+                    if (gameTimer < 10.01f)
+                    {
+                        t.color = Color.red;
+                    }
+                    else
+                    {
+                        t.color = Color.white;
+                    }
+                }
+
+                if (/*playerSelection.isPlaying &&*/ !suddenDeath)
+                {
+                    gameTimer -= Time.deltaTime;
+
+                    foreach (Ship s in ships)
+                    {
+                        if (s.kills >= 10)
+                        {
+                            winState = true;
+                            timer = 0f;
+                            gameTimer = 90f;
+                            ShowScreen();
+                        }
+                    }
+
+                    if (gameTimer < 0)
+                    {
+                        CheckForSuddenDeath();
+                    }
+                }
+                else if (/*playerSelection.isPlaying && */suddenDeath)
+                {
+                    int alive = 0;
+                    Ship lastStanding = null;
+                    foreach (Ship s in ships)
+                    {
+                        if (s.alive)
+                        {
+                            lastStanding = s;
+                            alive++;
+                        }
+                    }
+                    if (alive <= 1)
+                    {
+                        lastStanding.kills += 2;
+                        winState = true;
+                        timer = 0f;
+                        gameTimer = 90f;
+                        ShowScreen();
+                    }
+                }
+            }
+            else if (winState)
+            {
+                if (timer > 1f)
+                {
+                    timer += Time.deltaTime;
+
+                    foreach (Ship s in ships)
+                    {
+                        if (Input.GetKeyDown(s.controls.controls))
+                        {
+                            Debug.Log(s.controls.controls + " pressed");
+                            //playerSelection.MenuScreen();
+                            GetComponent<Camera>().depth = 0f;
+                        }
+                    }
+                    if (timer > 31f)
+                    {
+                        //playerSelection.MenuScreen();
+                        GetComponent<Camera>().depth = 0f;
+                    }
+                }
+                else
+                {
+                    timer += Time.deltaTime;
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.JoystickButton7) && !pause)
+        {
+            Debug.Log("Pause click");
+            StartCoroutine(Pause());
+        }
+    }
+
     private void CheckForSuddenDeath()
     {
         //Is the leading ships tied?
@@ -59,7 +172,6 @@ public class WinScreen : MonoBehaviour
         {
             if (shipsByPoints[ships.Count() - 2].kills == shipsByPoints[ships.Count() - 1].kills)
             {
-
                 musicPlayer.Play(suddenDeathMusic);
 
                 /*AudioSource a = GameObject.Find ("Adventure Meme").GetComponent<AudioSource> ();
@@ -124,7 +236,9 @@ public class WinScreen : MonoBehaviour
         }
     }
 
-    //Sort PointList
+    /// <summary>
+    /// Sort PointList
+    /// </summary>
     private void SortList()
     {
         List<Ship> shipsByPoints = new List<Ship>();
@@ -143,7 +257,9 @@ public class WinScreen : MonoBehaviour
         //animationToPlay = shipsByPoints [3].flagAnimation;
     }
 
-    // Use this for initialization
+    /// <summary>
+    /// Use this for initialization
+    /// </summary>
     private void ShowScreen()
     {
         EndGame(this, winner);
@@ -178,7 +294,7 @@ public class WinScreen : MonoBehaviour
         Sprite skullsSprite = skull.sprite;
         foreach (Player p in GameStatusManager.Instance.players)
         {
-            if (p.ship.kills > points)
+            if (p.ship.kills > points || points == 0)
             {
                 points = p.ship.kills;
                 winner = p.ship.name;
@@ -298,19 +414,20 @@ public class WinScreen : MonoBehaviour
     {
         pause = true;
         pauseCanvas.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         float timescaleWas = Time.timeScale;
-        Time.timeScale = 0.0f;
+        //Time.timeScale = 0.0f; // RDG Commented out for online
         while (pause)
         {
-            Time.timeScale = 0.0f;
+            //Time.timeScale = 0.0f; // RDG Commented out for online
             bool exitGame = true;
             foreach (Ship s in ships)
             {
-                if (Input.GetKeyDown(s.controls.controls))
+                if (Input.GetKeyDown(KeyCode.JoystickButton7)/*Input.GetKeyDown(s.controls.controls)*/)
                 {
                     pause = false;
                 }
-                if (!Input.GetKeyDown(s.controls.exit) && s.kills > -1)
+                if (!Input.GetKey(KeyCode.JoystickButton2) /*!Input.GetKeyDown(s.controls.exit)*/ && s.kills > -1)
                 {
                     exitGame = false;
                 }
@@ -318,6 +435,7 @@ public class WinScreen : MonoBehaviour
             if (exitGame)
             {
                 Time.timeScale = 1f;
+                PhotonNetwork.LeaveRoom();
                 //Application.LoadLevel(Application.loadedLevel);
             }
             yield return null;
@@ -325,111 +443,6 @@ public class WinScreen : MonoBehaviour
 
         pauseCanvas.gameObject.SetActive(false);
 
-        Time.timeScale = timescaleWas;
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        if (ships != null)
-        {
-            foreach (Ship s in ships)
-            {
-                if (s == null)
-                {
-                }
-            }
-            if (!winState && !pause)
-            {
-                foreach (UnityEngine.UI.Text t in timers)
-                {
-                    if (!suddenDeath)
-                    {
-                        t.text = ((int)gameTimer).ToString();
-                    }
-                    else
-                    {
-                        /*t.color = Color.red;
-                        t.fontSize = 10;
-                        t.text = ("SUDDEN DEATH");*/
-                    }
-                    if (gameTimer < 10.01f)
-                    {
-                        t.color = Color.red;
-                    }
-                    else
-                    {
-                        t.color = Color.white;
-                    }
-                }
-
-                if (/*playerSelection.isPlaying &&*/ !suddenDeath)
-                {
-                    gameTimer -= Time.deltaTime;
-
-                    foreach (Ship s in ships)
-                    {
-                        if (s.kills >= 10)
-                        {
-                            winState = true;
-                            timer = 0f;
-                            gameTimer = 90f;
-                            ShowScreen();
-                        }
-                    }
-
-                    if (gameTimer < 0)
-                    {
-                        CheckForSuddenDeath();
-                    }
-                }
-                else if (/*playerSelection.isPlaying && */suddenDeath)
-                {
-                    int alive = 0;
-                    Ship lastStanding = null;
-                    foreach (Ship s in ships)
-                    {
-                        if (s.alive)
-                        {
-                            lastStanding = s;
-                            alive++;
-                        }
-                    }
-                    if (alive <= 1)
-                    {
-                        lastStanding.kills += 2;
-                        winState = true;
-                        timer = 0f;
-                        gameTimer = 90f;
-                        ShowScreen();
-                    }
-                }
-            }
-            else if (winState)
-            {
-                if (timer > 1f)
-                {
-                    timer += Time.deltaTime;
-
-                    foreach (Ship s in ships)
-                    {
-                        if (Input.GetKeyDown(s.controls.controls))
-                        {
-                            //playerSelection.MenuScreen();
-                            GetComponent<Camera>().depth = 0f;
-                        }
-                    }
-                    if (timer > 31f)
-                    {
-                        //playerSelection.MenuScreen();
-                        GetComponent<Camera>().depth = 0f;
-                    }
-                }
-                else
-                {
-                    timer += Time.deltaTime;
-                }
-            }
-        }
+        //Time.timeScale = timescaleWas; // RDG Commented out for online
     }
 }

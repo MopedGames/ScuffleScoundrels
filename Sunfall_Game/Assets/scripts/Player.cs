@@ -54,10 +54,11 @@ public class Player : MonoBehaviour, IPunObservable
 
                 if (ship.cannons[0].active)
                 {
-                    if (Input.GetKeyDown(KeyCode.JoystickButton5))/* || Input.GetKey(controls.shootRightAlt) || Input.GetKey(controls.shootRightKeyboard))*/
+                    if (Input.GetKey(KeyCode.JoystickButton5))/* || Input.GetKey(controls.shootRightAlt) || Input.GetKey(controls.shootRightKeyboard))*/
                     {
                         force = ship.transform.forward * -1 * ship.currentStats.shootForce;
                         ship.FireCannon(ship.cannons[0], force);
+                        ship.cannons[0].active = false;
                     }
                 }
                 if (ship.cannons[1].active)
@@ -66,6 +67,7 @@ public class Player : MonoBehaviour, IPunObservable
                     {
                         force = ship.transform.forward * ship.currentStats.shootForce;
                         ship.FireCannon(ship.cannons[1], force);
+                        ship.cannons[1].active = false;
                     }
                 }
 

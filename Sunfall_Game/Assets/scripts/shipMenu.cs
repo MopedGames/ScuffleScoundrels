@@ -36,6 +36,9 @@ public class shipMenu : MonoBehaviour
 
     public Ship[] ships;
 
+    public musicPlayer musicPlayer;
+    public AudioSource menuMusic;
+
     // Use this for initialization
     private void Awake()
     {
@@ -43,6 +46,11 @@ public class shipMenu : MonoBehaviour
         targetPos = transform.localPosition;
 
         //launcher = Launcher.Instance;
+    }
+
+    private void Start()
+    {
+        musicPlayer.Play(menuMusic);
     }
 
     public IEnumerator Shakecam()
@@ -174,7 +182,7 @@ public class shipMenu : MonoBehaviour
         {
             if (currentSelection == 2)
             {
-                //StartCoroutine(EnterCredits());
+                StartCoroutine(EnterCredits());
             }
             else if (currentSelection == 1)
             {
@@ -187,5 +195,33 @@ public class shipMenu : MonoBehaviour
         }
         transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos, 0.5f);
         menuItems[currentSelection].transform.localScale = bouncy.Evaluate(time) * Vector3.one;
+    }
+
+    private IEnumerator EnterCredits()
+    {
+        scrollVisible = true;
+        if (creditsScroll != null)
+        {
+            creditsScroll.Play("scrollIn");
+        }
+
+        bool stop = true;
+        yield return null;
+        while (stop)
+        {
+            foreach (Player p in players)
+            {
+                if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return))
+                {
+                    stop = false;
+                }
+            }
+            yield return null;
+        }
+        scrollVisible = false;
+        if (creditsScroll != null)
+        {
+            creditsScroll.Play("scrollOut");
+        }
     }
 }
