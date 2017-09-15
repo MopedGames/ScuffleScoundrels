@@ -310,12 +310,12 @@ public class WinScreen : MonoBehaviour
             t.text = winner + " Wins!";
         }
 
-        yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(3f);
 
-        while (!Input.anyKey)
-        {
-            yield return null;
-        }
+        //while (!Input.anyKey)
+        //{
+        //    yield return null;
+        //}
 
         foreach (TextMesh t in texts)
         {
@@ -346,9 +346,13 @@ public class WinScreen : MonoBehaviour
         {
             foreach (Player p in GameStatusManager.Instance.players)
             {
-                if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.JoystickButton1))
+                if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.JoystickButton0))
                 {
                     goBack = true;
+                }
+                else if (Input.GetKeyDown(KeyCode.JoystickButton1))
+                {
+                    PhotonNetwork.LeaveRoom();
                 }
             }
 

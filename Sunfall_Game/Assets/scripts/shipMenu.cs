@@ -39,6 +39,9 @@ public class shipMenu : MonoBehaviour
     public musicPlayer musicPlayer;
     public AudioSource menuMusic;
 
+    public Animator creditsScroll;
+    public bool scrollShown;
+
     // Use this for initialization
     private void Awake()
     {
@@ -69,26 +72,29 @@ public class shipMenu : MonoBehaviour
 
     private void ChangeSelection(int selectionMod)
     {
-        time = 0f;
-        int oldSelection = currentSelection;
-        currentSelection = Mathf.Clamp(currentSelection + selectionMod, 0, menuItems.Length - 1);
-
-        if (oldSelection != currentSelection)
+        if (scrollShown != true)
         {
-            audioBlob.pitch = Random.Range(0.5f, 0.8f);
-            audioBlob.Play();
-            targetPos = new Vector3((currentSelection - 1) * -2, transform.localPosition.y, transform.localPosition.z);
-            foreach (Renderer r in menuItems)
+            time = 0f;
+            int oldSelection = currentSelection;
+            currentSelection = Mathf.Clamp(currentSelection + selectionMod, 0, menuItems.Length - 1);
+
+            if (oldSelection != currentSelection)
             {
-                if (menuItems[currentSelection] == r)
+                audioBlob.pitch = Random.Range(0.5f, 0.8f);
+                audioBlob.Play();
+                targetPos = new Vector3((currentSelection - 1) * -2, transform.localPosition.y, transform.localPosition.z);
+                foreach (Renderer r in menuItems)
                 {
-                    r.transform.localScale = Vector3.one;
-                    r.material.color = Color.white;
-                }
-                else
-                {
-                    r.transform.localScale = Vector3.one * 0.5f;
-                    r.material.color = unselectedColor;
+                    if (menuItems[currentSelection] == r)
+                    {
+                        r.transform.localScale = Vector3.one;
+                        r.material.color = Color.white;
+                    }
+                    else
+                    {
+                        r.transform.localScale = Vector3.one * 0.5f;
+                        r.material.color = unselectedColor;
+                    }
                 }
             }
         }
@@ -169,7 +175,8 @@ public class shipMenu : MonoBehaviour
                     buttonactive[i] = true;
                 }
             }
-            else {
+            else
+            {
                 buttonactive[i] = false;
             }
             ++i;
@@ -182,7 +189,16 @@ public class shipMenu : MonoBehaviour
         {
             if (currentSelection == 2)
             {
-                StartCoroutine(EnterCredits());
+                if (creditsScroll.GetComponent<Animator>().GetBool("ScrollShown"))
+                {
+                    StartCoroutine(ExitCredits());
+                }
+                else
+                {
+                    scrollShown = true;
+                    creditsScroll.gameObject.SetActive(true);
+                    creditsScroll.GetComponent<Animator>().SetBool("ScrollShown", true);
+                }
             }
             else if (currentSelection == 1)
             {
@@ -193,35 +209,49 @@ public class shipMenu : MonoBehaviour
                 Application.Quit();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.JoystickButton1))
+        {
+            if (creditsScroll.GetComponent<Animator>().GetBool("ScrollShown"))
+            {
+                StartCoroutine(ExitCredits());
+            }
+        }
+
         transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos, 0.5f);
         menuItems[currentSelection].transform.localScale = bouncy.Evaluate(time) * Vector3.one;
     }
 
-    private IEnumerator EnterCredits()
+    private IEnumerator ExitCredits()
     {
-        scrollVisible = true;
-        if (creditsScroll != null)
-        {
-            creditsScroll.Play("scrollIn");
-        }
-
-        bool stop = true;
-        yield return null;
-        while (stop)
-        {
-            foreach (Player p in players)
-            {
-                if (Input.GetKeyDown(p.ship.controls.controls) || Input.GetKeyDown(KeyCode.Return))
-                {
-                    stop = false;
-                }
-            }
-            yield return null;
-        }
-        scrollVisible = false;
-        if (creditsScroll != null)
-        {
-            creditsScroll.Play("scrollOut");
-        }
+        creditsScroll.GetComponent<Animator>().SetBool("ScrollShown", false);
+        yield return new WaitForSeconds(0.3f);
+        creditsScroll.gameObject.SetActive(false);
+        scrollShown = false;
     }
+
+    //private IEnumerator EnterCredits()
+    //{
+    //    //scrollVisible = true;
+    //    if (creditsScroll != null)
+    //    {
+    //        creditsScroll.Play("scrollIn");
+    //    }
+
+    //    bool stop = true;
+    //    yield return null;
+    //    while (stop)
+    //    {
+    //        if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.Return))
+    //        {
+    //            stop = false;
+    //        }
+    //        yield return null;
+    //    }
+    //    //scrollVisible = false;
+    //    if (creditsScroll != null)
+    //    {
+    //        creditsScroll.Play("scrollOut");
+    //    }
+    //}
 }
