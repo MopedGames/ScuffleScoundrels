@@ -10,6 +10,6 @@ public class CannonBallChild: MonoBehaviour {
 	
 	// Update is called once per frame
 	void OnCollisionEnter (Collision col) {
-		GetComponentInParent<cannonBall> ().ChildCollided(col);
+		GetComponentInParent<cannonBall> ().OnCollisionEnter(col);
 	}
 }

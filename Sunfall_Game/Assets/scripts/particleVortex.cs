@@ -35,7 +35,7 @@ public class particleVortex : MonoBehaviour {
 			float vel = 800f;// Mathf.Lerp (maxVelocity, 0f, m_Particles [i].lifetime / m_Particles [i].startLifetime);
 			//m_Particles [i].angularVelocity3D = new Vector3(0f, vel, 0f);
 			Vector3 perpendicular = Vector3.Cross (Vector3.up, transform.position-p.position);
-			m_Particles [i].velocity = Vector3.Lerp (transform.position-p.position, perpendicular, 0.9f).normalized*(Mathf.Lerp(maxVelocity,0.01f,p.lifetime/p.startLifetime));
+			m_Particles [i].velocity = Vector3.Lerp (transform.position-p.position, perpendicular, 0.9f).normalized*(Mathf.Lerp(maxVelocity,0.01f,p.remainingLifetime/p.startLifetime));
 		}
 
 		particleSystem.SetParticles (m_Particles, numParticlesAlive);

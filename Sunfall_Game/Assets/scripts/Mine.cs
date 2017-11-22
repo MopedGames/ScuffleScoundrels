@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Mine : spawnable {
+public class Mine : spawnable
+{
 
     public Ship owner;
     public GameObject Explosion;
@@ -51,7 +52,7 @@ public class Mine : spawnable {
                     exploded = true;
                     GameObject ex;
                     Debug.Log(gameObject.name + " caused explosion " + Explosion.name + ", at time: " + Time.time);
-                    ex = Instantiate(Explosion, contact.otherCollider.transform.position, Quaternion.identity) as GameObject;
+                    ex = PhotonNetwork.Instantiate(Explosion.name, contact.otherCollider.transform.position, Quaternion.identity, 0) as GameObject;
 
 
                     cannonBall c = ex.GetComponentInChildren<cannonBall>();
@@ -72,27 +73,28 @@ public class Mine : spawnable {
 
                 if (!ship.invulnerable)
                 {
-                    ship.StartCoroutine(ship.Die());
-
                     if (owner != null)
                     {
                         GameObject coin;
-                        coin = Instantiate(owner.currentStats.rewardCoin, contact.otherCollider.transform.position, Quaternion.identity) as GameObject;
+                        coin = PhotonNetwork.Instantiate(owner.currentStats.rewardCoin.name, contact.otherCollider.transform.position, Quaternion.identity, 0) as GameObject;
                         coin.GetComponent<rewardCoin>().target = (owner.startPos * 1.2f) - (Vector3.forward * 2.5f);
 
-                        owner.StartCoroutine(owner.GetPoint());
+                        owner.GetComponent<PhotonView>().RPC("PUNGetPoint", PhotonTargets.All); /*owner.StartCoroutine(owner.GetPoint());*/ //CMT
 
                     }
                     else if (ship.kills > 0)
                     {
-                        ship.StartCoroutine(ship.RemovePoint());
+                        ship.GetComponent<PhotonView>().RPC("PUNRemovePoint", PhotonTargets.All); /* ship.StartCoroutine(ship.RemovePoint());*/ //CMT
                     }
+                    ship.GetComponent<PhotonView>().RPC("PUNDie", PhotonTargets.All);
+                    ship.alive = false;
+                    ship.transform.position = new Vector3(100, 100, 100);
                 }
 
 
                 if (destroyOnImpact)
                 {
-                    spawner.Despawn(gameObject);
+                    spawner.Despawn(gameObject, true);
                 }
 
             }
@@ -106,13 +108,20 @@ public class Mine : spawnable {
                     cannonBall c = ex.GetComponentInChildren<cannonBall>();
                     if (c != null)
                     {
+                        if (owner == null)
+                        {
+                            if (contact.otherCollider.GetComponent<cannonBall>())
+                            {
+                                owner = contact.otherCollider.GetComponent<cannonBall>().owner;
+                            }
+                        }
                         c.owner = owner;
                     }
                 }
 
                 if (destroyOnImpact)
                 {
-                    spawner.Despawn(gameObject);
+                    spawner.Despawn(gameObject, true);
                 }
             }
         }
