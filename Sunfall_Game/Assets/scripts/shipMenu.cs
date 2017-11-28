@@ -92,6 +92,22 @@ public class shipMenu : MonoBehaviour
                 }
             }
         }
+        else if (currentLevel == 2)
+        {
+            foreach (SpriteRenderer r in numberOfPlayers)
+            {
+                if (numberOfPlayers[currentSelection] == r)
+                {
+                    r.transform.localScale = Vector3.one;
+                    r.color = Color.white;
+                }
+                else
+                {
+                    r.transform.localScale = Vector3.one * 0.5f;
+                    r.color = unselectedColor;
+                }
+            }
+        }
     }
 
     private void Start()
@@ -122,15 +138,15 @@ public class shipMenu : MonoBehaviour
             time = 0f;
             currentSelection += selectionMod;
 
-                audioBlob.pitch = Random.Range(0.5f, 0.8f);
-                audioBlob.Play();
-                targetPos = new Vector3((currentSelection - 1) * -2, menuItems[0].transform.parent.localPosition.y, menuItems[0].transform.parent.localPosition.z);
+            audioBlob.pitch = Random.Range(0.5f, 0.8f);
+            audioBlob.Play();
+            targetPos = new Vector3((currentSelection - 1) * -2, menuItems[0].transform.parent.localPosition.y, menuItems[0].transform.parent.localPosition.z);
 
-                MenuColors();
+            MenuColors();
         }
     }
 
-    private IEnumerator ChangeLevel(int selectionMod){
+    private IEnumerator ChangeLevel(int selectionMod) {
         currentLevel = selectionMod;
         currentSelection = 1;
         float i = 0f;
@@ -140,7 +156,7 @@ public class shipMenu : MonoBehaviour
         while (i < 1f)
         {
             i += Time.deltaTime * 5f;
-            
+
 
             float a = selectionMod + (0.5f - selectionMod) * i * 2f;
 
@@ -158,8 +174,26 @@ public class shipMenu : MonoBehaviour
 
             yield return null;
         }
-        
 
+
+    }
+
+    private IEnumerator FadePlayModes(int selectionMod){
+        float i = 0f;
+        while (i < 1f)
+        {
+            i += Time.deltaTime * 5f;
+
+
+            float a = selectionMod + (0.5f - selectionMod) * i * 2f;
+
+            foreach (SpriteRenderer sprite in playModes)
+            {
+                sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f - a);
+            }
+
+            yield return null;
+        }
     }
 
     public void startBanner()
@@ -195,15 +229,17 @@ public class shipMenu : MonoBehaviour
             //playerselection.startScreen = 1; -- go to player Selection scene
             //yield return new WaitForSeconds(0.1f); //RDG Commented out to make time for loading the next scene.
             //panAnimation.Play("pan_stopped"); //RDG Commented out to make time for loading the next scene.
-            ConnectToRoom();
+            ConnectToRoom(4);
         }
         else
         {
             panAnimation.Play("pan_window");
+            StartCoroutine(FadePlayModes(0));
+
             yield return new WaitForSeconds(17f/60f);
             bool buttonPressed = false;
             numberOfPlayers[0].transform.parent.gameObject.SetActive(true);
-
+            
             while (!buttonPressed)
             {
                 
@@ -246,6 +282,7 @@ public class shipMenu : MonoBehaviour
 
                 yield return null;
             }
+            numberOfPlayers[0].transform.parent.gameObject.SetActive(false);
             panAnimation.Play("pan_continue");
             yield return new WaitForSeconds(73f / 60f);
             ConnectToRoom(currentSelection + 1);
@@ -284,7 +321,6 @@ public class shipMenu : MonoBehaviour
 
         if (bannerIn.activeSelf)
         {
-            int i = 0;
 
             if (Input.GetAxis("Horizontal_All") < -0.5f || Input.GetButtonDown("MenuLeft"))
             {
@@ -292,23 +328,27 @@ public class shipMenu : MonoBehaviour
                 {
                     ChangeSelection(-1);
                     
-                }
+                } 
             }
             else if (Input.GetAxis("Horizontal_All") > 0.5f || Input.GetButtonDown("MenuRight"))
             {
-                if (currentSelection < menuItems.Length-1 && currentLevel == 0)
+                if (currentSelection < menuItems.Length - 1 && currentLevel == 0)
                 {
                     ChangeSelection(1);
 
-                } else if (currentSelection < playModes.Length - 1 && currentLevel == 1)
+                }
+                else if (currentSelection < playModes.Length - 1 && currentLevel == 1)
                 {
                     ChangeSelection(1);
-                } 
+                }
+                /*else if (currentSelection < numberOfPlayers.Length - 1 && currentLevel == 2)
+                {
+
+                }*/
             }
             else
             {
             }
-            ++i;
 
         }
 
